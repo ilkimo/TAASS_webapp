@@ -24,6 +24,7 @@ import { styled } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
 import { BlockPicker, CirclePicker } from 'react-color'; /* https://casesandberg.github.io/react-color/ */
+import Collapse from '@mui/material/Collapse';
 
 // ==============================|| TYPOGRAPHY ||============================== //
 
@@ -53,7 +54,9 @@ class AddTopic extends React.Component {
         super(props);
 
         this.state = {
-            background: '#fff',
+            background: '#f44336',
+            firstDarkbackground: '#f44336',
+            secondDarkbackground: '#f44336',
             formValues: [{ name: '', fieldType: '' }],
             topicValues: [{ topicName: '', topicDescription: '' }],
             displayColorPicker: false
@@ -69,6 +72,16 @@ class AddTopic extends React.Component {
 
     handleChangeComplete = (color) => {
         this.setState({ background: color.hex });
+
+        console.log(color.hex);
+        console.log(this.lightDarkColor(color.hex.substring(1), -10));
+        console.log(this.lightDarkColor(color.hex.substring(1), -20));
+
+        this.setState({ firstDarkBackground: `#${this.lightDarkColor(color.hex, -10)}` });
+        this.setState({ secondDarkBackground: '#{this.lightDarkColor(color.hex, -20)}' });
+
+        console.log(this.state.firstDarkBackground);
+        console.log(this.state.secondDarkBackground);
     };
 
     addFormFields = () => {
@@ -92,8 +105,20 @@ class AddTopic extends React.Component {
         this.setState({ displayColorPicker: !this.state.displayColorPicker });
     };
 
-    handleClose = () => {
+    /*
+        handleClose = () => {
         this.setState({ displayColorPicker: false });
+    };
+     */
+
+    // colore, percentuale
+    lightDarkColor = (col, amt) => {
+        let num = parseInt(col, 16);
+        let r = (num >> 16) + amt;
+        let b = ((num >> 8) & 0x00ff) + amt;
+        let g = (num & 0x0000ff) + amt;
+        let newColor = g | (b << 8) | (r << 16);
+        return newColor.toString(16);
     };
 
     render() {
@@ -107,6 +132,27 @@ class AddTopic extends React.Component {
             right: '0px',
             bottom: '0px',
             left: '0px'
+        };
+        const circleColorPickerStyle = {
+            width: '25px',
+            height: '25px',
+            background: this.state.background,
+            border: '3px solid {this.state.background}',
+            borderRadius: '50%'
+        };
+        const firstCircleColorPickerStyle = {
+            width: '25px',
+            height: '25px',
+            background: this.state.firstDarkBackground,
+            border: '3px solid {this.state.background}',
+            borderRadius: '50%'
+        };
+        const secondCircleColorPickerStyle = {
+            width: '25px',
+            height: '25px',
+            background: this.state.secondDarkBackground,
+            border: '3px solid {this.state.background}',
+            borderRadius: '50%'
         };
 
         return (
@@ -143,19 +189,18 @@ class AddTopic extends React.Component {
                                 />
                             </FormControl>
                             <div>
-                                <Button onClick={this.handleClick}>Pick Color</Button>
-                                {this.state.displayColorPicker ? (
-                                    <div style={popover}>
-                                        <div
-                                            role="button"
-                                            tabIndex={0}
-                                            style={cover}
-                                            onClick={this.handleClose}
-                                            onKeyDown={this.handleClick}
-                                        />
-                                        <CirclePicker color={this.state.background} onChangeComplete={this.handleChangeComplete} />
-                                    </div>
-                                ) : null}
+                                <div className="rowC">
+                                    <Button onClick={this.handleClick} sx={{ mr: 2 }} color="primary" variant="contained">
+                                        Pick Color
+                                    </Button>
+                                    <div style={circleColorPickerStyle} />
+                                    <div style={firstCircleColorPickerStyle} />
+                                    <div style={secondCircleColorPickerStyle} />
+                                </div>
+
+                                <Collapse in={this.state.displayColorPicker} sx={{ mt: 2 }}>
+                                    <CirclePicker color={this.state.background} onChangeComplete={this.handleChangeComplete} />
+                                </Collapse>
                             </div>
                         </Grid>
                         <Grid item xs={12} lg={8} md={8} sm={12}>

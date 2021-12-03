@@ -19,23 +19,23 @@
 $cardBorderRadius: 10px;
 
 .cardTopic {
-    width: 19rem;   // era 20
-    border-radius: $cardBorderRadius;
-    box-shadow: 0 10px 20px -5px rgba(0, 0, 0, 0.125);
+  width: 19rem; // era 20
+  border-radius: $cardBorderRadius;
+  box-shadow: 0 10px 20px -5px rgba(0, 0, 0, 0.125);
 }
 
 .colorCardTopic {
-    height: 125px;
-    border-radius: $cardBorderRadius $cardBorderRadius 0 0;
+  height: 125px;
+  border-radius: $cardBorderRadius $cardBorderRadius 0 0;
 }
 
 .homePage {
-    display: grid;
-    place-items: center;
+  display: grid;
+  place-items: center;
 }
 
 @mixin white-gradient {
-    background: linear-gradient(to right, rgba(255, 255, 255, 1) 0%, rgba(255, 255, 255, 0) 100%);
+  background: linear-gradient(to right, rgba(255, 255, 255, 1) 0%, rgba(255, 255, 255, 0) 100%);
 }
 
 $animationSpeed: 25s;
@@ -45,129 +45,129 @@ $cardWidth: 20rem;
 
 // Animation
 @keyframes scroll {
-    0% {
-        transform: translateX(0);
-    }
-    100% {
-        transform: translateX(calc(-20rem * 6));
-    }
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(calc(-20rem * 6));
+  }
 }
 
 // Animation
 @keyframes scrollToRight {
-    0% {
-        transform: translateX(calc(-20rem * 6));
-    }
-    100% {
-        transform: translateX(0);
-    }
+  0% {
+    transform: translateX(calc(-20rem * 6));
+  }
+  100% {
+    transform: translateX(0);
+  }
 }
 
 // Styling
 .slider {
-    background: white;
-    box-shadow: 0 10px -5px rgba(0, 0, 0, 0.125);
-    height: $sliderHeight;
-    //margin: auto;
-    margin-top: 50px;
-    overflow: hidden;
-    position: relative;
-    width: 90%;
-    display: grid;
-    place-items: center;
+  background: white;
+  box-shadow: 0 10px -5px rgba(0, 0, 0, 0.125);
+  height: $sliderHeight;
+  //margin: auto;
+  margin-top: 50px;
+  overflow: hidden;
+  position: relative;
+  width: 90%;
+  display: grid;
+  place-items: center;
 
-    &::before,
-    &::after {
-        @include white-gradient;
-        content: '';
-        height: 300px;
-        position: absolute;
-        width: $cardWidth;
-        z-index: 2;
-    }
+  &::before,
+  &::after {
+    @include white-gradient;
+    content: '';
+    height: 300px;
+    position: absolute;
+    width: $cardWidth;
+    z-index: 2;
+  }
 
-    &::after {
-        right: 0;
-        top: 0;
-        transform: rotateZ(180deg);
-    }
+  &::after {
+    right: 0;
+    top: 0;
+    transform: rotateZ(180deg);
+  }
 
-    &::before {
-        left: 0;
-        top: 0;
-    }
+  &::before {
+    left: 0;
+    top: 0;
+  }
 
-    .slide-track {
-        animation: scroll $animationSpeed linear infinite;
-        display: flex;
-        width: calc(20rem * 12);
-    }
+  .slide-track {
+    animation: scroll $animationSpeed linear infinite;
+    display: flex;
+    width: calc(20rem * 12);
+  }
 
-    .slide {
-        text-align: left;
-        height: 180px;
-        width: $cardWidth;
-        padding: 15px;
-        display: flex;
-        align-items: center;
-    }
+  .slide {
+    text-align: left;
+    height: 180px;
+    width: $cardWidth;
+    padding: 15px;
+    display: flex;
+    align-items: center;
+  }
 }
 
 // Styling
 .sliderToRight {
-    background: white;
-    box-shadow: 0 10px -5px rgba(0, 0, 0, 0.125);
-    height: $sliderHeight;
-    //margin: auto;
-    margin-top: 50px;
-    overflow: hidden;
-    position: relative;
-    width: 90%;
-    display: grid;
-    place-items: center;
+  background: white;
+  box-shadow: 0 10px -5px rgba(0, 0, 0, 0.125);
+  height: $sliderHeight;
+  //margin: auto;
+  margin-top: 50px;
+  overflow: hidden;
+  position: relative;
+  width: 90%;
+  display: grid;
+  place-items: center;
 
-    &::before,
-    &::after {
-        @include white-gradient;
-        content: '';
-        height: 300px;
-        position: absolute;
-        width: $cardWidth;
-        z-index: 2;
-    }
+  &::before,
+  &::after {
+    @include white-gradient;
+    content: '';
+    height: 300px;
+    position: absolute;
+    width: $cardWidth;
+    z-index: 2;
+  }
 
-    &::after {
-        right: 0;
-        top: 0;
-        transform: rotateZ(180deg);
-    }
+  &::after {
+    right: 0;
+    top: 0;
+    transform: rotateZ(180deg);
+  }
 
-    &::before {
-        left: 0;
-        top: 0;
-    }
+  &::before {
+    left: 0;
+    top: 0;
+  }
 
-    .slide-track-to-right {
-        animation: scrollToRight $animationSpeed linear infinite;
-        display: flex;
-        width: calc(20rem * 12);
-    }
+  .slide-track-to-right {
+    animation: scrollToRight $animationSpeed linear infinite;
+    display: flex;
+    width: calc(20rem * 12);
+  }
 
-    .slide-to-right {
-        text-align: left;
-        height: 180px;
-        width: $cardWidth;
-        padding: 15px;
-        display: flex;
-        align-items: center;
-    }
+  .slide-to-right {
+    text-align: left;
+    height: 180px;
+    width: $cardWidth;
+    padding: 15px;
+    display: flex;
+    align-items: center;
+  }
 }
 
 .buttonLogin {
-    background-color: #dc3545;
-    color: #ffffff;
-    border-radius: 20px;
-    width: 100px;
+  background-color: #dc3545;
+  color: #ffffff;
+  border-radius: 20px;
+  width: 100px;
 }
 
 .iconColor {
@@ -181,10 +181,16 @@ $cardWidth: 20rem;
 
 // zoom on card
 .zoom {
-    transition: transform .2s; /* Animation */
-    cursor: pointer;
+  transition: transform .2s; /* Animation */
+  cursor: pointer;
 }
 
 .zoom:hover {
-    transform: scale(1.08); /* (150% zoom - Note: if the zoom is too large, it will go outside of the viewport) */
+  transform: scale(1.08); /* (150% zoom - Note: if the zoom is too large, it will go outside of the viewport) */
+}
+
+.rowC {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
 }

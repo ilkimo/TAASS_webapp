@@ -42,6 +42,7 @@
         "react-hooks/rules-of-hooks": 0,
         "react/no-unused-state": 0,
         "react/no-access-state-in-setstate": 0,
+        "no-bitwise": 0,
         "no-unused-vars": [
             // era 1
             0,
