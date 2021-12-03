@@ -23,7 +23,7 @@ import Grid from '@mui/material/Grid';
 import { styled } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
-import { BlockPicker } from 'react-color';
+import { BlockPicker, CirclePicker } from 'react-color'; /* https://casesandberg.github.io/react-color/ */
 
 // ==============================|| TYPOGRAPHY ||============================== //
 
@@ -55,7 +55,8 @@ class AddTopic extends React.Component {
         this.state = {
             background: '#fff',
             formValues: [{ name: '', fieldType: '' }],
-            topicValues: [{ topicName: '', topicDescription: '' }]
+            topicValues: [{ topicName: '', topicDescription: '' }],
+            displayColorPicker: false
         };
     }
 
@@ -87,7 +88,27 @@ class AddTopic extends React.Component {
         alert(JSON.stringify(this.state.formValues));
     };
 
+    handleClick = () => {
+        this.setState({ displayColorPicker: !this.state.displayColorPicker });
+    };
+
+    handleClose = () => {
+        this.setState({ displayColorPicker: false });
+    };
+
     render() {
+        const popover = {
+            position: 'absolute',
+            zIndex: '2'
+        };
+        const cover = {
+            position: 'fixed',
+            top: '0px',
+            right: '0px',
+            bottom: '0px',
+            left: '0px'
+        };
+
         return (
             <MainCard>
                 <div
@@ -121,8 +142,22 @@ class AddTopic extends React.Component {
                                     variant="filled"
                                 />
                             </FormControl>
+                            <div>
+                                <Button onClick={this.handleClick}>Pick Color</Button>
+                                {this.state.displayColorPicker ? (
+                                    <div style={popover}>
+                                        <div
+                                            role="button"
+                                            tabIndex={0}
+                                            style={cover}
+                                            onClick={this.handleClose}
+                                            onKeyDown={this.handleClick}
+                                        />
+                                        <CirclePicker color={this.state.background} onChangeComplete={this.handleChangeComplete} />
+                                    </div>
+                                ) : null}
+                            </div>
                         </Grid>
-                        <BlockPicker color={this.state.background} onChangeComplete={this.handleChangeComplete} />
                         <Grid item xs={12} lg={8} md={8} sm={12}>
                             <form onSubmit={this.handleSubmit}>
                                 {this.state.formValues.map((element, index) => (
