@@ -23,6 +23,7 @@ import Grid from '@mui/material/Grid';
 import { styled } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
+import { BlockPicker } from 'react-color';
 
 // ==============================|| TYPOGRAPHY ||============================== //
 
@@ -42,141 +43,160 @@ const style = {
     position: 'fixed'
 };
 
-const AddTopic = () => {
-    const [formValues, setFormValues] = useState([{ name: '', fieldType: '' }]);
-    const [topicValues, setTopicValues] = useState([{ topicName: '', topicDescription: '' }]);
+// const [this.formValues, setFormValues] = useState([{ name: '', fieldType: '' }]);
+// const [this.topicValues, setTopicValues] = useState([{ topicName: '', topicDescription: '' }]);
 
+class AddTopic extends React.Component {
     // TODO: capire come salvare anche il nome del topic e la descrizione
 
-    let handleChange = (i, e) => {
-        let newFormValues = [...formValues];
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            background: '#fff',
+            formValues: [{ name: '', fieldType: '' }],
+            topicValues: [{ topicName: '', topicDescription: '' }]
+        };
+    }
+
+    handleChange = (i, e) => {
+        let newFormValues = [...this.state.formValues];
         newFormValues[i][e.target.name] = e.target.value;
-        setFormValues(newFormValues);
 
-        /*
-        let newTopicValues = [...formValues];
-        setTopicValues(newTopicValues);
-         */
+        this.setState({ formValues: newFormValues });
     };
 
-    let addFormFields = () => {
-        setFormValues([...formValues, { name: '', fieldType: '' }]);
+    handleChangeComplete = (color) => {
+        this.setState({ background: color.hex });
     };
 
-    let removeFormFields = (i) => {
-        let newFormValues = [...formValues];
+    addFormFields = () => {
+        let newFormValues = [...this.state.formValues, { name: '', fieldType: '' }];
+        this.setState({ formValues: newFormValues });
+    };
+
+    removeFormFields = (i) => {
+        let newFormValues = [...this.state.formValues];
         newFormValues.splice(i, 1);
-        setFormValues(newFormValues);
+        // setFormValues(newFormValues);
+        this.setState({ formValues: newFormValues });
     };
 
-    let handleSubmit = (event) => {
+    handleSubmit = (event) => {
         event.preventDefault();
-        alert(JSON.stringify(formValues));
+        alert(JSON.stringify(this.state.formValues));
     };
 
-    return (
-        <MainCard>
-            <div
-                style={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    flexWrap: 'wrap'
-                }}
-            >
-                <MuiTypography variant="h2">Add Topic</MuiTypography>
-                <IconNotebook className="iconColor mx-4" fontSize="medium" />
-            </div>
+    render() {
+        return (
+            <MainCard>
+                <div
+                    style={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        flexWrap: 'wrap'
+                    }}
+                >
+                    <MuiTypography variant="h2">Add Topic</MuiTypography>
+                    <IconNotebook className="iconColor mx-4" fontSize="medium" />
+                </div>
 
-            <div className="pageStyle">
-                <Grid container spacing={2}>
-                    <Grid item xs={12} lg={4} md={4} sm={12}>
-                        <MuiTypography variant="h4">What is the form of your data?</MuiTypography>
-                        <MuiTypography variant="body2" gutterBottom>
-                            Please press the plkus button to add a field you want to save of your data and press the Done Button when tou
-                            finish.
-                        </MuiTypography>
-                        <FormControl fullWidth sx={{ m: 1, minWidth: 120 }} variant="filled">
-                            <TextField id="outlined-basic" label="Topic Name" variant="outlined" name="name" size="small" />
-                            <TextField
-                                sx={{ mt: 2 }}
-                                id="filled-multiline-static"
-                                label="Topic Description"
-                                multiline
-                                rows={4}
-                                defaultValue="Default Value"
-                                variant="filled"
-                            />
-                        </FormControl>
-                    </Grid>
-                    <Grid item xs={12} lg={8} md={8} sm={12}>
-                        <form onSubmit={handleSubmit}>
-                            {formValues.map((element, index) => (
-                                <div>
-                                    <Grid container spacing={3} alignItems="center" justify="center">
-                                        <Grid item xs={12} lg={5} md={5} sm={5}>
-                                            <FormControl fullWidth sx={{ m: 1, minWidth: 120 }} variant="filled" key={index}>
-                                                <TextField
-                                                    id="outlined-basic"
-                                                    label="Field Name"
-                                                    variant="outlined"
-                                                    value={element.name || ''}
-                                                    name="name"
-                                                    size="small"
-                                                    onChange={(e) => handleChange(index, e)}
-                                                />
-                                            </FormControl>
-                                        </Grid>
-                                        <Grid item xs={12} lg={5} md={5} sm={5}>
-                                            <FormControl fullWidth sx={{ m: 1 }} variant="filled" key={index}>
-                                                <InputLabel id="demo-simple-select-label">Field Type</InputLabel>
-                                                <Select
-                                                    label="Field Type"
-                                                    labelId="demo-simple-select-label"
-                                                    id="demo-simple-select"
-                                                    name="fieldType"
-                                                    size="small"
-                                                    value={element.fieldType || ''}
-                                                    onChange={(e) => handleChange(index, e)}
-                                                >
-                                                    <MenuItem value="Text">Text</MenuItem>
-                                                    <MenuItem value="Integer Number">Integer Number</MenuItem>
-                                                    <MenuItem value="Floating Point Number">Floating Point Number</MenuItem>
-                                                </Select>
-                                            </FormControl>
-                                        </Grid>
-                                        {index ? (
-                                            <Grid item xs={12} lg={2} md={2} sm={2}>
+                <div className="pageStyle">
+                    <Grid container spacing={2}>
+                        <Grid item xs={12} lg={4} md={4} sm={12}>
+                            <MuiTypography variant="h4">What is the form of your data?</MuiTypography>
+                            <MuiTypography variant="body2" gutterBottom>
+                                Please press the plkus button to add a field you want to save of your data and press the Done Button when
+                                tou finish.
+                            </MuiTypography>
+                            <FormControl fullWidth sx={{ m: 1, minWidth: 120 }} variant="filled">
+                                <TextField id="outlined-basic" label="Topic Name" variant="outlined" name="name" size="small" />
+                                <TextField
+                                    sx={{ mt: 2 }}
+                                    id="filled-multiline-static"
+                                    label="Topic Description"
+                                    multiline
+                                    rows={4}
+                                    defaultValue="Default Value"
+                                    variant="filled"
+                                />
+                            </FormControl>
+                        </Grid>
+                        <BlockPicker color={this.state.background} onChangeComplete={this.handleChangeComplete} />
+                        <Grid item xs={12} lg={8} md={8} sm={12}>
+                            <form onSubmit={this.handleSubmit}>
+                                {this.state.formValues.map((element, index) => (
+                                    <div key={index}>
+                                        <Grid container spacing={3} alignItems="center" justify="center">
+                                            <Grid item xs={12} lg={5} md={5} sm={5}>
                                                 <FormControl fullWidth sx={{ m: 1, minWidth: 120 }} variant="filled" key={index}>
-                                                    <Fab
-                                                        onClick={() => removeFormFields(index)}
+                                                    <TextField
+                                                        id="outlined-basic"
+                                                        label="Field Name"
+                                                        variant="outlined"
+                                                        value={element.name || ''}
+                                                        name="name"
                                                         size="small"
-                                                        color="primary"
-                                                        aria-label="add"
-                                                        style={{ display: 'flex', textAlign: 'center', alignItems: 'center' }}
-                                                    >
-                                                        <CloseIcon />
-                                                    </Fab>
+                                                        onChange={(e) => this.handleChange(index, e)}
+                                                    />
                                                 </FormControl>
                                             </Grid>
-                                        ) : null}
-                                    </Grid>
-                                    <Divider />
+                                            <Grid item xs={12} lg={5} md={5} sm={5}>
+                                                <FormControl fullWidth sx={{ m: 1 }} variant="filled" key={index}>
+                                                    <InputLabel id="demo-simple-select-label">Field Type</InputLabel>
+                                                    <Select
+                                                        label="Field Type"
+                                                        labelId="demo-simple-select-label"
+                                                        id="demo-simple-select"
+                                                        name="fieldType"
+                                                        size="small"
+                                                        value={element.fieldType || ''}
+                                                        onChange={(e) => this.handleChange(index, e)}
+                                                    >
+                                                        <MenuItem value="Text">Text</MenuItem>
+                                                        <MenuItem value="Integer Number">Integer Number</MenuItem>
+                                                        <MenuItem value="Floating Point Number">Floating Point Number</MenuItem>
+                                                    </Select>
+                                                </FormControl>
+                                            </Grid>
+                                            {index ? (
+                                                <Grid item xs={12} lg={2} md={2} sm={2}>
+                                                    <FormControl fullWidth sx={{ m: 1, minWidth: 120 }} variant="filled" key={index}>
+                                                        <Fab
+                                                            onClick={() => this.removeFormFields(index)}
+                                                            size="small"
+                                                            color="primary"
+                                                            aria-label="add"
+                                                            style={{
+                                                                display: 'flex',
+                                                                textAlign: 'center',
+                                                                alignItems: 'center'
+                                                            }}
+                                                        >
+                                                            <CloseIcon />
+                                                        </Fab>
+                                                    </FormControl>
+                                                </Grid>
+                                            ) : null}
+                                        </Grid>
+                                        <Divider />
+                                    </div>
+                                ))}
+                                <div className="button-section">
+                                    <Button type="submit" variant="contained" color="primary">
+                                        Submit
+                                    </Button>
                                 </div>
-                            ))}
-                            <div className="button-section">
-                                <Button type="submit" variant="contained" color="primary">
-                                    Submit
-                                </Button>
-                            </div>
-                        </form>
+                            </form>
+                        </Grid>
                     </Grid>
-                </Grid>
-            </div>
-            <Fab onClick={() => addFormFields()} color="primary" aria-label="add" style={style}>
-                <AddIcon />
-            </Fab>
-        </MainCard>
-    );
-};
+                </div>
+                <Fab onClick={() => this.addFormFields()} color="primary" aria-label="add" style={style}>
+                    <AddIcon />
+                </Fab>
+            </MainCard>
+        );
+    }
+}
 
 export default AddTopic;
