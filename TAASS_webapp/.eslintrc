@@ -36,10 +36,12 @@
         "prefer-destructuring": 0,
         "prefer-const": 0,
         "jsx-a11y/label-has-associated-control": 0,
+        "prefer-arrow-callback": 0,
         "no-shadow": 0,
         "react/prefer-stateless-function": 0,
         "no-unused-vars": [
-            1,
+            // era 1
+            0,
             {
                 "ignoreRestSiblings": false
             }
