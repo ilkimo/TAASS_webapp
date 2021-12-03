@@ -11,6 +11,11 @@ import Fab from '@mui/material/Fab';
 import AddIcon from '@mui/icons-material/Add';
 
 import { Link } from 'react-router-dom';
+import TopicCard from './topicCard';
+import EarningCard from '../dashboard/Default/EarningCard';
+import TotalOrderLineChartCard from '../dashboard/Default/TotalOrderLineChartCard';
+import TotalIncomeDarkCard from '../dashboard/Default/TotalIncomeDarkCard';
+import TotalIncomeLightCard from '../dashboard/Default/TotalIncomeLightCard';
 
 // ==============================|| DEFAULT DASHBOARD ||============================== //
 
@@ -31,7 +36,25 @@ const Topics = () => {
 
     return (
         <Grid container spacing={gridSpacing}>
-            <HomeSlider />
+            {/* <HomeSlider /> */}
+
+            {Array.apply(0, Array(10)).map(function (x, i) {
+                return (
+                    <div>
+                        <Link to="/addTopic/" style={{ textDecoration: 'none' }}>
+                            <TopicCard key={i} />
+                        </Link>
+                    </div>
+                );
+            })}
+
+            <Grid container spacing={gridSpacing}>
+                <Grid item xs={12}>
+                    <Grid container spacing={gridSpacing}>
+                        <Grid item lg={4} md={6} sm={6} xs={12} />
+                    </Grid>
+                </Grid>
+            </Grid>
             <Link to="/addTopic/">
                 <Fab color="primary" aria-label="add" style={style}>
                     <AddIcon />
