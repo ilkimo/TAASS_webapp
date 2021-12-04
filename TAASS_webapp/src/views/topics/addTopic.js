@@ -55,8 +55,8 @@ class AddTopic extends React.Component {
 
         this.state = {
             background: '#f44336',
-            firstDarkbackground: '#f44336',
-            secondDarkbackground: '#f44336',
+            firstDarkBackground: '#ea392c',
+            secondDarkBackground: '#e02f22',
             formValues: [{ name: '', fieldType: '' }],
             topicValues: [{ topicName: '', topicDescription: '' }],
             displayColorPicker: false
@@ -74,11 +74,11 @@ class AddTopic extends React.Component {
         this.setState({ background: color.hex });
 
         console.log(color.hex);
-        console.log(this.lightDarkColor(color.hex.substring(1), -10));
-        console.log(this.lightDarkColor(color.hex.substring(1), -20));
+        let firstColor = this.lightDarkColor(color.hex.substring(1), +30);
+        let secondColor = this.lightDarkColor(color.hex.substring(1), +20);
 
-        this.setState({ firstDarkBackground: `#${this.lightDarkColor(color.hex, -10)}` });
-        this.setState({ secondDarkBackground: '#{this.lightDarkColor(color.hex, -20)}' });
+        this.setState({ firstDarkBackground: `#${firstColor}` });
+        this.setState({ secondDarkBackground: `#${secondColor}` });
 
         console.log(this.state.firstDarkBackground);
         console.log(this.state.secondDarkBackground);
@@ -112,13 +112,52 @@ class AddTopic extends React.Component {
      */
 
     // colore, percentuale
+    /*
+
     lightDarkColor = (col, amt) => {
         let num = parseInt(col, 16);
         let r = (num >> 16) + amt;
         let b = ((num >> 8) & 0x00ff) + amt;
         let g = (num & 0x0000ff) + amt;
         let newColor = g | (b << 8) | (r << 16);
-        return newColor.toString(16);
+
+        let string = newColor.toString(16);
+
+        if (string.charAt(0) === '-') {
+            string = string.substring(1);
+        }
+
+        return string;
+    };
+
+     */
+
+    lightDarkColor = (col, amt) => {
+        let usePound = false;
+
+        if (col[0] === '#') {
+            col = col.slice(1);
+            usePound = true;
+        }
+
+        let num = parseInt(col, 16);
+
+        let r = (num >> 16) + amt;
+
+        if (r > 255) r = 255;
+        else if (r < 0) r = 0;
+
+        let b = ((num >> 8) & 0x00ff) + amt;
+
+        if (b > 255) b = 255;
+        else if (b < 0) b = 0;
+
+        let g = (num & 0x0000ff) + amt;
+
+        if (g > 255) g = 255;
+        else if (g < 0) g = 0;
+
+        return (usePound ? '#' : '') + (g | (b << 8) | (r << 16)).toString(16);
     };
 
     render() {
@@ -138,21 +177,24 @@ class AddTopic extends React.Component {
             height: '25px',
             background: this.state.background,
             border: '3px solid {this.state.background}',
-            borderRadius: '50%'
+            borderRadius: '50%',
+            marginRight: 3
         };
         const firstCircleColorPickerStyle = {
             width: '25px',
             height: '25px',
             background: this.state.firstDarkBackground,
-            border: '3px solid {this.state.background}',
-            borderRadius: '50%'
+            border: '3px solid {this.state.firstDarkBackground}',
+            borderRadius: '50%',
+            marginRight: 3
         };
         const secondCircleColorPickerStyle = {
             width: '25px',
             height: '25px',
             background: this.state.secondDarkBackground,
-            border: '3px solid {this.state.background}',
-            borderRadius: '50%'
+            border: '3px solid {this.state.secondDarkBackground}',
+            borderRadius: '50%',
+            marginRight: 3
         };
 
         return (
