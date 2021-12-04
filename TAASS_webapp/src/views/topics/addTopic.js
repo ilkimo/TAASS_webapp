@@ -98,7 +98,7 @@ class AddTopic extends React.Component {
 
     handleSubmit = (event) => {
         event.preventDefault();
-        alert(JSON.stringify(this.state.formValues));
+        // alert(JSON.stringify(this.state.formValues));
     };
 
     handleClick = () => {
@@ -112,26 +112,6 @@ class AddTopic extends React.Component {
      */
 
     // colore, percentuale
-    /*
-
-    lightDarkColor = (col, amt) => {
-        let num = parseInt(col, 16);
-        let r = (num >> 16) + amt;
-        let b = ((num >> 8) & 0x00ff) + amt;
-        let g = (num & 0x0000ff) + amt;
-        let newColor = g | (b << 8) | (r << 16);
-
-        let string = newColor.toString(16);
-
-        if (string.charAt(0) === '-') {
-            string = string.substring(1);
-        }
-
-        return string;
-    };
-
-     */
-
     lightDarkColor = (col, amt) => {
         let usePound = false;
 
@@ -218,7 +198,7 @@ class AddTopic extends React.Component {
                                 Please press the plkus button to add a field you want to save of your data and press the Done Button when
                                 tou finish.
                             </MuiTypography>
-                            <FormControl fullWidth sx={{ m: 1, minWidth: 120 }} variant="filled">
+                            <FormControl fullWidth sx={{ mt: 1, mb: 2 }} variant="filled">
                                 <TextField id="outlined-basic" label="Topic Name" variant="outlined" name="name" size="small" />
                                 <TextField
                                     sx={{ mt: 2 }}
@@ -248,10 +228,10 @@ class AddTopic extends React.Component {
                         <Grid item xs={12} lg={8} md={8} sm={12}>
                             <form onSubmit={this.handleSubmit}>
                                 {this.state.formValues.map((element, index) => (
-                                    <div key={index}>
+                                    <div key={index} style={{ marginBottom: 10 }}>
                                         <Grid container spacing={3} alignItems="center" justify="center">
                                             <Grid item xs={12} lg={5} md={5} sm={5}>
-                                                <FormControl fullWidth sx={{ m: 1, minWidth: 120 }} variant="filled" key={index}>
+                                                <FormControl fullWidth sx={{ m: 0 }} variant="filled" key={index}>
                                                     <TextField
                                                         id="outlined-basic"
                                                         label="Field Name"
@@ -264,7 +244,7 @@ class AddTopic extends React.Component {
                                                 </FormControl>
                                             </Grid>
                                             <Grid item xs={12} lg={5} md={5} sm={5}>
-                                                <FormControl fullWidth sx={{ m: 1 }} variant="filled" key={index}>
+                                                <FormControl fullWidth sx={{ m: 0 }} variant="filled" key={index}>
                                                     <InputLabel id="demo-simple-select-label">Field Type</InputLabel>
                                                     <Select
                                                         label="Field Type"
@@ -283,7 +263,7 @@ class AddTopic extends React.Component {
                                             </Grid>
                                             {index ? (
                                                 <Grid item xs={12} lg={2} md={2} sm={2}>
-                                                    <FormControl fullWidth sx={{ m: 1, minWidth: 120 }} variant="filled" key={index}>
+                                                    <FormControl fullWidth sx={{ m: 0 }} variant="filled" key={index}>
                                                         <Fab
                                                             onClick={() => this.removeFormFields(index)}
                                                             size="small"
@@ -301,7 +281,7 @@ class AddTopic extends React.Component {
                                                 </Grid>
                                             ) : null}
                                         </Grid>
-                                        <Divider />
+                                        <Divider sx={{ mt: 2 }} />
                                     </div>
                                 ))}
                                 <div className="button-section">

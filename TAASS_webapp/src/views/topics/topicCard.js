@@ -24,10 +24,8 @@ const CardWrapper = styled(MainCard)(({ theme }) => ({
     color: '#fff',
     overflow: 'hidden',
     position: 'relative',
-    width: 300,
     marginTop: 20,
     marginLeft: 20,
-    marginBottom: 20,
     '&:after': {
         content: '""',
         position: 'absolute',
@@ -81,8 +79,8 @@ const TopicCard = ({ isLoading }) => {
             {isLoading ? (
                 <SkeletonEarningCard />
             ) : (
-                <CardWrapper className="cardTopic zoom" border={false} content={false}>
-                    <Box sx={{ p: 2.25 }}>
+                <CardWrapper className="zoom" sx={{ height: 150 }} border={false} content={false}>
+                    <Box sx={{ pt: 2.25, px: 2.25 }}>
                         <Grid container direction="column">
                             <Grid item>
                                 <Grid container justifyContent="space-between">
@@ -136,11 +134,9 @@ const TopicCard = ({ isLoading }) => {
                                 </Grid>
                             </Grid>
                             <Grid item>
-                                <Grid container alignItems="center">
+                                <Grid container>
                                     <Grid item>
-                                        <Typography sx={{ fontSize: '1.725rem', fontWeight: 500, mr: 1, mt: 1.75, mb: 1.25 }}>
-                                            Nome Topic
-                                        </Typography>
+                                        <Typography sx={{ fontSize: '1.725rem', fontWeight: 500, mr: 1, mt: 1.75 }}>Nome Topic</Typography>
                                     </Grid>
                                 </Grid>
                             </Grid>

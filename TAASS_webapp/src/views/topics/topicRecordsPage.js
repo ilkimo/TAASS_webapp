@@ -29,7 +29,6 @@ import SearchIcon from '@mui/icons-material/Search';
 import OutlinedInput from '@mui/material/OutlinedInput';
 import Backdrop from '@mui/material/Backdrop';
 import Fade from '@mui/material/Fade';
-
 import { BlockPicker, CirclePicker } from 'react-color'; /* https://casesandberg.github.io/react-color/ */
 import Collapse from '@mui/material/Collapse';
 
@@ -76,6 +75,18 @@ const style = {
     bottom: 20,
     left: 'auto',
     position: 'fixed'
+};
+
+const modalStyle = {
+    position: 'absolute',
+    top: '20%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)',
+    width: 350,
+    bgcolor: 'background.paper',
+    boxShadow: 24,
+    borderRadius: 5,
+    p: 4
 };
 
 // const [this.formValues, setFormValues] = useState([{ name: '', fieldType: '' }]);
@@ -130,8 +141,7 @@ class TopicRecordsPage extends React.Component {
                             style={{
                                 display: 'flex',
                                 alignItems: 'center',
-                                flexWrap: 'wrap',
-                                paddingTop: 0
+                                flexWrap: 'wrap'
                             }}
                         >
                             <div
@@ -191,50 +201,51 @@ class TopicRecordsPage extends React.Component {
                             <TabPanel value={this.state.value} index={2}>
                                 Item Three
                             </TabPanel>
-                            
+
                              */}
                         </Box>
                     </div>
                     <Fab onClick={() => this.handleModalShow()} color="primary" aria-label="add" style={style}>
                         <AddIcon />
                     </Fab>
+                    <Modal
+                        aria-labelledby="transition-modal-title"
+                        aria-describedby="transition-modal-description"
+                        open={this.state.show}
+                        onClose={this.handleModalClose}
+                        disableEscapeKeyDown
+                        closeAfterTransition
+                        BackdropComponent={Backdrop}
+                        BackdropProps={{
+                            timeout: 500
+                        }}
+                    >
+                        <Fade in={this.state.show}>
+                            <Box sx={modalStyle}>
+                                <Typography id="transition-modal-title" variant="h3" component="h2">
+                                    Add Record
+                                </Typography>
+                                {/* TODO: qua vanno messi i field giusti in base al tipo di dato dell'utente */}
+                                <Grid container spacing={2}>
+                                    <Grid item xs={12} lg={4} md={4} sm={12}>
+                                        <FormControl fullWidth sx={{ m: 1 }} variant="filled">
+                                            <TextField id="outlined-basic" label="Topic Name" variant="outlined" name="name" size="small" />
+                                            <TextField
+                                                sx={{ mt: 2 }}
+                                                id="filled-multiline-static"
+                                                label="Topic Description"
+                                                multiline
+                                                rows={4}
+                                                defaultValue="Default Value"
+                                                variant="filled"
+                                            />
+                                        </FormControl>
+                                    </Grid>
+                                </Grid>
+                            </Box>
+                        </Fade>
+                    </Modal>
                 </MainCard>
-                <Modal
-                    aria-labelledby="transition-modal-title"
-                    aria-describedby="transition-modal-description"
-                    open={this.show}
-                    onClose={this.handleModalClose}
-                    closeAfterTransition
-                    BackdropComponent={Backdrop}
-                    BackdropProps={{
-                        timeout: 500
-                    }}
-                >
-                    <Fade in={this.show}>
-                        <Box sx={style}>
-                            <Typography id="transition-modal-title" variant="h6" component="h2">
-                                Text in a modal
-                            </Typography>
-                            <Typography id="transition-modal-description" sx={{ mt: 2 }}>
-                                Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
-                            </Typography>
-                        </Box>
-                    </Fade>
-                </Modal>
-                {/*
-                                    <Modal show={this.state.show} onHide={() => this.handleModalClose()} backdrop="static" keyboard={false}>
-                    <Modal.Header closeButton>
-                        <Modal.Title>Modal title</Modal.Title>
-                    </Modal.Header>
-                    <Modal.Body>TESTO MODAL</Modal.Body>
-                    <Modal.Footer>
-                        <Button variant="secondary" onClick={() => this.handleModalClose()}>
-                            Close
-                        </Button>
-                        <Button variant="primary">Understood</Button>
-                    </Modal.Footer>
-                </Modal>
-                    */}
             </>
         );
     }

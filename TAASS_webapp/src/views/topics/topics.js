@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 
 // material-ui
-import { Grid } from '@mui/material';
+import { FormControl, Grid } from '@mui/material';
 
 // project imports
 
@@ -38,15 +38,19 @@ const Topics = () => {
         <Grid container spacing={gridSpacing}>
             {/* <HomeSlider /> */}
 
-            {Array.apply(0, Array(10)).map(function (x, i) {
-                return (
-                    <div>
-                        <Link to="/topicRecordsPage/" style={{ textDecoration: 'none' }}>
-                            <TopicCard key={i} />
-                        </Link>
-                    </div>
-                );
-            })}
+            <Grid container>
+                <Grid item xs={12}>
+                    <Grid container>
+                        {Array.from(new Array(10)).map((_, i) => (
+                            <Grid item key={i} xs={12} sm={6} md={6} lg={4}>
+                                <Link to="/topicRecordsPage/" style={{ textDecoration: 'none' }}>
+                                    <TopicCard key={i} />
+                                </Link>
+                            </Grid>
+                        ))}
+                    </Grid>
+                </Grid>
+            </Grid>
 
             <Grid container spacing={gridSpacing}>
                 <Grid item xs={12}>
