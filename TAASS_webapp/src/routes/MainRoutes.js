@@ -3,6 +3,7 @@ import { lazy } from 'react';
 // project imports
 import MainLayout from 'layout/MainLayout';
 import Loadable from 'ui-component/Loadable';
+import TopicRecordsPage from '../views/topics/topicRecordsPage';
 
 // dashboard routing
 const DashboardDefault = Loadable(lazy(() => import('views/dashboard/Default')));
@@ -68,6 +69,10 @@ const MainRoutes = {
         {
             path: '/addTopic',
             element: <AddTopic />
+        },
+        {
+            path: '/topicRecordsPage',
+            element: <TopicRecordsPage />
         },
         {
             path: '/profile',

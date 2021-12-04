@@ -41,7 +41,7 @@ const Topics = () => {
             {Array.apply(0, Array(10)).map(function (x, i) {
                 return (
                     <div>
-                        <Link to="/addTopic/" style={{ textDecoration: 'none' }}>
+                        <Link to="/topicRecordsPage/" style={{ textDecoration: 'none' }}>
                             <TopicCard key={i} />
                         </Link>
                     </div>
