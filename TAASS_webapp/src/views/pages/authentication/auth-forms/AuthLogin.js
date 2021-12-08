@@ -1,5 +1,8 @@
 import { useState } from 'react';
 import { useSelector } from 'react-redux';
+// eslint-disable-next-line import/no-unresolved
+import { GoogleLogin } from 'react-google-login';
+import { FacebookLogin } from 'react-facebook-login';
 
 // material-ui
 import { useTheme } from '@mui/material/styles';
@@ -33,8 +36,6 @@ import AnimateButton from 'ui-component/extended/AnimateButton';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 
-import Google from 'assets/images/icons/social-google.svg';
-
 // ============================|| FIREBASE - LOGIN ||============================ //
 
 const FirebaseLogin = ({ ...others }) => {
@@ -44,9 +45,15 @@ const FirebaseLogin = ({ ...others }) => {
     const customization = useSelector((state) => state.customization);
     const [checked, setChecked] = useState(true);
 
-    const googleHandler = async () => {
-        console.error('Login');
+    const googleHandler = (response) => {
+        console.log(response);
     };
+
+    const facebookHandle = (responce) => {
+        console.log(responce);
+    };
+
+    const clientID = '282646887193-mj946se9m6a7qgmkl2npmrjfksbcht6r.apps.googleusercontent.com';
 
     const [showPassword, setShowPassword] = useState(false);
     const handleClickShowPassword = () => {
@@ -57,28 +64,32 @@ const FirebaseLogin = ({ ...others }) => {
         event.preventDefault();
     };
 
+    /*
+    <Grid item xs={12}>
+                    <AnimateButton>
+                        <FacebookLogin appId="108859793115576" fields="name,email,picture" callback={facebookHandle}>
+                            Sign in with Facebook
+                        </FacebookLogin>
+                    </AnimateButton>
+     </Grid>
+     */
+
     return (
         <>
             <Grid container direction="column" justifyContent="center" spacing={2}>
                 <Grid item xs={12}>
                     <AnimateButton>
-                        <Button
+                        <GoogleLogin
                             disableElevation
                             fullWidth
-                            onClick={googleHandler}
+                            onSuccess={googleHandler}
                             size="large"
                             variant="outlined"
-                            sx={{
-                                color: 'grey.700',
-                                backgroundColor: theme.palette.grey[50],
-                                borderColor: theme.palette.grey[100]
-                            }}
+                            cookiePolicy="single_host_origin"
+                            clientId={clientID}
                         >
-                            <Box sx={{ mr: { xs: 1, sm: 2, width: 20 } }}>
-                                <img src={Google} alt="google" width={16} height={16} style={{ marginRight: matchDownSM ? 8 : 16 }} />
-                            </Box>
                             Sign in with Google
-                        </Button>
+                        </GoogleLogin>
                     </AnimateButton>
                 </Grid>
                 <Grid item xs={12}>
