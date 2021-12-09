@@ -244,7 +244,21 @@ const TopicRecordsPage = (props) => {
                              */}
                     </Box>
                 </div>
-                <Fab onClick={() => handleModalShow()} color="primary" aria-label="add" style={style}>
+                <Fab
+                    onClick={() => handleModalShow()}
+                    color={location.state.item.firstcolor}
+                    aria-label="add"
+                    style={{
+                        backgroundColor: location.state.item.firstcolor,
+                        margin: 0,
+                        top: 'auto',
+                        right: 20,
+                        bottom: 20,
+                        left: 'auto',
+                        position: 'fixed',
+                        color: 'white'
+                    }}
+                >
                     <AddIcon />
                 </Fab>
                 <Modal
