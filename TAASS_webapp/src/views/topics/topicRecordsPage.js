@@ -31,11 +31,13 @@ import Fade from '@mui/material/Fade';
 import { BlockPicker, CirclePicker } from 'react-color'; /* https://casesandberg.github.io/react-color/ */
 import Collapse from '@mui/material/Collapse';
 import TopicCardHomepage from './topicCardHomepage';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 
 // ==============================|| TYPOGRAPHY ||============================== //
 import PropTypes from 'prop-types';
 
-import { useLocation, useNavigate, useParams } from 'react-router-dom';
+import { Link, useLocation, useNavigate, useParams } from 'react-router-dom';
+import TopicCard from './topicCard';
 
 function TabPanel(props) {
     const { children, value, index, ...other } = props;
@@ -161,6 +163,19 @@ const TopicRecordsPage = (props) => {
                                 flexWrap: 'wrap'
                             }}
                         >
+                            <Link
+                                to={{
+                                    pathname: '/topics/'
+                                }}
+                                // state={{ item: topic }}
+                            >
+                                <ArrowBackIcon
+                                    className="iconColor mx-4"
+                                    fontSize="medium"
+                                    style={{ fill: location.state.item.firstcolor, marginRight: '20' }}
+                                />
+                            </Link>
+
                             <Typography variant="h2">
                                 <div>{location.state.item.title}</div>
                             </Typography>
