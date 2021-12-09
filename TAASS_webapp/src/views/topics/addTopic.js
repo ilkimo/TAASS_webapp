@@ -80,6 +80,7 @@ class AddTopic extends React.Component {
         this.setState({ firstDarkBackground: `#${firstColor}` });
         this.setState({ secondDarkBackground: `#${secondColor}` });
 
+        console.log(this.state.background);
         console.log(this.state.firstDarkBackground);
         console.log(this.state.secondDarkBackground);
     };

@@ -5,10 +5,10 @@ export default class CardTopic extends React.Component {
         return (
             <div className="card cardTopic">
                 <div className="colorCardTopic" style={{ backgroundColor: this.props.color }} />
-                <div className="card-body" style={{ padding: 10 }}>
-                    <h className="p-2">
+                <div className="card-body" style={{ padding: 0 }}>
+                    <h4>
                         <b>{this.props.title}</b>
-                    </h>
+                    </h4>
                 </div>
             </div>
         );

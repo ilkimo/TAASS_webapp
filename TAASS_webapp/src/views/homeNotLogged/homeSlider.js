@@ -1,45 +1,47 @@
 import React from 'react';
 import CardTopic from './card';
+import TopicCard from '../topics/topicCard';
+import TopicCardHomepage from '../topics/topicCardHomepage';
 
 const HomeSlider = () => (
     <div className="homePage">
         <div className="slider">
             <div className="slide-track">
                 <div className="slide">
-                    <CardTopic color="#75a9f9" title="University" />
+                    <TopicCardHomepage firstColor="#f44336" secondColor="#ff6154" thirdColor="#ff574a" title="Music" />
                 </div>
                 <div className="slide">
-                    <CardTopic color="#92d36e" title="Finance" />
+                    <TopicCardHomepage firstColor="#2196f3" secondColor="#3fb4ff" thirdColor="#35aaff" title="University" />
                 </div>
                 <div className="slide">
-                    <CardTopic color="#ff8a84" title="Sports" />
+                    <TopicCardHomepage firstColor="#4caf50" secondColor="#6acd6e" thirdColor="#60c364" title="Finance" />
                 </div>
                 <div className="slide">
-                    <CardTopic color="#b38df7" title="Music" />
+                    <TopicCardHomepage firstColor="#ff9800" secondColor="#ffb61e" thirdColor="#ffac14" title="Sports" />
                 </div>
                 <div className="slide">
-                    <CardTopic color="#75a9f9" title="University" />
+                    <TopicCardHomepage firstColor="#4caf50" secondColor="#6acd6e" thirdColor="#60c364" title="Finance" />
                 </div>
                 <div className="slide">
-                    <CardTopic color="#92d36e" title="Finance" />
+                    <TopicCardHomepage firstColor="#f44336" secondColor="#ff6154" thirdColor="#ff574a" title="Music" />
                 </div>
                 <div className="slide">
-                    <CardTopic color="#ff8a84" title="Sports" />
+                    <TopicCardHomepage firstColor="#2196f3" secondColor="#3fb4ff" thirdColor="#35aaff" title="University" />
                 </div>
                 <div className="slide">
-                    <CardTopic color="#b38df7" title="Music" />
+                    <TopicCardHomepage firstColor="#4caf50" secondColor="#6acd6e" thirdColor="#60c364" title="Finance" />
                 </div>
                 <div className="slide">
-                    <CardTopic color="#75a9f9" title="University" />
+                    <TopicCardHomepage firstColor="#ff9800" secondColor="#ffb61e" thirdColor="#ffac14" title="Sports" />
                 </div>
                 <div className="slide">
-                    <CardTopic color="#92d36e" title="Finance" />
+                    <TopicCardHomepage firstColor="#4caf50" secondColor="#6acd6e" thirdColor="#60c364" title="Finance" />
                 </div>
                 <div className="slide">
-                    <CardTopic color="#ff8a84" title="Sports" />
+                    <TopicCardHomepage firstColor="#f44336" secondColor="#ff6154" thirdColor="#ff574a" title="Music" />
                 </div>
                 <div className="slide">
-                    <CardTopic color="#b38df7" title="Music" />
+                    <TopicCardHomepage firstColor="#2196f3" secondColor="#3fb4ff" thirdColor="#35aaff" title="University" />
                 </div>
             </div>
         </div>
@@ -47,40 +49,40 @@ const HomeSlider = () => (
         <div className="sliderToRight">
             <div className="slide-track-to-right">
                 <div className="slide-to-right">
-                    <CardTopic color="#75a9f9" title="University" />
+                    <TopicCardHomepage firstColor="#f44336" secondColor="#ff6154" thirdColor="#ff574a" title="Music" />
                 </div>
                 <div className="slide-to-right">
-                    <CardTopic color="#92d36e" title="Finance" />
+                    <TopicCardHomepage firstColor="#2196f3" secondColor="#3fb4ff" thirdColor="#35aaff" title="University" />
                 </div>
                 <div className="slide-to-right">
-                    <CardTopic color="#ff8a84" title="Sports" />
+                    <TopicCardHomepage firstColor="#4caf50" secondColor="#6acd6e" thirdColor="#60c364" title="Finance" />
                 </div>
                 <div className="slide-to-right">
-                    <CardTopic color="#b38df7" title="Music" />
+                    <TopicCardHomepage firstColor="#ff9800" secondColor="#ffb61e" thirdColor="#ffac14" title="Sports" />
                 </div>
                 <div className="slide-to-right">
-                    <CardTopic color="#75a9f9" title="University" />
+                    <TopicCardHomepage firstColor="#4caf50" secondColor="#6acd6e" thirdColor="#60c364" title="Finance" />
                 </div>
                 <div className="slide-to-right">
-                    <CardTopic color="#92d36e" title="Finance" />
+                    <TopicCardHomepage firstColor="#f44336" secondColor="#ff6154" thirdColor="#ff574a" title="Music" />
                 </div>
                 <div className="slide-to-right">
-                    <CardTopic color="#ff8a84" title="Sports" />
+                    <TopicCardHomepage firstColor="#2196f3" secondColor="#3fb4ff" thirdColor="#35aaff" title="University" />
                 </div>
                 <div className="slide-to-right">
-                    <CardTopic color="#b38df7" title="Music" />
+                    <TopicCardHomepage firstColor="#4caf50" secondColor="#6acd6e" thirdColor="#60c364" title="Finance" />
                 </div>
                 <div className="slide-to-right">
-                    <CardTopic color="#75a9f9" title="University" />
+                    <TopicCardHomepage firstColor="#ff9800" secondColor="#ffb61e" thirdColor="#ffac14" title="Sports" />
                 </div>
                 <div className="slide-to-right">
-                    <CardTopic color="#92d36e" title="Finance" />
+                    <TopicCardHomepage firstColor="#4caf50" secondColor="#6acd6e" thirdColor="#60c364" title="Finance" />
                 </div>
                 <div className="slide-to-right">
-                    <CardTopic color="#ff8a84" title="Sports" />
+                    <TopicCardHomepage firstColor="#f44336" secondColor="#ff6154" thirdColor="#ff574a" title="Music" />
                 </div>
                 <div className="slide-to-right">
-                    <CardTopic color="#b38df7" title="Music" />
+                    <TopicCardHomepage firstColor="#2196f3" secondColor="#3fb4ff" thirdColor="#35aaff" title="University" />
                 </div>
             </div>
         </div>

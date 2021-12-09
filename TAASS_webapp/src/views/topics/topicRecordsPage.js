@@ -21,7 +21,6 @@ import Grid from '@mui/material/Grid';
 import { styled } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
-import PropTypes from 'prop-types';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import Typography from '@mui/material/Typography';
@@ -31,8 +30,12 @@ import Backdrop from '@mui/material/Backdrop';
 import Fade from '@mui/material/Fade';
 import { BlockPicker, CirclePicker } from 'react-color'; /* https://casesandberg.github.io/react-color/ */
 import Collapse from '@mui/material/Collapse';
+import TopicCardHomepage from './topicCardHomepage';
 
 // ==============================|| TYPOGRAPHY ||============================== //
+import PropTypes from 'prop-types';
+
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 
 function TabPanel(props) {
     const { children, value, index, ...other } = props;
@@ -92,163 +95,161 @@ const modalStyle = {
 // const [this.formValues, setFormValues] = useState([{ name: '', fieldType: '' }]);
 // const [this.topicValues, setTopicValues] = useState([{ topicName: '', topicDescription: '' }]);
 
-class TopicRecordsPage extends React.Component {
-    // TODO: capire come salvare anche il nome del topic e la descrizione
+const TopicRecordsPage = (props) => {
+    const [value, setValue] = useState(0);
+    const [searchValue, setSearchValue] = useState('');
+    const [show, setShow] = useState(false);
 
-    constructor(props) {
-        super(props);
+    const location = useLocation();
 
-        this.state = {
-            value: 0,
-            searchValue: '',
-            show: false
-        };
-    }
+    const params = useParams();
+    console.log(props);
 
-    handleChange = (event, newValue) => {
-        this.setState({ value: newValue });
+    console.log(location);
+
+    const handleChange = (event, newValue) => {
+        setValue(newValue);
     };
 
-    handleChangeSearchValue = (event, newValue) => {
-        this.setState({ searchValue: event.target.value });
+    const handleChangeSearchValue = (event, newValue) => {
+        setSearchValue(event.target.value);
 
         // TODO: QUA FILTRARE LA LISTA
         console.log(event.target.value);
         console.log('QUA FILTRARE LA LISTA');
     };
 
-    handleModalClose = (event, newValue) => {
-        this.setState({ show: false });
+    const handleModalClose = (event, newValue) => {
+        setShow(false);
     };
 
-    handleModalShow = (event, newValue) => {
+    const handleModalShow = (event, newValue) => {
         console.log('MOSTRO IL MODAL');
-        this.setState({ show: true });
-        console.log(this.state.show);
+        setShow(true);
     };
 
-    render() {
-        return (
-            <>
-                <MainCard>
-                    <Grid container spacing={2}>
-                        <Grid
-                            item
-                            xs={12}
-                            lg={9}
-                            md={9}
-                            sm={12}
+    return (
+        <>
+            <MainCard>
+                <Grid container spacing={2}>
+                    <Grid
+                        item
+                        xs={12}
+                        lg={9}
+                        md={9}
+                        sm={12}
+                        style={{
+                            display: 'flex',
+                            alignItems: 'center',
+                            flexWrap: 'wrap'
+                        }}
+                    >
+                        <div
                             style={{
                                 display: 'flex',
                                 alignItems: 'center',
                                 flexWrap: 'wrap'
                             }}
                         >
-                            <div
-                                style={{
-                                    display: 'flex',
-                                    alignItems: 'center',
-                                    flexWrap: 'wrap'
-                                }}
-                            >
-                                <Typography variant="h2">NOME Topic</Typography>
-                                <EditIcon className="iconColor mx-4" fontSize="medium" />
-                            </div>
-                        </Grid>
-                        <Grid
-                            item
-                            xs={12}
-                            lg={3}
-                            md={3}
-                            sm={12}
-                            style={{
-                                paddingTop: 0
-                            }}
-                        >
-                            <FormControl fullWidth sx={{ m: 1 }} variant="outlined">
-                                <OutlinedInput
-                                    id="outlined-adornment-weight"
-                                    value={this.state.searchValue || ''}
-                                    onChange={this.handleChangeSearchValue}
-                                    endAdornment={<SearchIcon sx={{ color: 'action.active', mr: 1, my: 0.5 }} />}
-                                    aria-describedby="outlined-weight-helper-text"
-                                    inputProps={{
-                                        'aria-label': 'weight'
-                                    }}
-                                    size="small"
-                                />
-                            </FormControl>
-                        </Grid>
+                            <Typography variant="h2">
+                                <div>CIAo</div>
+                            </Typography>
+                            <EditIcon className="iconColor mx-4" fontSize="medium" />
+                        </div>
                     </Grid>
+                    <Grid
+                        item
+                        xs={12}
+                        lg={3}
+                        md={3}
+                        sm={12}
+                        style={{
+                            paddingTop: 0
+                        }}
+                    >
+                        <FormControl fullWidth sx={{ m: 1 }} variant="outlined">
+                            <OutlinedInput
+                                id="outlined-adornment-weight"
+                                value={searchValue || ''}
+                                onChange={handleChangeSearchValue}
+                                endAdornment={<SearchIcon sx={{ color: 'action.active', mr: 1, my: 0.5 }} />}
+                                aria-describedby="outlined-weight-helper-text"
+                                inputProps={{
+                                    'aria-label': 'weight'
+                                }}
+                                size="small"
+                            />
+                        </FormControl>
+                    </Grid>
+                </Grid>
 
-                    <div className="pageStyle">
-                        <Box sx={{ width: '100%' }}>
-                            <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-                                <Tabs value={this.state.value} onChange={this.handleChange} aria-label="basic tabs example">
-                                    <Tab label="I miei NOME TOPIC" {...a11yProps(0)} />
-                                    <Tab label="Performance" {...a11yProps(1)} />
-                                    {/* <Tab label="Item Three" {...a11yProps(2)} /> */}
-                                </Tabs>
-                            </Box>
-                            <TabPanel value={this.state.value} index={0}>
-                                I miei NOME TOPIC
-                            </TabPanel>
-                            <TabPanel value={this.state.value} index={1}>
-                                Performance
-                            </TabPanel>
-                            {/*
+                <div className="pageStyle">
+                    <Box sx={{ width: '100%' }}>
+                        <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
+                            <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
+                                <Tab label="I miei NOME TOPIC" {...a11yProps(0)} />
+                                <Tab label="Performance" {...a11yProps(1)} />
+                                {/* <Tab label="Item Three" {...a11yProps(2)} /> */}
+                            </Tabs>
+                        </Box>
+                        <TabPanel value={value} index={0}>
+                            I miei NOME TOPIC
+                        </TabPanel>
+                        <TabPanel value={value} index={1}>
+                            Performance
+                        </TabPanel>
+                        {/*
 
                             <TabPanel value={this.state.value} index={2}>
                                 Item Three
                             </TabPanel>
 
                              */}
-                        </Box>
-                    </div>
-                    <Fab onClick={() => this.handleModalShow()} color="primary" aria-label="add" style={style}>
-                        <AddIcon />
-                    </Fab>
-                    <Modal
-                        aria-labelledby="transition-modal-title"
-                        aria-describedby="transition-modal-description"
-                        open={this.state.show}
-                        onClose={this.handleModalClose}
-                        disableEscapeKeyDown
-                        closeAfterTransition
-                        BackdropComponent={Backdrop}
-                        BackdropProps={{
-                            timeout: 500
-                        }}
-                    >
-                        <Fade in={this.state.show}>
-                            <Box sx={modalStyle}>
-                                <Typography id="transition-modal-title" variant="h3" component="h2">
-                                    Add Record
-                                </Typography>
-                                {/* TODO: qua vanno messi i field giusti in base al tipo di dato dell'utente */}
-                                <Grid container spacing={2}>
-                                    <Grid item xs={12} lg={4} md={4} sm={12}>
-                                        <FormControl fullWidth sx={{ m: 1 }} variant="filled">
-                                            <TextField id="outlined-basic" label="Topic Name" variant="outlined" name="name" size="small" />
-                                            <TextField
-                                                sx={{ mt: 2 }}
-                                                id="filled-multiline-static"
-                                                label="Topic Description"
-                                                multiline
-                                                rows={4}
-                                                defaultValue="Default Value"
-                                                variant="filled"
-                                            />
-                                        </FormControl>
-                                    </Grid>
+                    </Box>
+                </div>
+                <Fab onClick={() => handleModalShow()} color="primary" aria-label="add" style={style}>
+                    <AddIcon />
+                </Fab>
+                <Modal
+                    aria-labelledby="transition-modal-title"
+                    aria-describedby="transition-modal-description"
+                    open={show}
+                    onClose={handleModalClose}
+                    disableEscapeKeyDown
+                    closeAfterTransition
+                    BackdropComponent={Backdrop}
+                    BackdropProps={{
+                        timeout: 500
+                    }}
+                >
+                    <Fade in={show}>
+                        <Box sx={modalStyle}>
+                            <Typography id="transition-modal-title" variant="h3" component="h2">
+                                Add Record
+                            </Typography>
+                            {/* TODO: qua vanno messi i field giusti in base al tipo di dato dell'utente */}
+                            <Grid container spacing={2}>
+                                <Grid item xs={12} lg={4} md={4} sm={12}>
+                                    <FormControl fullWidth sx={{ m: 1 }} variant="filled">
+                                        <TextField id="outlined-basic" label="Topic Name" variant="outlined" name="name" size="small" />
+                                        <TextField
+                                            sx={{ mt: 2 }}
+                                            id="filled-multiline-static"
+                                            label="Topic Description"
+                                            multiline
+                                            rows={4}
+                                            defaultValue="Default Value"
+                                            variant="filled"
+                                        />
+                                    </FormControl>
                                 </Grid>
-                            </Box>
-                        </Fade>
-                    </Modal>
-                </MainCard>
-            </>
-        );
-    }
-}
+                            </Grid>
+                        </Box>
+                    </Fade>
+                </Modal>
+            </MainCard>
+        </>
+    );
+};
 
 export default TopicRecordsPage;

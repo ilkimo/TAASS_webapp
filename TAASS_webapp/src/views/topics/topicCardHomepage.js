@@ -26,6 +26,7 @@ const CardWrapper = styled(MainCard)(({ theme, firstColor, secondColor, thirdCol
     position: 'relative',
     marginTop: 20,
     marginLeft: 20,
+    width: 400,
     '&:after': {
         content: '""',
         position: 'absolute',
@@ -67,14 +68,10 @@ CardWrapper.propTypes = {
 
 // ===========================|| DASHBOARD DEFAULT - EARNING CARD ||=========================== //
 
-const TopicCard = ({ isLoading, firstColor, secondColor, thirdColor, title }) => {
-    /*
-
+const TopicCardHomepage = ({ isLoading, firstColor, secondColor, thirdColor, title }) => {
     console.log('Props in Input :', firstColor);
     console.log('Props in Input :', secondColor);
     console.log('Props in Input :', thirdColor);
-
-     */
 
     const theme = useTheme();
 
@@ -113,13 +110,12 @@ const TopicCard = ({ isLoading, firstColor, secondColor, thirdColor, title }) =>
                                                 ...theme.typography.commonAvatar,
                                                 ...theme.typography.mediumAvatar,
                                                 // backgroundColor: theme.palette.secondary.dark,
-                                                backgroundColor: firstColor,
+                                                backgroundColor: thirdColor,
                                                 color: '#FFFFFF',
                                                 zIndex: 1
                                             }}
                                             aria-controls="menu-earning-card"
                                             aria-haspopup="true"
-                                            onClick={handleClick}
                                         >
                                             <MoreHorizIcon fontSize="inherit" />
                                         </Avatar>
@@ -170,7 +166,7 @@ const TopicCard = ({ isLoading, firstColor, secondColor, thirdColor, title }) =>
     );
 };
 
-TopicCard.propTypes = {
+TopicCardHomepage.propTypes = {
     isLoading: PropTypes.bool,
     firstColor: PropTypes.string,
     secondColor: PropTypes.string,
@@ -178,4 +174,4 @@ TopicCard.propTypes = {
     title: PropTypes.string
 };
 
-export default TopicCard;
+export default TopicCardHomepage;

@@ -28,7 +28,17 @@ const style = {
     position: 'fixed'
 };
 
-const Topics = () => {
+const fakeTopics = [
+    { firstColor: '#f44336', secondColor: '#ff6154', thirdColor: '#ff574a', title: 'Sport' },
+    { firstColor: '#2196f3', secondColor: '#3fb4ff', thirdColor: '#35aaff', title: 'Music' },
+    { firstColor: '#4caf50', secondColor: '#6acd6e', thirdColor: '#60c364', title: 'Finance' },
+    { firstColor: '#ff9800', secondColor: '#ffb61e', thirdColor: '#ffac14', title: 'Films' },
+    { firstColor: '#4caf50', secondColor: '#6acd6e', thirdColor: '#60c364', title: 'Serie TVs' },
+    { firstColor: '#f44336', secondColor: '#ff6154', thirdColor: '#ff574a', title: 'Books' },
+    { firstColor: '#2196f3', secondColor: '#3fb4ff', thirdColor: '#35aaff', title: 'Food' }
+];
+
+const Topics = (props) => {
     const [isLoading, setLoading] = useState(true);
     useEffect(() => {
         setLoading(false);
@@ -41,10 +51,24 @@ const Topics = () => {
             <Grid container>
                 <Grid item xs={12}>
                     <Grid container>
-                        {Array.from(new Array(10)).map((_, i) => (
+                        {fakeTopics.map((topic, i) => (
                             <Grid item key={i} xs={12} sm={6} md={6} lg={4}>
-                                <Link to="/topicRecordsPage/" style={{ textDecoration: 'none' }}>
-                                    <TopicCard key={i} />
+                                <Link
+                                    to={{
+                                        pathname: '/topicRecordsPage/',
+                                        state: {
+                                            item: topic
+                                        }
+                                    }}
+                                    style={{ textDecoration: 'none' }}
+                                >
+                                    <TopicCard
+                                        key={i}
+                                        firstColor={topic.firstColor}
+                                        secondColor={topic.secondColor}
+                                        thirdColor={topic.secondColor}
+                                        title={topic.title}
+                                    />
                                 </Link>
                             </Grid>
                         ))}
