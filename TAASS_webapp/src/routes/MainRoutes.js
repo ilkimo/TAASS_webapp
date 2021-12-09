@@ -4,6 +4,7 @@ import { lazy } from 'react';
 import MainLayout from 'layout/MainLayout';
 import Loadable from 'ui-component/Loadable';
 import TopicRecordsPage from '../views/topics/topicRecordsPage';
+import HomepageNotLogged from '../views/homeNotLogged/homepageNotLogged';
 
 // dashboard routing
 const DashboardDefault = Loadable(lazy(() => import('views/dashboard/Default')));
@@ -30,10 +31,6 @@ const MainRoutes = {
     path: '/',
     element: <MainLayout />,
     children: [
-        {
-            path: '/',
-            element: <DashboardDefault />
-        },
         {
             path: '/dashboard/default',
             element: <DashboardDefault />

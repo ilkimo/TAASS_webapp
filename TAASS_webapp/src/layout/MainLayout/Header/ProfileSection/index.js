@@ -38,6 +38,7 @@ import User1 from 'assets/images/users/user-round.svg';
 
 // assets
 import { IconLogout, IconSearch, IconSettings, IconUser } from '@tabler/icons';
+import { browserHistory } from 'react-router';
 
 // ==============================|| PROFILE MENU ||============================== //
 
@@ -57,6 +58,11 @@ const ProfileSection = () => {
     const anchorRef = useRef(null);
     const handleLogout = async () => {
         console.log('Logout');
+
+        /* TODO: qua bisogna gestire il logout */
+        /* GESTIRE LA SESSIONE UTENTE */
+
+        navigate('../pages/login/login3', { replace: true });
     };
 
     const handleClose = (event) => {
@@ -165,7 +171,13 @@ const ProfileSection = () => {
                                         </Stack>
                                         <Divider />
                                     </Box>
-                                    <PerfectScrollbar style={{ height: '100%', maxHeight: 'calc(100vh - 250px)', overflowX: 'hidden' }}>
+                                    <PerfectScrollbar
+                                        style={{
+                                            height: '100%',
+                                            maxHeight: 'calc(100vh - 250px)',
+                                            overflowX: 'hidden'
+                                        }}
+                                    >
                                         <Box sx={{ p: 2 }}>
                                             <List
                                                 component="nav"

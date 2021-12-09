@@ -7,7 +7,7 @@ import customPages from './customPages';
 // ==============================|| MENU ITEMS ||============================== //
 
 const menuItems = {
-    items: [customPages, dashboard, pages, utilities, other]
+    items: [customPages, dashboard, utilities, other]
 };
 
 export default menuItems;

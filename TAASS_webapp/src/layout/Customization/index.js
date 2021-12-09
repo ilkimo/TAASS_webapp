@@ -55,7 +55,10 @@ const Customization = () => {
         dispatch({ type: SET_BORDER_RADIUS, borderRadius });
     }, [dispatch, borderRadius]);
 
-    let initialFont;
+    let initialFont = 'Poppins';
+
+    /*
+
     switch (customization.fontFamily) {
         case `'Inter', sans-serif`:
             initialFont = 'Inter';
@@ -68,6 +71,8 @@ const Customization = () => {
             initialFont = 'Roboto';
             break;
     }
+
+     */
 
     // state - font family
     const [fontFamily, setFontFamily] = useState(initialFont);

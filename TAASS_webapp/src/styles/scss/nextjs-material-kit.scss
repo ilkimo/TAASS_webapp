@@ -194,3 +194,16 @@ $cardWidth: 20rem;
   flex-direction: row;
   align-items: center;
 }
+
+
+.cardContainer {
+  display: flex;
+  justify-content: space-around;
+  margin-top: -150px;
+}
+
+.cardContainer div {
+  background-color: white;
+  padding: 100px 50px;
+  z-index: 10;
+}
