@@ -18,7 +18,7 @@ import CloseIcon from '@mui/icons-material/Close';
 import EditIcon from '@mui/icons-material/Edit';
 import Button from '@mui/material/Button';
 import Grid from '@mui/material/Grid';
-import { styled } from '@mui/material/styles';
+import { styled, useTheme } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
 import Tabs from '@mui/material/Tabs';
@@ -39,9 +39,17 @@ import { useLocation, useNavigate, useParams } from 'react-router-dom';
 
 function TabPanel(props) {
     const { children, value, index, ...other } = props;
+    const location = useLocation();
 
     return (
-        <div role="tabpanel" hidden={value !== index} id={`simple-tabpanel-${index}`} aria-labelledby={`simple-tab-${index}`} {...other}>
+        <div
+            role="tabpanel"
+            hidden={value !== index}
+            id={`simple-tabpanel-${index}`}
+            aria-labelledby={`simple-tab-${index}`}
+            {...other}
+            color={location.state.item.firstcolor}
+        >
             {value === index && (
                 <Box sx={{ p: 3 }}>
                     <Typography>{children}</Typography>
@@ -96,6 +104,8 @@ const modalStyle = {
 // const [this.topicValues, setTopicValues] = useState([{ topicName: '', topicDescription: '' }]);
 
 const TopicRecordsPage = (props) => {
+    const theme = useTheme();
+
     const [value, setValue] = useState(0);
     const [searchValue, setSearchValue] = useState('');
     const [show, setShow] = useState(false);
@@ -152,9 +162,9 @@ const TopicRecordsPage = (props) => {
                             }}
                         >
                             <Typography variant="h2">
-                                <div>CIAo</div>
+                                <div>{location.state.item.title}</div>
                             </Typography>
-                            <EditIcon className="iconColor mx-4" fontSize="medium" />
+                            <EditIcon className="iconColor mx-4" fontSize="medium" style={{ fill: location.state.item.firstcolor }} />
                         </div>
                     </Grid>
                     <Grid
@@ -186,14 +196,26 @@ const TopicRecordsPage = (props) => {
                 <div className="pageStyle">
                     <Box sx={{ width: '100%' }}>
                         <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-                            <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
-                                <Tab label="I miei NOME TOPIC" {...a11yProps(0)} />
-                                <Tab label="Performance" {...a11yProps(1)} />
+                            <Tabs
+                                value={value}
+                                onChange={handleChange}
+                                aria-label="basic tabs example"
+                                TabIndicatorProps={{
+                                    style: { background: location.state.item.firstcolor }
+                                }}
+                            >
+                                <Tab
+                                    label={
+                                        <span style={{ color: location.state.item.firstcolor }}>I miei {location.state.item.title}</span>
+                                    }
+                                    {...a11yProps(0)}
+                                />
+                                <Tab label={<span style={{ color: location.state.item.firstcolor }}>Performance</span>} {...a11yProps(1)} />
                                 {/* <Tab label="Item Three" {...a11yProps(2)} /> */}
                             </Tabs>
                         </Box>
                         <TabPanel value={value} index={0}>
-                            I miei NOME TOPIC
+                            I miei {location.state.item.title}
                         </TabPanel>
                         <TabPanel value={value} index={1}>
                             Performance

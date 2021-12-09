@@ -29,13 +29,13 @@ const style = {
 };
 
 const fakeTopics = [
-    { firstColor: '#f44336', secondColor: '#ff6154', thirdColor: '#ff574a', title: 'Sport' },
-    { firstColor: '#2196f3', secondColor: '#3fb4ff', thirdColor: '#35aaff', title: 'Music' },
-    { firstColor: '#4caf50', secondColor: '#6acd6e', thirdColor: '#60c364', title: 'Finance' },
-    { firstColor: '#ff9800', secondColor: '#ffb61e', thirdColor: '#ffac14', title: 'Films' },
-    { firstColor: '#4caf50', secondColor: '#6acd6e', thirdColor: '#60c364', title: 'Serie TVs' },
-    { firstColor: '#f44336', secondColor: '#ff6154', thirdColor: '#ff574a', title: 'Books' },
-    { firstColor: '#2196f3', secondColor: '#3fb4ff', thirdColor: '#35aaff', title: 'Food' }
+    { firstcolor: '#f44336', secondcolor: '#ff6154', thirdcolor: '#ff574a', title: 'Sport' },
+    { firstcolor: '#2196f3', secondcolor: '#3fb4ff', thirdcolor: '#35aaff', title: 'Music' },
+    { firstcolor: '#4caf50', secondcolor: '#6acd6e', thirdcolor: '#60c364', title: 'Finance' },
+    { firstcolor: '#ff9800', secondcolor: '#ffb61e', thirdcolor: '#ffac14', title: 'Films' },
+    { firstcolor: '#4caf50', secondcolor: '#6acd6e', thirdcolor: '#60c364', title: 'Serie TVs' },
+    { firstcolor: '#f44336', secondcolor: '#ff6154', thirdcolor: '#ff574a', title: 'Books' },
+    { firstcolor: '#2196f3', secondcolor: '#3fb4ff', thirdcolor: '#35aaff', title: 'Food' }
 ];
 
 const Topics = (props) => {
@@ -60,13 +60,14 @@ const Topics = (props) => {
                                             item: topic
                                         }
                                     }}
+                                    state={{ item: topic }}
                                     style={{ textDecoration: 'none' }}
                                 >
                                     <TopicCard
                                         key={i}
-                                        firstColor={topic.firstColor}
-                                        secondColor={topic.secondColor}
-                                        thirdColor={topic.secondColor}
+                                        firstcolor={topic.firstcolor}
+                                        secondcolor={topic.secondcolor}
+                                        thirdcolor={topic.thirdcolor}
                                         title={topic.title}
                                     />
                                 </Link>

@@ -76,14 +76,16 @@ const NavItem = ({ item, level }) => {
                 py: level > 1 ? 1 : 1.25,
                 pl: `${level * 24}px`,
                 '&.MuiListItemButton-root': {
+                    /*
                     '&.Mui-selected': {
-                        background: theme.palette.error.light,
+                        background: theme.palette.secondary.light,
                         color: '#FFFFFF'
                     },
                     '&:hover, &.Mui-focusVisible': {
-                        background: theme.palette.error.light,
+                        background: theme.palette.secondary.light,
                         color: '#FFFFFF'
                     }
+                    */
                     /*
                     '& .MuiListItemIcon-root, &.Mui-selected': {
                         color: '#FFFFFF'

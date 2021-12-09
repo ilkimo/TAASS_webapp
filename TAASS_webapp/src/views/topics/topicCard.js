@@ -18,9 +18,9 @@ import FileCopyTwoToneIcon from '@mui/icons-material/FileCopyOutlined';
 import PictureAsPdfTwoToneIcon from '@mui/icons-material/PictureAsPdfOutlined';
 import ArchiveTwoToneIcon from '@mui/icons-material/ArchiveOutlined';
 
-const CardWrapper = styled(MainCard)(({ theme, firstColor, secondColor, thirdColor }) => ({
+const CardWrapper = styled(MainCard)(({ theme, firstcolor, secondcolor, thirdcolor }) => ({
     // backgroundColor: theme.palette.secondary.dark,
-    backgroundColor: firstColor,
+    backgroundColor: firstcolor,
     color: '#fff',
     overflow: 'hidden',
     position: 'relative',
@@ -32,7 +32,7 @@ const CardWrapper = styled(MainCard)(({ theme, firstColor, secondColor, thirdCol
         width: 210,
         height: 210,
         // background: theme.palette.secondary[800],
-        background: secondColor,
+        background: secondcolor,
         borderRadius: '50%',
         top: -85,
         right: -95,
@@ -47,7 +47,7 @@ const CardWrapper = styled(MainCard)(({ theme, firstColor, secondColor, thirdCol
         width: 210,
         height: 210,
         // background: theme.palette.secondary[800],
-        background: thirdColor,
+        background: thirdcolor,
         borderRadius: '50%',
         top: -125,
         right: -15,
@@ -60,19 +60,19 @@ const CardWrapper = styled(MainCard)(({ theme, firstColor, secondColor, thirdCol
 }));
 
 CardWrapper.propTypes = {
-    firstColor: PropTypes.string,
-    secondColor: PropTypes.string,
-    thirdColor: PropTypes.string
+    firstcolor: PropTypes.string,
+    secondcolor: PropTypes.string,
+    thirdcolor: PropTypes.string
 };
 
 // ===========================|| DASHBOARD DEFAULT - EARNING CARD ||=========================== //
 
-const TopicCard = ({ isLoading, firstColor, secondColor, thirdColor, title }) => {
+const TopicCard = ({ isLoading, firstcolor, secondcolor, thirdcolor, title }) => {
     /*
 
-    console.log('Props in Input :', firstColor);
-    console.log('Props in Input :', secondColor);
-    console.log('Props in Input :', thirdColor);
+    console.log('Props in Input :', firstcolor);
+    console.log('Props in Input :', secondcolor);
+    console.log('Props in Input :', thirdcolor);
 
      */
 
@@ -98,9 +98,9 @@ const TopicCard = ({ isLoading, firstColor, secondColor, thirdColor, title }) =>
                     sx={{ height: 150 }}
                     border={false}
                     content={false}
-                    firstColor={firstColor}
-                    secondColor={secondColor}
-                    thirdColor={thirdColor}
+                    firstcolor={firstcolor}
+                    secondcolor={secondcolor}
+                    thirdcolor={thirdcolor}
                 >
                     <Box sx={{ pt: 2.25, px: 2.25 }}>
                         <Grid container direction="column">
@@ -113,7 +113,7 @@ const TopicCard = ({ isLoading, firstColor, secondColor, thirdColor, title }) =>
                                                 ...theme.typography.commonAvatar,
                                                 ...theme.typography.mediumAvatar,
                                                 // backgroundColor: theme.palette.secondary.dark,
-                                                backgroundColor: firstColor,
+                                                backgroundColor: firstcolor,
                                                 color: '#FFFFFF',
                                                 zIndex: 1
                                             }}
@@ -172,9 +172,9 @@ const TopicCard = ({ isLoading, firstColor, secondColor, thirdColor, title }) =>
 
 TopicCard.propTypes = {
     isLoading: PropTypes.bool,
-    firstColor: PropTypes.string,
-    secondColor: PropTypes.string,
-    thirdColor: PropTypes.string,
+    firstcolor: PropTypes.string,
+    secondcolor: PropTypes.string,
+    thirdcolor: PropTypes.string,
     title: PropTypes.string
 };
 

@@ -226,7 +226,7 @@ const NotificationList = () => {
                             <Grid item xs={12}>
                                 <Card
                                     sx={{
-                                        backgroundColor: theme.palette.error.light
+                                        backgroundColor: theme.palette.secondary.light
                                     }}
                                 >
                                     <CardContent>
