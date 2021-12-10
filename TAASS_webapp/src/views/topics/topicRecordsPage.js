@@ -32,12 +32,19 @@ import { BlockPicker, CirclePicker } from 'react-color'; /* https://casesandberg
 import Collapse from '@mui/material/Collapse';
 import TopicCardHomepage from './topicCardHomepage';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogContentText from '@mui/material/DialogContentText';
+import DialogTitle from '@mui/material/DialogTitle';
+import AdapterDateFns from '@mui/lab/AdapterDateFns';
 
 // ==============================|| TYPOGRAPHY ||============================== //
 import PropTypes from 'prop-types';
 
 import { Link, useLocation, useNavigate, useParams } from 'react-router-dom';
 import TopicCard from './topicCard';
+import { DesktopDatePicker, LocalizationProvider } from '@mui/lab';
 
 function TabPanel(props) {
     const { children, value, index, ...other } = props;
@@ -54,7 +61,7 @@ function TabPanel(props) {
         >
             {value === index && (
                 <Box sx={{ p: 3 }}>
-                    <Typography>{children}</Typography>
+                    <Typography component="span">{children}</Typography>
                 </Box>
             )}
         </div>
@@ -119,6 +126,8 @@ const TopicRecordsPage = (props) => {
 
     console.log(location);
 
+    const state = location.state;
+
     const handleChange = (event, newValue) => {
         setValue(newValue);
     };
@@ -138,6 +147,39 @@ const TopicRecordsPage = (props) => {
     const handleModalShow = (event, newValue) => {
         console.log('MOSTRO IL MODAL');
         setShow(true);
+    };
+
+    const [open, setOpen] = React.useState(false);
+    const [scroll, setScroll] = React.useState('paper');
+
+    const handleClickOpen = (scrollType) => () => {
+        setOpen(true);
+        setScroll(scrollType);
+    };
+
+    const handleClose = () => {
+        setOpen(false);
+    };
+
+    const handleDialogSubmit = () => {
+        console.log();
+        setOpen(false);
+    };
+
+    const descriptionElementRef = React.useRef(null);
+    React.useEffect(() => {
+        if (open) {
+            const { current: descriptionElement } = descriptionElementRef;
+            if (descriptionElement !== null) {
+                descriptionElement.focus();
+            }
+        }
+    }, [open]);
+
+    const [dateValue, dateValueSetValue] = React.useState(new Date());
+
+    const handleDateTimeChange = (newValue) => {
+        dateValueSetValue(newValue);
     };
 
     return (
@@ -176,7 +218,7 @@ const TopicRecordsPage = (props) => {
                                 />
                             </Link>
 
-                            <Typography variant="h2">
+                            <Typography component="span" variant="h2">
                                 <div>{location.state.item.title}</div>
                             </Typography>
                             <EditIcon className="iconColor mx-4" fontSize="medium" style={{ fill: location.state.item.firstcolor }} />
@@ -245,7 +287,7 @@ const TopicRecordsPage = (props) => {
                     </Box>
                 </div>
                 <Fab
-                    onClick={() => handleModalShow()}
+                    onClick={handleClickOpen('paper')}
                     color={location.state.item.firstcolor}
                     aria-label="add"
                     style={{
@@ -261,43 +303,62 @@ const TopicRecordsPage = (props) => {
                 >
                     <AddIcon />
                 </Fab>
-                <Modal
-                    aria-labelledby="transition-modal-title"
-                    aria-describedby="transition-modal-description"
-                    open={show}
-                    onClose={handleModalClose}
-                    disableEscapeKeyDown
-                    closeAfterTransition
-                    BackdropComponent={Backdrop}
-                    BackdropProps={{
-                        timeout: 500
-                    }}
+
+                <Dialog
+                    open={open}
+                    onClose={handleClose}
+                    scroll={scroll}
+                    aria-labelledby="scroll-dialog-title"
+                    aria-describedby="scroll-dialog-description"
                 >
-                    <Fade in={show}>
-                        <Box sx={modalStyle}>
-                            <Typography id="transition-modal-title" variant="h3" component="h2">
-                                Add Record
+                    <DialogTitle id="scroll-dialog-title">
+                        <div>
+                            <Typography component="span" variant="h2">
+                                <div>Add Record - {state.item.title}</div>
                             </Typography>
-                            {/* TODO: qua vanno messi i field giusti in base al tipo di dato dell'utente */}
-                            <Grid container spacing={2}>
-                                <Grid item xs={12} lg={4} md={4} sm={12}>
-                                    <FormControl fullWidth sx={{ m: 1 }} variant="filled">
-                                        <TextField id="outlined-basic" label="Topic Name" variant="outlined" name="name" size="small" />
-                                        <TextField
-                                            sx={{ mt: 2 }}
-                                            id="filled-multiline-static"
-                                            label="Topic Description"
-                                            multiline
-                                            rows={4}
-                                            defaultValue="Default Value"
-                                            variant="filled"
-                                        />
-                                    </FormControl>
-                                </Grid>
-                            </Grid>
-                        </Box>
-                    </Fade>
-                </Modal>
+                        </div>
+                    </DialogTitle>
+                    <DialogContent dividers={scroll === 'paper'}>
+                        <DialogContentText id="scroll-dialog-description" ref={descriptionElementRef} tabIndex={-1}>
+                            {state.item.data.map(function (d, i) {
+                                if (d.type === 'Text') {
+                                    return (
+                                        <FormControl fullWidth sx={{ mb: 2 }} variant="filled" key={i}>
+                                            <TextField id="outlined-basic" label={`${d.name}`} variant="outlined" />
+                                        </FormControl>
+                                    );
+                                }
+                                if (d.type === 'Integer Number') {
+                                    return (
+                                        <FormControl fullWidth sx={{ mb: 2 }} variant="filled" key={i}>
+                                            <TextField label={`${d.name}`} inputProps={{ inputMode: 'numeric', pattern: '[0-9]*' }} />
+                                        </FormControl>
+                                    );
+                                }
+                                if (d.type === 'Date') {
+                                    return (
+                                        <FormControl fullWidth sx={{ mb: 2 }}>
+                                            <LocalizationProvider dateAdapter={AdapterDateFns} key={i}>
+                                                <DesktopDatePicker
+                                                    label={`${d.name}`}
+                                                    inputFormat="MM/dd/yyyy"
+                                                    value={dateValue}
+                                                    onChange={handleDateTimeChange}
+                                                    renderInput={(params) => <TextField {...params} />}
+                                                />
+                                            </LocalizationProvider>
+                                        </FormControl>
+                                    );
+                                }
+                                return <FormControl fullWidth sx={{ mb: 2 }} variant="filled" key={i} />;
+                            })}
+                        </DialogContentText>
+                    </DialogContent>
+                    <DialogActions>
+                        <Button onClick={handleClose}>Cancel</Button>
+                        <Button onClick={handleDialogSubmit}>Submit</Button>
+                    </DialogActions>
+                </Dialog>
             </MainCard>
         </>
     );
