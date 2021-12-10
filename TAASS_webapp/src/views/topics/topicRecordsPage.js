@@ -28,6 +28,7 @@ import PropTypes from 'prop-types';
 
 import { Link, useLocation, useNavigate, useParams } from 'react-router-dom';
 import { DesktopDatePicker, LocalizationProvider } from '@mui/lab';
+import { forEach } from 'react-bootstrap/ElementChildren';
 
 function TabPanel(props) {
     const { children, value, index, ...other } = props;
@@ -78,6 +79,8 @@ const TopicRecordsPage = (props) => {
     const [searchValue, setSearchValue] = useState('');
     const [show, setShow] = useState(false);
 
+    const [theArray, setTheArray] = useState([]);
+
     const location = useLocation();
 
     const params = useParams();
@@ -86,6 +89,27 @@ const TopicRecordsPage = (props) => {
     console.log(location);
 
     const state = location.state;
+
+    const formValues = [];
+
+    if (theArray.length === 0) {
+        state.item.data.forEach((element) => {
+            console.log(element.type);
+
+            if (element.type === 'Text') {
+                theArray.push({ value: 'initial value' });
+            } else if (element.type === 'Integer Number') {
+                theArray.push({ value: 9 });
+            } else if (element.type === 'Date') {
+                theArray.push({ value: new Date() });
+            }
+
+            // console.log(element.name);
+            // console.log(theArray);
+        });
+    }
+
+    console.log(theArray);
 
     const handleChange = (event, newValue) => {
         setValue(newValue);
@@ -120,9 +144,18 @@ const TopicRecordsPage = (props) => {
         setOpen(false);
     };
 
+    const handleValueChange = (i, e) => {
+        let newFormValues = [...theArray];
+        newFormValues[i].value = e.target.value;
+
+        setTheArray(newFormValues);
+    };
+
     const handleDialogSubmit = () => {
-        console.log();
-        setOpen(false);
+        console.log('VALORI INSERITI: ');
+        console.log(theArray);
+
+        // setOpen(false);
     };
 
     const descriptionElementRef = React.useRef(null);
@@ -137,8 +170,11 @@ const TopicRecordsPage = (props) => {
 
     const [dateValue, dateValueSetValue] = React.useState(new Date());
 
-    const handleDateTimeChange = (newValue) => {
-        dateValueSetValue(newValue);
+    const handleDateTimeChange = (i, newValue) => {
+        let newFormValues = [...theArray];
+        newFormValues[i].value = newValue;
+
+        setTheArray(newFormValues);
     };
 
     return (
@@ -283,14 +319,26 @@ const TopicRecordsPage = (props) => {
                                 if (d.type === 'Text') {
                                     return (
                                         <FormControl fullWidth sx={{ mb: 2 }} variant="filled" key={i}>
-                                            <TextField id="outlined-basic" label={`${d.name}`} variant="outlined" />
+                                            <TextField
+                                                value={theArray[i].value}
+                                                id="outlined-basic"
+                                                label={`${d.name}`}
+                                                variant="outlined"
+                                                onChange={(e) => handleValueChange(i, e)}
+                                            />
                                         </FormControl>
                                     );
                                 }
                                 if (d.type === 'Integer Number') {
                                     return (
                                         <FormControl fullWidth sx={{ mb: 2 }} variant="filled" key={i}>
-                                            <TextField label={`${d.name}`} inputProps={{ inputMode: 'numeric', pattern: '[0-9]*' }} />
+                                            <TextField
+                                                value={theArray[i].value}
+                                                // value={formValues[i].value}
+                                                label={`${d.name}`}
+                                                inputProps={{ inputMode: 'numeric', pattern: '[0-9]*' }}
+                                                onChange={(e) => handleValueChange(i, e)}
+                                            />
                                         </FormControl>
                                     );
                                 }
@@ -301,8 +349,10 @@ const TopicRecordsPage = (props) => {
                                                 <DesktopDatePicker
                                                     label={`${d.name}`}
                                                     inputFormat="MM/dd/yyyy"
-                                                    value={dateValue}
-                                                    onChange={handleDateTimeChange}
+                                                    value={theArray[i].value}
+                                                    // value={formValues[i].value}
+                                                    onChange={(e) => handleDateTimeChange(i, e)}
+                                                    // onChange={handleDateTimeChange(i)}
                                                     renderInput={(params) => <TextField {...params} />}
                                                 />
                                             </LocalizationProvider>
