@@ -1,20 +1,9 @@
 // project imports
-import SubCard from 'ui-component/cards/SubCard';
 import MainCard from 'ui-component/cards/MainCard';
-import SecondaryAction from 'ui-component/cards/CardSecondaryAction';
-import { gridSpacing } from 'store/constant';
-
 import { TextField, FormControl, Divider, Modal } from '@mui/material';
-import AccountCircleIcon from '@mui/icons-material/AccountCircle';
-import { IconNotebook } from '@tabler/icons';
 import React, { useState } from 'react';
-import InputLabel from '@mui/material/InputLabel';
-import MenuItem from '@mui/material/MenuItem';
-import Select from '@mui/material/Select';
 import Fab from '@mui/material/Fab';
 import AddIcon from '@mui/icons-material/Add';
-import CancelIcon from '@mui/icons-material/Cancel';
-import CloseIcon from '@mui/icons-material/Close';
 import EditIcon from '@mui/icons-material/Edit';
 import Button from '@mui/material/Button';
 import Grid from '@mui/material/Grid';
@@ -26,11 +15,6 @@ import Tab from '@mui/material/Tab';
 import Typography from '@mui/material/Typography';
 import SearchIcon from '@mui/icons-material/Search';
 import OutlinedInput from '@mui/material/OutlinedInput';
-import Backdrop from '@mui/material/Backdrop';
-import Fade from '@mui/material/Fade';
-import { BlockPicker, CirclePicker } from 'react-color'; /* https://casesandberg.github.io/react-color/ */
-import Collapse from '@mui/material/Collapse';
-import TopicCardHomepage from './topicCardHomepage';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
@@ -43,7 +27,6 @@ import AdapterDateFns from '@mui/lab/AdapterDateFns';
 import PropTypes from 'prop-types';
 
 import { Link, useLocation, useNavigate, useParams } from 'react-router-dom';
-import TopicCard from './topicCard';
 import { DesktopDatePicker, LocalizationProvider } from '@mui/lab';
 
 function TabPanel(props) {
@@ -87,30 +70,6 @@ const Item = styled(Paper)(({ theme }) => ({
     textAlign: 'center',
     color: theme.palette.text.secondary
 }));
-
-const style = {
-    margin: 0,
-    top: 'auto',
-    right: 20,
-    bottom: 20,
-    left: 'auto',
-    position: 'fixed'
-};
-
-const modalStyle = {
-    position: 'absolute',
-    top: '20%',
-    left: '50%',
-    transform: 'translate(-50%, -50%)',
-    width: 350,
-    bgcolor: 'background.paper',
-    boxShadow: 24,
-    borderRadius: 5,
-    p: 4
-};
-
-// const [this.formValues, setFormValues] = useState([{ name: '', fieldType: '' }]);
-// const [this.topicValues, setTopicValues] = useState([{ topicName: '', topicDescription: '' }]);
 
 const TopicRecordsPage = (props) => {
     const theme = useTheme();
