@@ -25,8 +25,9 @@ const CardWrapper = styled(MainCard)(({ theme, firstcolor, secondcolor, thirdcol
     overflow: 'hidden',
     position: 'relative',
     marginTop: 20,
-    marginLeft: 20,
-    width: 400,
+    marginLeft: 0,
+    marginRight: 0,
+    width: 250,
     '&:after': {
         content: '""',
         position: 'absolute',
@@ -68,7 +69,7 @@ CardWrapper.propTypes = {
 
 // ===========================|| DASHBOARD DEFAULT - EARNING CARD ||=========================== //
 
-const TopicCardHomepage = ({ isLoading, firstcolor, secondcolor, thirdcolor, title }) => {
+const TopicCardHomepageV2 = ({ isLoading, firstcolor, secondcolor, thirdcolor, title }) => {
     const theme = useTheme();
 
     const [anchorEl, setAnchorEl] = useState(null);
@@ -100,21 +101,6 @@ const TopicCardHomepage = ({ isLoading, firstcolor, secondcolor, thirdcolor, tit
                             <Grid item>
                                 <Grid container justifyContent="space-between">
                                     <Grid item>
-                                        <Avatar
-                                            variant="rounded"
-                                            sx={{
-                                                ...theme.typography.commonAvatar,
-                                                ...theme.typography.mediumAvatar,
-                                                // backgroundColor: theme.palette.secondary.dark,
-                                                backgroundColor: thirdcolor,
-                                                color: '#FFFFFF',
-                                                zIndex: 1
-                                            }}
-                                            aria-controls="menu-earning-card"
-                                            aria-haspopup="true"
-                                        >
-                                            <MoreHorizIcon fontSize="inherit" />
-                                        </Avatar>
                                         <Menu
                                             id="menu-earning-card"
                                             anchorEl={anchorEl}
@@ -162,7 +148,7 @@ const TopicCardHomepage = ({ isLoading, firstcolor, secondcolor, thirdcolor, tit
     );
 };
 
-TopicCardHomepage.propTypes = {
+TopicCardHomepageV2.propTypes = {
     isLoading: PropTypes.bool,
     firstcolor: PropTypes.string,
     secondcolor: PropTypes.string,
@@ -170,4 +156,4 @@ TopicCardHomepage.propTypes = {
     title: PropTypes.string
 };
 
-export default TopicCardHomepage;
+export default TopicCardHomepageV2;

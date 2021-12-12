@@ -35,6 +35,8 @@ import { strengthColor, strengthIndicator } from 'utils/password-strength';
 // assets
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
+import { GoogleLogin } from 'react-google-login';
+import FacebookLogin from 'react-facebook-login';
 
 // ===========================|| FIREBASE - REGISTER ||=========================== //
 
@@ -48,6 +50,16 @@ const FirebaseRegister = ({ ...others }) => {
 
     const [strength, setStrength] = useState(0);
     const [level, setLevel] = useState();
+
+    const clientID = '282646887193-mj946se9m6a7qgmkl2npmrjfksbcht6r.apps.googleusercontent.com';
+
+    const facebookHandle = (response) => {
+        console.log(response);
+    };
+
+    const responseFacebook = (response) => {
+        console.log(response);
+    };
 
     const googleHandler = async () => {
         console.error('Register');
@@ -75,6 +87,41 @@ const FirebaseRegister = ({ ...others }) => {
         <>
             <Grid container direction="column" justifyContent="center" spacing={2}>
                 <Grid item xs={12}>
+                    <FormControl fullWidth>
+                        <AnimateButton>
+                            <GoogleLogin
+                                disableElevation
+                                onSuccess={googleHandler}
+                                size="large"
+                                variant="outlined"
+                                cookiePolicy="single_host_origin"
+                                clientId={clientID}
+                                className="googleLoginButton"
+                            >
+                                Sign up with Google
+                            </GoogleLogin>
+                        </AnimateButton>
+                    </FormControl>
+                </Grid>
+                <Grid item xs={12}>
+                    <FormControl fullWidth>
+                        <AnimateButton>
+                            <FacebookLogin
+                                appId="108859793115576"
+                                // autoLoad
+                                size="small"
+                                fields="name,email,picture"
+                                onClick={facebookHandle}
+                                callback={responseFacebook}
+                                // icon="fa-facebook"
+                                cssClass="facebookLoginButton"
+                                textButton="Sign up with Facebook"
+                            />
+                        </AnimateButton>
+                    </FormControl>
+                </Grid>
+                {/*
+                <Grid item xs={12}>
                     <AnimateButton>
                         <Button
                             variant="outlined"
@@ -94,6 +141,7 @@ const FirebaseRegister = ({ ...others }) => {
                         </Button>
                     </AnimateButton>
                 </Grid>
+                */}
                 <Grid item xs={12}>
                     <Box sx={{ alignItems: 'center', display: 'flex' }}>
                         <Divider sx={{ flexGrow: 1 }} orientation="horizontal" />

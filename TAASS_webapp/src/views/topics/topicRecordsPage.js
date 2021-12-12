@@ -81,6 +81,8 @@ const TopicRecordsPage = (props) => {
 
     const [theArray, setTheArray] = useState([]);
 
+    const [topicName, setTopicName] = useState([]);
+
     const location = useLocation();
 
     const params = useParams();
@@ -111,6 +113,11 @@ const TopicRecordsPage = (props) => {
 
     console.log(theArray);
 
+    const handleTopicNameChange = (event, newValue) => {
+        console.log(event.target.value);
+        setTopicName(event.target.value);
+    };
+
     const handleChange = (event, newValue) => {
         setValue(newValue);
     };
@@ -132,6 +139,7 @@ const TopicRecordsPage = (props) => {
         setShow(true);
     };
 
+    /* Add record */
     const [open, setOpen] = React.useState(false);
     const [scroll, setScroll] = React.useState('paper');
 
@@ -156,6 +164,27 @@ const TopicRecordsPage = (props) => {
         console.log(theArray);
 
         // setOpen(false);
+    };
+
+    /* Edit Topic Name */
+    const [openEditTopic, setOpenEditTopic] = React.useState(false);
+    const [scrolEditTopicl, setScrollEditTopic] = React.useState('paper');
+
+    const handleClickOpenEditTopic = (scrollType) => () => {
+        setOpenEditTopic(true);
+        setScrollEditTopic(scrollType);
+    };
+
+    const handleCloseEditTopic = () => {
+        setOpenEditTopic(false);
+    };
+
+    const handleDialogEditTopicSubmit = () => {
+        console.log(`TOPIC MODIFICATO - nuovo nome: ${topicName}`);
+        location.state.item.title = topicName;
+        setOpenEditTopic(false);
+
+        /* Bisogna capire come modificare il valore anche per quanto riguarda l'oggetto che ha il component padre */
     };
 
     const descriptionElementRef = React.useRef(null);
@@ -216,7 +245,12 @@ const TopicRecordsPage = (props) => {
                             <Typography component="span" variant="h2">
                                 <div>{location.state.item.title}</div>
                             </Typography>
-                            <EditIcon className="iconColor mx-4" fontSize="medium" style={{ fill: location.state.item.firstcolor }} />
+                            <EditIcon
+                                className="iconColor mx-4"
+                                fontSize="medium"
+                                style={{ fill: location.state.item.firstcolor, cursor: 'pointer' }}
+                                onClick={handleClickOpenEditTopic('paper')}
+                            />
                         </div>
                     </Grid>
                     <Grid
@@ -298,6 +332,39 @@ const TopicRecordsPage = (props) => {
                 >
                     <AddIcon />
                 </Fab>
+
+                <Dialog
+                    open={openEditTopic}
+                    onClose={handleCloseEditTopic}
+                    scroll={scroll}
+                    aria-labelledby="scroll-dialog-title"
+                    aria-describedby="scroll-dialog-description"
+                >
+                    <DialogTitle id="scroll-dialog-title">
+                        <div>
+                            <Typography component="span" variant="h2">
+                                <div>Edit Topic - {state.item.title}</div>
+                            </Typography>
+                        </div>
+                    </DialogTitle>
+                    <DialogContent dividers={scroll === 'paper'}>
+                        <DialogContentText id="scroll-dialog-description" ref={descriptionElementRef} tabIndex={-1}>
+                            <FormControl fullWidth sx={{ mb: 2 }} variant="filled">
+                                <TextField
+                                    value={topicName}
+                                    id="outlined-basic"
+                                    label="Topic name"
+                                    variant="outlined"
+                                    onChange={handleTopicNameChange}
+                                />
+                            </FormControl>
+                        </DialogContentText>
+                    </DialogContent>
+                    <DialogActions>
+                        <Button onClick={handleCloseEditTopic}>Cancel</Button>
+                        <Button onClick={handleDialogEditTopicSubmit}>Submit</Button>
+                    </DialogActions>
+                </Dialog>
 
                 <Dialog
                     open={open}

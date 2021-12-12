@@ -74,11 +74,11 @@ class AddTopic extends React.Component {
         this.setState({ background: color.hex });
 
         console.log(color.hex);
-        let firstColor = this.lightDarkColor(color.hex.substring(1), +30);
-        let secondColor = this.lightDarkColor(color.hex.substring(1), +20);
+        let firstcolor = this.lightDarkColor(color.hex.substring(1), +30);
+        let secondcolor = this.lightDarkColor(color.hex.substring(1), +20);
 
-        this.setState({ firstDarkBackground: `#${firstColor}` });
-        this.setState({ secondDarkBackground: `#${secondColor}` });
+        this.setState({ firstDarkBackground: `#${firstcolor}` });
+        this.setState({ secondDarkBackground: `#${secondcolor}` });
 
         console.log(this.state.background);
         console.log(this.state.firstDarkBackground);

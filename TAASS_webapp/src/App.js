@@ -13,7 +13,7 @@ import themes from 'themes';
 import NavigationScroll from 'layout/NavigationScroll';
 
 import './styles/scss/nextjs-material-kit.scss';
-
+import 'bootstrap/dist/css/bootstrap.min.css';
 // ==============================|| APP ||============================== //
 
 const App = () => {

@@ -2,7 +2,8 @@ import { useState } from 'react';
 import { useSelector } from 'react-redux';
 // eslint-disable-next-line import/no-unresolved
 import { GoogleLogin } from 'react-google-login';
-import { FacebookLogin } from 'react-facebook-login';
+
+import { styled } from '@mui/system';
 
 // material-ui
 import { useTheme } from '@mui/material/styles';
@@ -20,6 +21,7 @@ import {
     InputLabel,
     OutlinedInput,
     Stack,
+    TextField,
     Typography,
     useMediaQuery
 } from '@mui/material';
@@ -35,6 +37,10 @@ import AnimateButton from 'ui-component/extended/AnimateButton';
 // assets
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
+import { useNavigate } from 'react-router-dom';
+import FacebookLogin from 'react-facebook-login';
+import Google from 'assets/images/icons/social-google.svg';
+import Facebook from 'assets/images/icons/social-facebook.svg';
 
 // ============================|| FIREBASE - LOGIN ||============================ //
 
@@ -44,13 +50,27 @@ const FirebaseLogin = ({ ...others }) => {
     const matchDownSM = useMediaQuery(theme.breakpoints.down('md'));
     const customization = useSelector((state) => state.customization);
     const [checked, setChecked] = useState(true);
+    const navigate = useNavigate();
 
     const googleHandler = (response) => {
         console.log(response);
     };
 
-    const facebookHandle = (responce) => {
-        console.log(responce);
+    const facebookHandle = (response) => {
+        console.log(response);
+    };
+
+    const responseFacebook = (response) => {
+        console.log(response);
+    };
+
+    const handleLogin = async () => {
+        console.log('Logout');
+
+        /* TODO: qua bisogna gestire il logout */
+        /* GESTIRE LA SESSIONE UTENTE */
+
+        navigate('/topics', { replace: false });
     };
 
     const clientID = '282646887193-mj946se9m6a7qgmkl2npmrjfksbcht6r.apps.googleusercontent.com';
@@ -64,33 +84,42 @@ const FirebaseLogin = ({ ...others }) => {
         event.preventDefault();
     };
 
-    /*
-    <Grid item xs={12}>
-                    <AnimateButton>
-                        <FacebookLogin appId="108859793115576" fields="name,email,picture" callback={facebookHandle}>
-                            Sign in with Facebook
-                        </FacebookLogin>
-                    </AnimateButton>
-     </Grid>
-     */
-
     return (
         <>
             <Grid container direction="column" justifyContent="center" spacing={2}>
                 <Grid item xs={12}>
-                    <AnimateButton>
-                        <GoogleLogin
-                            disableElevation
-                            fullWidth
-                            onSuccess={googleHandler}
-                            size="large"
-                            variant="outlined"
-                            cookiePolicy="single_host_origin"
-                            clientId={clientID}
-                        >
-                            Sign in with Google
-                        </GoogleLogin>
-                    </AnimateButton>
+                    <FormControl fullWidth>
+                        <AnimateButton>
+                            <GoogleLogin
+                                disableElevation
+                                onSuccess={googleHandler}
+                                size="large"
+                                variant="outlined"
+                                cookiePolicy="single_host_origin"
+                                clientId={clientID}
+                                className="googleLoginButton"
+                            >
+                                Sign in with Google
+                            </GoogleLogin>
+                        </AnimateButton>
+                    </FormControl>
+                </Grid>
+                <Grid item xs={12}>
+                    <FormControl fullWidth>
+                        <AnimateButton>
+                            <FacebookLogin
+                                appId="108859793115576"
+                                // autoLoad
+                                size="small"
+                                fields="name,email,picture"
+                                onClick={facebookHandle}
+                                callback={responseFacebook}
+                                // icon="fa-facebook"
+                                cssClass="facebookLoginButton"
+                                textButton="Sign in with Facebook"
+                            />
+                        </AnimateButton>
+                    </FormControl>
                 </Grid>
                 <Grid item xs={12}>
                     <Box
@@ -243,6 +272,7 @@ const FirebaseLogin = ({ ...others }) => {
                                     type="submit"
                                     variant="contained"
                                     color="secondary"
+                                    onClick={handleLogin}
                                 >
                                     Sign in
                                 </Button>

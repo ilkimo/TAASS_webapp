@@ -10,6 +10,8 @@ import AuthCardWrapper from '../AuthCardWrapper';
 import Logo from 'ui-component/Logo';
 import AuthRegister from '../auth-forms/AuthRegister';
 import AuthFooter from 'ui-component/cards/AuthFooter';
+import MuiTypography from '@mui/material/Typography';
+import React from 'react';
 
 // assets
 
@@ -28,8 +30,9 @@ const Register = () => {
                             <AuthCardWrapper>
                                 <Grid container spacing={2} alignItems="center" justifyContent="center">
                                     <Grid item sx={{ mb: 3 }}>
-                                        <Link to="#">
-                                            <Logo />
+                                        <Link to="/" style={{ textDecoration: 'none' }}>
+                                            {/* <Logo /> */}
+                                            <MuiTypography variant="h2">DATAHUB</MuiTypography>
                                         </Link>
                                     </Grid>
                                     <Grid item xs={12}>
