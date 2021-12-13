@@ -90,28 +90,12 @@ export const options = {
         },
         title: {
             display: true,
-            text: 'Chart.js Bar Chart'
+            text: 'Number of record added in each month'
         }
     }
 };
 
-const labels = ['January', 'February', 'March', 'April', 'May', 'June', 'July'];
-
-export const data = {
-    labels,
-    datasets: [
-        {
-            label: 'Dataset 1',
-            data: [10, 20, 30, 40, 50, 60],
-            backgroundColor: 'rgba(255, 99, 132, 0.5)'
-        },
-        {
-            label: 'Dataset 2',
-            data: [10, 20, 30, 40, 50, 60],
-            backgroundColor: 'rgba(53, 162, 235, 0.5)'
-        }
-    ]
-};
+const labels = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
 
 const TopicRecordsPage = (props) => {
     const theme = useTheme();
@@ -157,6 +141,18 @@ const TopicRecordsPage = (props) => {
             console.log(recordDetails);
         });
     }
+
+    /* TODO: costruire questa struttura andando a contare quanti record sono stati inseriti in ogni mese */
+    const data = {
+        labels,
+        datasets: [
+            {
+                label: 'Dataset 1',
+                data: [10, 20, 30, 40, 50, 60, 0, 0, 0, 0, 0, 2],
+                backgroundColor: location.state.item.thirdcolor
+            }
+        ]
+    };
 
     const handleTopicNameChange = (event, newValue) => {
         setTopicName(event.target.value);
@@ -396,8 +392,8 @@ const TopicRecordsPage = (props) => {
                                 : 'Non ci sono record inseriti'}
                         </TabPanel>
                         <TabPanel value={value} index={1}>
-                            Performance
-                            <Bar options={options} data={data} />;
+                            {/* Performance */}
+                            <Bar options={options} data={data} />
                         </TabPanel>
                         {/*
 
