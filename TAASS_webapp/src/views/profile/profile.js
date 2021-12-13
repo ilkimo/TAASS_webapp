@@ -32,17 +32,17 @@ const Profile = () => (
                     <Col xs={6} lg={6}>
                         <div className="row">
                             <FormControl fullWidth sx={{ mb: 2 }} variant="filled">
-                                <TextField id="outlined-basic" label="Username" variant="outlined" />
+                                <TextField id="username" label="Username" variant="outlined" />
                             </FormControl>
                         </div>
                         <div className="row">
                             <FormControl fullWidth sx={{ mb: 2 }} variant="filled">
-                                <TextField id="outlined-basic" label="Email" variant="outlined" />
+                                <TextField id="email" label="Email" variant="outlined" />
                             </FormControl>
                         </div>
                         <div className="row">
                             <FormControl fullWidth sx={{ mb: 2 }} variant="filled">
-                                <TextField id="outlined-basic" label="Password" type="password" variant="outlined" />
+                                <TextField id="password" label="Password" type="password" variant="outlined" />
                             </FormControl>
                         </div>
                     </Col>
