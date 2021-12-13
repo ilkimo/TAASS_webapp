@@ -393,7 +393,11 @@ const TopicRecordsPage = (props) => {
                         </TabPanel>
                         <TabPanel value={value} index={1}>
                             {/* Performance */}
-                            <Bar options={options} data={data} />
+                            <Grid container>
+                                <Grid item lg={9} md={12} s={12} xs={12}>
+                                    <Bar options={options} data={data} />
+                                </Grid>
+                            </Grid>
                         </TabPanel>
                         {/*
 
