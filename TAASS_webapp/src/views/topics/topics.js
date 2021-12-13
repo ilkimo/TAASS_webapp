@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 // material-ui
 import { FormControl, Grid } from '@mui/material';
@@ -16,6 +16,7 @@ import EarningCard from '../dashboard/Default/EarningCard';
 import TotalOrderLineChartCard from '../dashboard/Default/TotalOrderLineChartCard';
 import TotalIncomeDarkCard from '../dashboard/Default/TotalIncomeDarkCard';
 import TotalIncomeLightCard from '../dashboard/Default/TotalIncomeLightCard';
+import MuiTypography from '@mui/material/Typography';
 
 // ==============================|| DEFAULT DASHBOARD ||============================== //
 
@@ -38,6 +39,12 @@ const fakeTopics = [
             { name: 'Title', type: 'Text' },
             { name: 'Data', type: 'Date' },
             { name: 'Minutes of rest', type: 'Integer Number' }
+        ],
+        records: [
+            { values: ['Allenamento 1', '12-12-2021', 30] },
+            { values: ['Allenamento 2', '12-16-2021', 10] },
+            { values: ['Allenamento 3', '12-11-2021', 20] },
+            { values: ['Allenamento 4', '12-10-2021', 40] }
         ]
     },
     {
@@ -48,7 +55,8 @@ const fakeTopics = [
         data: [
             { name: 'Title', type: 'Text' },
             { name: 'Minutes of rest', type: 'Integer Number' }
-        ]
+        ],
+        records: []
     },
     {
         firstcolor: '#4caf50',
@@ -58,14 +66,16 @@ const fakeTopics = [
         data: [
             { name: 'Title', type: 'Text' },
             { name: 'Data', type: 'Date' }
-        ]
+        ],
+        records: []
     },
     {
         firstcolor: '#ff9800',
         secondcolor: '#ffb61e',
         thirdcolor: '#ffac14',
         title: 'Films',
-        data: [{ name: 'Title', type: 'Text' }]
+        data: [{ name: 'Title', type: 'Text' }],
+        records: []
     },
     {
         firstcolor: '#4caf50',
@@ -75,7 +85,8 @@ const fakeTopics = [
         data: [
             { name: 'Title', type: 'Text' },
             { name: 'Data', type: 'Date' }
-        ]
+        ],
+        records: []
     },
     {
         firstcolor: '#f44336',
@@ -85,7 +96,8 @@ const fakeTopics = [
         data: [
             { name: 'Data', type: 'Date' },
             { name: 'Minutes of rest', type: 'Integer Number' }
-        ]
+        ],
+        records: []
     },
     {
         firstcolor: '#2196f3',
@@ -95,9 +107,14 @@ const fakeTopics = [
         data: [
             { name: 'Title', type: 'Text' },
             { name: 'Minutes of rest', type: 'Integer Number' }
-        ]
+        ],
+        records: []
     }
 ];
+
+const changeTopicNameHandler = (index, oldName, newName) => {
+    fakeTopics[index].title = newName;
+};
 
 const Topics = (props) => {
     const [isLoading, setLoading] = useState(true);
@@ -110,16 +127,23 @@ const Topics = (props) => {
             {/* <HomeSlider /> */}
 
             <Grid container>
+                <Grid item xs={12} style={{ marginLeft: 20, marginTop: 20 }}>
+                    <MuiTypography variant="h2">Your Topics</MuiTypography>
+                </Grid>
                 <Grid item xs={12}>
                     <Grid container>
                         {fakeTopics.map((topic, i) => (
                             <Grid item key={i} xs={12} sm={6} md={6} lg={4}>
                                 <Link
                                     to={{
-                                        pathname: '/topicRecordsPage/',
+                                        pathname: '/topicRecordsPage/'
+                                        /*
                                         state: {
-                                            item: topic
+                                            item: topic,
+                                            handlerNameChange: changeTopicNameHandler
                                         }
+                                      
+                                         */
                                     }}
                                     state={{ item: topic }}
                                     style={{ textDecoration: 'none' }}
