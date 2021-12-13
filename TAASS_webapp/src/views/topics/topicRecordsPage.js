@@ -22,6 +22,7 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import AdapterDateFns from '@mui/lab/AdapterDateFns';
+// eslint-disable-next-line import/no-extraneous-dependencies
 
 // ==============================|| TYPOGRAPHY ||============================== //
 import PropTypes from 'prop-types';
@@ -29,6 +30,8 @@ import PropTypes from 'prop-types';
 import { Link, useLocation, useNavigate, useParams } from 'react-router-dom';
 import { DesktopDatePicker, LocalizationProvider } from '@mui/lab';
 import { forEach } from 'react-bootstrap/ElementChildren';
+import TopicCard from './topicCard';
+import TopicRecordCard from './topicRecordCard';
 
 function TabPanel(props) {
     const { children, value, index, ...other } = props;
@@ -72,6 +75,37 @@ const Item = styled(Paper)(({ theme }) => ({
     color: theme.palette.text.secondary
 }));
 
+const data = [
+    {
+        day: 'Monday',
+        degress: 59
+    },
+    {
+        day: 'Tuesday',
+        degress: 61
+    },
+    {
+        day: 'Wednesday',
+        degress: 55
+    },
+    {
+        day: 'Thursday',
+        degress: 78
+    },
+    {
+        day: 'Friday',
+        degress: 71
+    },
+    {
+        day: 'Saturday',
+        degress: 56
+    },
+    {
+        day: 'Sunday',
+        degress: 67
+    }
+];
+
 const TopicRecordsPage = (props) => {
     const theme = useTheme();
 
@@ -81,14 +115,13 @@ const TopicRecordsPage = (props) => {
 
     const [theArray, setTheArray] = useState([]);
 
+    const [recordDetails, setRecordDetails] = useState([]);
+
     const [topicName, setTopicName] = useState([]);
 
     const location = useLocation();
 
     const params = useParams();
-    console.log(props);
-
-    console.log(location);
 
     const state = location.state;
 
@@ -96,8 +129,6 @@ const TopicRecordsPage = (props) => {
 
     if (theArray.length === 0) {
         state.item.data.forEach((element) => {
-            console.log(element.type);
-
             if (element.type === 'Text') {
                 theArray.push({ value: 'initial value' });
             } else if (element.type === 'Integer Number') {
@@ -106,15 +137,21 @@ const TopicRecordsPage = (props) => {
                 theArray.push({ value: new Date() });
             }
 
+            if (element.type === 'Text') {
+                recordDetails.push({ value: '' });
+            } else if (element.type === 'Integer Number') {
+                recordDetails.push({ value: 0 });
+            } else if (element.type === 'Date') {
+                recordDetails.push({ value: new Date() });
+            }
+
             // console.log(element.name);
-            // console.log(theArray);
+            console.log(theArray);
+            console.log(recordDetails);
         });
     }
 
-    console.log(theArray);
-
     const handleTopicNameChange = (event, newValue) => {
-        console.log(event.target.value);
         setTopicName(event.target.value);
     };
 
@@ -143,6 +180,10 @@ const TopicRecordsPage = (props) => {
     const [open, setOpen] = React.useState(false);
     const [scroll, setScroll] = React.useState('paper');
 
+    /**/
+    const [openRecordDetails, setOpenRecordDetails] = React.useState(false);
+    const [scrollRecordDetails, setScrollRecordDetails] = React.useState('paper');
+
     const handleClickOpen = (scrollType) => () => {
         setOpen(true);
         setScroll(scrollType);
@@ -150,6 +191,19 @@ const TopicRecordsPage = (props) => {
 
     const handleClose = () => {
         setOpen(false);
+    };
+
+    const handleClickOpenRecord = (scrollType, record) => () => {
+        for (let i = 0; i < recordDetails.length; i += 1) {
+            recordDetails[i].value = record.values[i];
+        }
+
+        setOpenRecordDetails(true);
+        setScrollRecordDetails(scrollType);
+    };
+
+    const handleCloseRecord = () => {
+        setOpenRecordDetails(false);
     };
 
     const handleValueChange = (i, e) => {
@@ -168,7 +222,7 @@ const TopicRecordsPage = (props) => {
 
     /* Edit Topic Name */
     const [openEditTopic, setOpenEditTopic] = React.useState(false);
-    const [scrolEditTopicl, setScrollEditTopic] = React.useState('paper');
+    const [scrollEditTopic, setScrollEditTopic] = React.useState('paper');
 
     const handleClickOpenEditTopic = (scrollType) => () => {
         setOpenEditTopic(true);
@@ -181,6 +235,15 @@ const TopicRecordsPage = (props) => {
 
     const handleDialogEditTopicSubmit = () => {
         console.log(`TOPIC MODIFICATO - nuovo nome: ${topicName}`);
+
+        console.log('STATE');
+        console.log(location.state);
+
+        console.log('ITEM');
+        console.log(location.state.item);
+
+        // location.state.item.nameChangeHandler(0, location.state.item.title, topicName);
+
         location.state.item.title = topicName;
         setOpenEditTopic(false);
 
@@ -301,7 +364,29 @@ const TopicRecordsPage = (props) => {
                             </Tabs>
                         </Box>
                         <TabPanel value={value} index={0}>
-                            I miei {location.state.item.title}
+                            {/* I miei {location.state.item.title} */}
+
+                            {state.item.records.length > 0
+                                ? state.item.records.map((record, i) => (
+                                      <Grid
+                                          item
+                                          key={record}
+                                          xs={12}
+                                          sm={12}
+                                          md={6}
+                                          lg={6}
+                                          onClick={handleClickOpenRecord('paper', record)}
+                                      >
+                                          <TopicRecordCard
+                                              firstcolor={state.item.firstcolor}
+                                              secondcolor={state.item.secondcolor}
+                                              thirdcolor={state.item.thirdcolor}
+                                              title={record.values[0]}
+                                              date={record.values[1]}
+                                          />
+                                      </Grid>
+                                  ))
+                                : 'Non ci sono record inseriti'}
                         </TabPanel>
                         <TabPanel value={value} index={1}>
                             Performance
@@ -382,7 +467,7 @@ const TopicRecordsPage = (props) => {
                     </DialogTitle>
                     <DialogContent dividers={scroll === 'paper'}>
                         <DialogContentText id="scroll-dialog-description" ref={descriptionElementRef} tabIndex={-1}>
-                            {state.item.data.map(function (d, i) {
+                            {state.item.data.map((d, i) => {
                                 if (d.type === 'Text') {
                                     return (
                                         <FormControl fullWidth sx={{ mb: 2 }} variant="filled" key={i}>
@@ -434,6 +519,72 @@ const TopicRecordsPage = (props) => {
                         <Button onClick={handleClose}>Cancel</Button>
                         <Button onClick={handleDialogSubmit}>Submit</Button>
                     </DialogActions>
+                </Dialog>
+
+                <Dialog
+                    open={openRecordDetails}
+                    onClose={handleCloseRecord}
+                    scroll={scrollRecordDetails}
+                    aria-labelledby="scroll-dialog-title"
+                    aria-describedby="scroll-dialog-description"
+                >
+                    <DialogTitle id="scroll-dialog-title">
+                        <div>
+                            <Typography component="span" variant="h2">
+                                <div>Record Details - {recordDetails[0].value}</div>
+                            </Typography>
+                        </div>
+                    </DialogTitle>
+                    <DialogContent dividers={scroll === 'paper'}>
+                        <DialogContentText id="scroll-dialog-description" ref={descriptionElementRef} tabIndex={-1}>
+                            {state.item.data.map((d, i) => {
+                                if (d.type === 'Text') {
+                                    return (
+                                        <FormControl fullWidth sx={{ mb: 2 }} variant="filled" key={i}>
+                                            <TextField
+                                                value={recordDetails[i].value}
+                                                id="outlined-basic"
+                                                label={`${d.name}`}
+                                                variant="outlined"
+                                                onChange={(e) => handleValueChange(i, e)}
+                                            />
+                                        </FormControl>
+                                    );
+                                }
+                                if (d.type === 'Integer Number') {
+                                    return (
+                                        <FormControl fullWidth sx={{ mb: 2 }} variant="filled" key={i}>
+                                            <TextField
+                                                value={recordDetails[i].value}
+                                                // value={formValues[i].value}
+                                                label={`${d.name}`}
+                                                inputProps={{ inputMode: 'numeric', pattern: '[0-9]*' }}
+                                                onChange={(e) => handleValueChange(i, e)}
+                                            />
+                                        </FormControl>
+                                    );
+                                }
+                                if (d.type === 'Date') {
+                                    return (
+                                        <FormControl fullWidth sx={{ mb: 2 }}>
+                                            <LocalizationProvider dateAdapter={AdapterDateFns} key={i}>
+                                                <DesktopDatePicker
+                                                    label={`${d.name}`}
+                                                    inputFormat="MM/dd/yyyy"
+                                                    value={recordDetails[i].value}
+                                                    // value={formValues[i].value}
+                                                    onChange={(e) => handleDateTimeChange(i, e)}
+                                                    // onChange={handleDateTimeChange(i)}
+                                                    renderInput={(params) => <TextField {...params} />}
+                                                />
+                                            </LocalizationProvider>
+                                        </FormControl>
+                                    );
+                                }
+                                return <FormControl fullWidth sx={{ mb: 2 }} variant="filled" key={i} />;
+                            })}
+                        </DialogContentText>
+                    </DialogContent>
                 </Dialog>
             </MainCard>
         </>

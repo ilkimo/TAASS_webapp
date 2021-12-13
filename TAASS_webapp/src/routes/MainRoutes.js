@@ -5,6 +5,7 @@ import MainLayout from 'layout/MainLayout';
 import Loadable from 'ui-component/Loadable';
 import TopicRecordsPage from '../views/topics/topicRecordsPage';
 import HomepageNotLogged from '../views/homeNotLogged/homepageNotLogged';
+import SharedTopicsOfUsers from '../views/topics/sharedTopicsOfUsers';
 
 // dashboard routing
 const DashboardDefault = Loadable(lazy(() => import('views/dashboard/Default')));
@@ -62,6 +63,10 @@ const MainRoutes = {
         {
             path: '/topics',
             element: <Topics />
+        },
+        {
+            path: '/sharedTopicsOfUsers',
+            element: <SharedTopicsOfUsers />
         },
         {
             path: '/addTopic',
