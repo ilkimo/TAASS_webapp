@@ -108,13 +108,13 @@ const TopicRecordsPage = (props) => {
 
     const [recordDetails, setRecordDetails] = useState([]);
 
-    const [topicName, setTopicName] = useState([]);
-
     const location = useLocation();
 
     const params = useParams();
 
     const state = location.state;
+
+    const [topicName, setTopicName] = useState([state.item.title]);
 
     const formValues = [];
 
@@ -147,7 +147,7 @@ const TopicRecordsPage = (props) => {
         labels,
         datasets: [
             {
-                label: 'Dataset 1',
+                label: `I miei ${state.item.title}`,
                 data: [10, 20, 30, 40, 50, 60, 0, 0, 0, 0, 0, 2],
                 backgroundColor: location.state.item.thirdcolor
             }
@@ -273,7 +273,7 @@ const TopicRecordsPage = (props) => {
     };
 
     return (
-        <>
+        <div>
             <MainCard>
                 <Grid container spacing={2}>
                     <Grid
@@ -429,7 +429,7 @@ const TopicRecordsPage = (props) => {
                 <Dialog
                     open={openEditTopic}
                     onClose={handleCloseEditTopic}
-                    scroll={scroll}
+                    scroll={scrollEditTopic}
                     aria-labelledby="scroll-dialog-title"
                     aria-describedby="scroll-dialog-description"
                 >
@@ -440,7 +440,7 @@ const TopicRecordsPage = (props) => {
                             </Typography>
                         </div>
                     </DialogTitle>
-                    <DialogContent dividers={scroll === 'paper'}>
+                    <DialogContent dividers={scrollEditTopic === 'paper'}>
                         <DialogContentText id="scroll-dialog-description" ref={descriptionElementRef} tabIndex={-1}>
                             <FormControl fullWidth sx={{ mb: 2 }} variant="filled">
                                 <TextField
@@ -595,7 +595,7 @@ const TopicRecordsPage = (props) => {
                     </DialogContent>
                 </Dialog>
             </MainCard>
-        </>
+        </div>
     );
 };
 
