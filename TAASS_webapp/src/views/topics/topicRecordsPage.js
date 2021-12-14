@@ -359,7 +359,7 @@ const TopicRecordsPage = (props) => {
                                 <FormControlLabel
                                     value="start"
                                     control={<Switch color="primary" checked={shareTopicsChecked} onChange={handleShareSwitchChange} />}
-                                    label="Share Topics with others"
+                                    label="Share this topic with others users"
                                     labelPlacement="start"
                                 />
                             </FormGroup>
