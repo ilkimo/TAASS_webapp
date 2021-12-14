@@ -1,6 +1,6 @@
 // project imports
 import MainCard from 'ui-component/cards/MainCard';
-import { TextField, FormControl, Divider, Modal } from '@mui/material';
+import { TextField, FormControl, Divider, Modal, FormLabel, FormGroup, FormControlLabel, Switch } from '@mui/material';
 import React, { useState } from 'react';
 import Fab from '@mui/material/Fab';
 import AddIcon from '@mui/icons-material/Add';
@@ -272,6 +272,12 @@ const TopicRecordsPage = (props) => {
         setTheArray(newFormValues);
     };
 
+    const [shareTopicsChecked, setShareTopicsChecked] = React.useState(false);
+
+    const handleShareSwitchChange = (event) => {
+        setShareTopicsChecked(event.target.checked);
+    };
+
     return (
         <div>
             <MainCard>
@@ -311,6 +317,7 @@ const TopicRecordsPage = (props) => {
                             <Typography component="span" variant="h2">
                                 <div>{location.state.item.title}</div>
                             </Typography>
+
                             <EditIcon
                                 className="iconColor mx-4"
                                 fontSize="medium"
@@ -341,6 +348,21 @@ const TopicRecordsPage = (props) => {
                                 }}
                                 size="small"
                             />
+                        </FormControl>
+                    </Grid>
+                </Grid>
+                <Grid container>
+                    <Grid item>
+                        <FormControl component="fieldset">
+                            <FormLabel component="legend" />
+                            <FormGroup aria-label="position" row>
+                                <FormControlLabel
+                                    value="start"
+                                    control={<Switch color="primary" checked={shareTopicsChecked} onChange={handleShareSwitchChange} />}
+                                    label="Share Topics with others"
+                                    labelPlacement="start"
+                                />
+                            </FormGroup>
                         </FormControl>
                     </Grid>
                 </Grid>

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 
 // material-ui
-import { FormControl, Grid } from '@mui/material';
+import { FilledInput, FormControl, Grid, IconButton, InputAdornment, InputLabel } from '@mui/material';
 
 // project imports
 
@@ -16,7 +16,15 @@ import EarningCard from '../dashboard/Default/EarningCard';
 import TotalOrderLineChartCard from '../dashboard/Default/TotalOrderLineChartCard';
 import TotalIncomeDarkCard from '../dashboard/Default/TotalIncomeDarkCard';
 import TotalIncomeLightCard from '../dashboard/Default/TotalIncomeLightCard';
-import MuiTypography from '@mui/material/Typography';
+import SharedTopicCard from './sharedTopicCard';
+import Dialog from '@mui/material/Dialog';
+import DialogTitle from '@mui/material/DialogTitle';
+import Typography from '@mui/material/Typography';
+import DialogContent from '@mui/material/DialogContent';
+import DialogContentText from '@mui/material/DialogContentText';
+import { Visibility, VisibilityOff } from '@mui/icons-material';
+import DialogActions from '@mui/material/DialogActions';
+import Button from '@mui/material/Button';
 
 // ==============================|| DEFAULT DASHBOARD ||============================== //
 
@@ -80,69 +88,102 @@ const fakeTopics = [
     }
 ];
 
-const changeTopicNameHandler = (index, oldName, newName) => {
-    fakeTopics[index].title = newName;
-};
-
 const SharedTopicsOfUsers = (props) => {
     const [isLoading, setLoading] = useState(true);
     useEffect(() => {
         setLoading(false);
     }, []);
 
-    return (
-        <Grid container spacing={gridSpacing}>
-            {/* <HomeSlider /> */}
+    /*
+    const [openTopicDetails, setOpenTopicDetails] = React.useState(false);
+    const [scrollTopicDetails, setScrollTopicDetails] = React.useState('paper');
 
-            <Grid container>
-                <Grid item xs={12} style={{ marginLeft: 20, marginTop: 20 }}>
-                    <MuiTypography variant="h2">Topics of other users</MuiTypography>
-                </Grid>
-                <Grid item xs={12}>
-                    <Grid container>
-                        {fakeTopics.map((topic, i) => (
-                            <Grid item key={i} xs={12} sm={6} md={6} lg={4}>
-                                <Link
-                                    to={{
-                                        pathname: '/topicRecordsPage/'
-                                        /*
-                                        state: {
-                                            item: topic,
-                                            handlerNameChange: changeTopicNameHandler
-                                        }
-                                      
-                                         */
-                                    }}
-                                    state={{ item: topic }}
-                                    style={{ textDecoration: 'none' }}
-                                >
-                                    <TopicCard
+    const handleClickOpenTopicDetails = (scrollType) => () => {
+        console.log('APRO');
+        setOpenTopicDetails(true);
+        setScrollTopicDetails(scrollType);
+    };
+
+    const handleCloseTopicDetails = () => {
+        setOpenTopicDetails(false);
+    };
+    */
+
+    return (
+        <>
+            <Grid container spacing={gridSpacing}>
+                <Grid container>
+                    <Grid item xs={12} style={{ marginLeft: 20, marginTop: 20 }}>
+                        <Typography variant="h2">Topics of other users</Typography>
+                    </Grid>
+                    <Grid item xs={12}>
+                        <Grid container>
+                            {fakeTopics.map((topic, i) => (
+                                <Grid item key={i} xs={12} sm={6} md={6} lg={4}>
+                                    <SharedTopicCard
                                         key={i}
                                         firstcolor={topic.firstcolor}
                                         secondcolor={topic.secondcolor}
                                         thirdcolor={topic.thirdcolor}
                                         title={topic.title}
                                     />
-                                </Link>
-                            </Grid>
-                        ))}
+                                </Grid>
+                            ))}
+                        </Grid>
                     </Grid>
                 </Grid>
+
+                <Grid container spacing={gridSpacing}>
+                    <Grid item xs={12}>
+                        <Grid container spacing={gridSpacing}>
+                            <Grid item lg={4} md={6} sm={6} xs={12} />
+                        </Grid>
+                    </Grid>
+                </Grid>
+                <Link to="/addTopic/">
+                    <Fab color="primary" aria-label="add" style={style}>
+                        <AddIcon />
+                    </Fab>
+                </Link>
             </Grid>
 
-            <Grid container spacing={gridSpacing}>
-                <Grid item xs={12}>
-                    <Grid container spacing={gridSpacing}>
-                        <Grid item lg={4} md={6} sm={6} xs={12} />
+            {/*
+            <Dialog
+                open={openTopicDetails}
+                onClose={handleCloseTopicDetails}
+                scroll={scrollTopicDetails}
+                aria-labelledby="scroll-dialog-title"
+                aria-describedby="scroll-dialog-description"
+            >
+                <DialogTitle id="scroll-dialog-title">
+                    <div>
+                        <Typography component="span" variant="h2">
+                            <div>Topic Details</div>
+                        </Typography>
+                    </div>
+                </DialogTitle>
+                <DialogContent dividers={scrollTopicDetails === 'paper'}>
+                    <Grid container>
+                        <Grid item xs={12} s={6} md={6} lg={6}>
+                            <Typography component="span" variant="h4">
+                                <div>Owner: Owner name</div>
+                            </Typography>
+                        </Grid>
+                        <Grid item xs={12} s={6} md={6} lg={6}>
+                            <Typography component="span" variant="h4">
+                                <div>Topic name: topic name</div>
+                            </Typography>
+                        </Grid>
                     </Grid>
-                </Grid>
-            </Grid>
-            <Link to="/addTopic/">
-                <Fab color="primary" aria-label="add" style={style}>
-                    <AddIcon />
-                </Fab>
-            </Link>
-        </Grid>
+                    <Grid container sx={{ mt: 3 }}>
+                        <Typography component="span" variant="body1">
+                            <div>Topic has this structure:</div>
+                        </Typography>
+                    </Grid>
+                </DialogContent>
+            </Dialog>
+            */}
+        </>
     );
 };
 
