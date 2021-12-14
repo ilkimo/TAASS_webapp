@@ -26,7 +26,6 @@ const Profile = () => {
     /* Edit Topic Name */
     const [openEditPassword, setOpenEditPassword] = React.useState(false);
     const [scrollEditPassword, setScrollEditPassword] = React.useState('paper');
-    const [password, setPassword] = useState('Qua va messa la password iniziale');
 
     const handleClickOpenEditTopic = (scrollType) => () => {
         setOpenEditPassword(true);
@@ -153,6 +152,7 @@ const Profile = () => {
                     </Grid>
                 </div>
             </MainCard>
+
             <Dialog
                 open={openEditPassword}
                 onClose={handleCloseEditTopic}
