@@ -115,6 +115,7 @@ const FirebaseRegister = ({ ...others }) => {
             success(data) {
                 console.log(data); // TODO: capire, qua non c'è nulla!
                 if (data.status === 'OK') console.log('Person has been added');
+                // TODO: fare in modo che venga ritornato un ok dal server
                 else console.log(`Failed adding person: ${data.status}, ${data.errorMessage}`);
             },
             error(data) {

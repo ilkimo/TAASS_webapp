@@ -34,7 +34,8 @@ import { Formik } from 'formik';
 import useScriptRef from 'hooks/useScriptRef';
 import AnimateButton from 'ui-component/extended/AnimateButton';
 
-import $ from 'jquery';
+import * as $ from 'jquery';
+import 'jquery.soap';
 
 // assets
 import Visibility from '@mui/icons-material/Visibility';
@@ -67,8 +68,6 @@ const FirebaseLogin = ({ ...others }) => {
     };
 
     const handleLogin = async (values) => {
-        console.log('Logout');
-
         console.log(values);
 
         console.log(values.email);
@@ -83,16 +82,33 @@ const FirebaseLogin = ({ ...others }) => {
 
         console.log(JSON.stringify(user));
 
+        $.soap({
+            url: 'http://localhost:8080/api/v1/users/login',
+            data: JSON.stringify(user),
+            dataType: 'json',
+            success(soapResponse) {
+                // do stuff with soapResponse
+                // if you want to have the response as JSON use soapResponse.toJSON();
+                // or soapResponse.toString() to get XML string
+                // or soapResponse.toXML() to get XML DOM
+            },
+            error(SOAPResponse) {
+                // show error
+            }
+        });
+
+        /*
         $.ajax({
             type: 'GET',
             url: 'http://localhost:8080/api/v1/users/login',
             data: JSON.stringify(user),
+            dataType: 'json',
             headers: {
                 Accept: 'application/json',
                 'Content-Type': 'application/json'
             },
             success(data) {
-                if (data.status === 'OK') console.log('User logged');
+                if (data.status === true) console.log('User logged');
                 else console.log(`Failed to log in: ${data.status}, ${data.errorMessage}`);
             },
             error(data) {
@@ -101,6 +117,8 @@ const FirebaseLogin = ({ ...others }) => {
                 // else console.log(`Failed adding person: ${data.status}, ${data.errorMessage}`);
             }
         });
+        
+         */
 
         /* TODO: qua bisogna gestire il logout */
         /* GESTIRE LA SESSIONE UTENTE */
