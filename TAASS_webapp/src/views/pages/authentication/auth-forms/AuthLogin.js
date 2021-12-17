@@ -34,6 +34,8 @@ import { Formik } from 'formik';
 import useScriptRef from 'hooks/useScriptRef';
 import AnimateButton from 'ui-component/extended/AnimateButton';
 
+import $ from 'jquery';
+
 // assets
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
@@ -64,13 +66,46 @@ const FirebaseLogin = ({ ...others }) => {
         console.log(response);
     };
 
-    const handleLogin = async () => {
+    const handleLogin = async (values) => {
         console.log('Logout');
+
+        console.log(values);
+
+        console.log(values.email);
+        console.log(values.password);
+
+        let user = {
+            name: null,
+            surname: null,
+            email: values.email,
+            password: values.password
+        };
+
+        console.log(JSON.stringify(user));
+
+        $.ajax({
+            type: 'GET',
+            url: 'http://localhost:8080/api/v1/users/login',
+            data: JSON.stringify(user),
+            headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json'
+            },
+            success(data) {
+                if (data.status === 'OK') console.log('User logged');
+                else console.log(`Failed to log in: ${data.status}, ${data.errorMessage}`);
+            },
+            error(data) {
+                console.log(data); // TODO: sistemare qua
+                // if (data.status === 'OK') console.log('Person has been added');
+                // else console.log(`Failed adding person: ${data.status}, ${data.errorMessage}`);
+            }
+        });
 
         /* TODO: qua bisogna gestire il logout */
         /* GESTIRE LA SESSIONE UTENTE */
 
-        navigate('/topics', { replace: false });
+        /* navigate('/topics', { replace: false }); */
     };
 
     const clientID = '282646887193-mj946se9m6a7qgmkl2npmrjfksbcht6r.apps.googleusercontent.com';
@@ -261,7 +296,6 @@ const FirebaseLogin = ({ ...others }) => {
                                 <FormHelperText error>{errors.submit}</FormHelperText>
                             </Box>
                         )}
-
                         <Box sx={{ mt: 2 }}>
                             <AnimateButton>
                                 <Button
@@ -272,7 +306,7 @@ const FirebaseLogin = ({ ...others }) => {
                                     type="submit"
                                     variant="contained"
                                     color="secondary"
-                                    onClick={handleLogin}
+                                    onClick={() => handleLogin(values)}
                                 >
                                     Sign in
                                 </Button>

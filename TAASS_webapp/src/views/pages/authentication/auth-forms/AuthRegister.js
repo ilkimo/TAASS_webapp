@@ -37,6 +37,7 @@ import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import { GoogleLogin } from 'react-google-login';
 import FacebookLogin from 'react-facebook-login';
+import $ from 'jquery';
 
 // ===========================|| FIREBASE - REGISTER ||=========================== //
 
@@ -77,6 +78,58 @@ const FirebaseRegister = ({ ...others }) => {
         const temp = strengthIndicator(value);
         setStrength(temp);
         setLevel(strengthColor(temp));
+    };
+
+    const handleRegister = async (values) => {
+        console.log('Register');
+
+        console.log(values.firstname);
+        console.log(values.lastname);
+        console.log(values.email);
+        console.log(values.password);
+
+        let user = {
+            name: null,
+            surname: null,
+            email: values.email,
+            password: values.password
+        };
+
+        /*
+        $.post('http://localhost:8080/api/v1/users/create', function (data) {
+            $('.result').html(data);
+        });
+
+         */
+
+        console.log(JSON.stringify(user));
+
+        $.ajax({
+            type: 'POST',
+            url: 'http://localhost:8080/api/v1/users/create',
+            data: JSON.stringify(user),
+            headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json'
+            },
+            success(data) {
+                console.log(data); // TODO: capire, qua non c'è nulla!
+                if (data.status === 'OK') console.log('Person has been added');
+                else console.log(`Failed adding person: ${data.status}, ${data.errorMessage}`);
+            },
+            error(data) {
+                console.log(data); // TODO: bisogna far si che il server mandi un messaggio particolare per dire che esiste già un utente con quella mail
+                // if (data.status === 'OK') console.log('Person has been added');
+                // else console.log(`Failed adding person: ${data.status}, ${data.errorMessage}`);
+            }
+        });
+
+        // $.post('http://localhost:8080/api/v1/users/create', JSON.stringify(user));
+
+        /* TODO: qua bisogna gestire il logout */
+        /* GESTIRE LA SESSIONE UTENTE */
+
+        /* navigate('/topics', { replace: false }); */
     };
 
     useEffect(() => {
@@ -176,6 +229,8 @@ const FirebaseRegister = ({ ...others }) => {
                 initialValues={{
                     email: '',
                     password: '',
+                    firstname: '',
+                    lastname: '',
                     submit: null
                 }}
                 validationSchema={Yup.object().shape({
@@ -198,7 +253,17 @@ const FirebaseRegister = ({ ...others }) => {
                     }
                 }}
             >
-                {({ errors, handleBlur, handleChange, handleSubmit, isSubmitting, touched, values }) => (
+                {({
+                    errors,
+                    handleBlur,
+                    handleChange,
+                    // handleChangeFirstname,
+                    // handleChangeLastname,
+                    handleSubmit,
+                    isSubmitting,
+                    touched,
+                    values
+                }) => (
                     <form noValidate onSubmit={handleSubmit} {...others}>
                         <Grid container spacing={matchDownSM ? 0 : 2}>
                             <Grid item xs={12} sm={6}>
@@ -208,6 +273,8 @@ const FirebaseRegister = ({ ...others }) => {
                                     margin="normal"
                                     name="fname"
                                     type="text"
+                                    // value={values.firstname}
+                                    // onChange={handleChangeFirstname}
                                     defaultValue=""
                                     sx={{ ...theme.typography.customInput }}
                                 />
@@ -219,6 +286,8 @@ const FirebaseRegister = ({ ...others }) => {
                                     margin="normal"
                                     name="lname"
                                     type="text"
+                                    // value={values.lastname}
+                                    // onChange={handleChangeLastname}
                                     defaultValue=""
                                     sx={{ ...theme.typography.customInput }}
                                 />
@@ -339,6 +408,7 @@ const FirebaseRegister = ({ ...others }) => {
                                     type="submit"
                                     variant="contained"
                                     color="secondary"
+                                    onClick={() => handleRegister(values)}
                                 >
                                     Sign up
                                 </Button>
