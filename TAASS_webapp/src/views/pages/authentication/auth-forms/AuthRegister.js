@@ -1,5 +1,5 @@
-import { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 
 // material-ui
@@ -49,10 +49,14 @@ const FirebaseRegister = ({ ...others }) => {
     const [showPassword, setShowPassword] = useState(false);
     const [checked, setChecked] = useState(true);
 
+    const [okEmailPassword, setOkEmailpassword] = useState(true);
+    const [emailInUse, setEmailInUse] = useState(false);
+
     const [strength, setStrength] = useState(0);
     const [level, setLevel] = useState();
 
     const clientID = '282646887193-mj946se9m6a7qgmkl2npmrjfksbcht6r.apps.googleusercontent.com';
+    const navigate = useNavigate();
 
     const facebookHandle = (response) => {
         console.log(response);
@@ -80,6 +84,13 @@ const FirebaseRegister = ({ ...others }) => {
         setLevel(strengthColor(temp));
     };
 
+    const validateEmail = (email) =>
+        String(email)
+            .toLowerCase()
+            .match(
+                /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+            );
+
     const handleRegister = async (values) => {
         console.log('Register');
 
@@ -88,49 +99,38 @@ const FirebaseRegister = ({ ...others }) => {
         console.log(values.email);
         console.log(values.password);
 
-        let user = {
-            name: null,
-            surname: null,
-            email: values.email,
-            password: values.password
-        };
+        if ((values.email === '' && values.password === '') || !validateEmail(values.email)) {
+            console.log('SONO QUA');
+            setEmailInUse(false);
+            setOkEmailpassword(false);
+        } else {
+            let user = {
+                name: null,
+                surname: null,
+                email: values.email,
+                password: values.password
+            };
 
-        /*
-        $.post('http://localhost:8080/api/v1/users/create', function (data) {
-            $('.result').html(data);
-        });
+            console.log(JSON.stringify(user));
 
-         */
+            $.ajax({
+                type: 'POST',
+                url: 'http://localhost:8080/api/v1/users/create',
+                data: JSON.stringify(user),
+                contentType: 'application/json;charset=utf-8'
+            })
+                .done(() => {
+                    console.log('Register Successful');
+                    navigate('/topics', { replace: false });
+                })
+                .fail((e, s, t) => {
+                    console.log(`Failed: ${e.responseText}`);
+                    setOkEmailpassword(true);
+                    setEmailInUse(true);
+                });
+        }
 
-        console.log(JSON.stringify(user));
-
-        $.ajax({
-            type: 'POST',
-            url: 'http://localhost:8080/api/v1/users/create',
-            data: JSON.stringify(user),
-            headers: {
-                Accept: 'application/json',
-                'Content-Type': 'application/json'
-            },
-            success(data) {
-                console.log(data); // TODO: capire, qua non c'è nulla!
-                if (data.status === 'OK') console.log('Person has been added');
-                // TODO: fare in modo che venga ritornato un ok dal server
-                else console.log(`Failed adding person: ${data.status}, ${data.errorMessage}`);
-            },
-            error(data) {
-                console.log(data); // TODO: bisogna far si che il server mandi un messaggio particolare per dire che esiste già un utente con quella mail
-                // if (data.status === 'OK') console.log('Person has been added');
-                // else console.log(`Failed adding person: ${data.status}, ${data.errorMessage}`);
-            }
-        });
-
-        // $.post('http://localhost:8080/api/v1/users/create', JSON.stringify(user));
-
-        /* TODO: qua bisogna gestire il logout */
-        /* GESTIRE LA SESSIONE UTENTE */
-
-        /* navigate('/topics', { replace: false }); */
+        /* TODO: GESTIRE LA SESSIONE UTENTE */
     };
 
     useEffect(() => {
@@ -222,6 +222,17 @@ const FirebaseRegister = ({ ...others }) => {
                 <Grid item xs={12} container alignItems="center" justifyContent="center">
                     <Box sx={{ mb: 2 }}>
                         <Typography variant="subtitle1">Sign up with Email address</Typography>
+                        {!okEmailPassword && (
+                            <Typography variant="subtitle1" sx={{ color: '#ec5a5a' }}>
+                                Please insert a valid email and password
+                            </Typography>
+                        )}
+
+                        {emailInUse && (
+                            <Typography variant="subtitle1" sx={{ color: '#ec5a5a' }}>
+                                Email is already in use!
+                            </Typography>
+                        )}
                     </Box>
                 </Grid>
             </Grid>

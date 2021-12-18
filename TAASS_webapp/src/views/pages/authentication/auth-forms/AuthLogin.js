@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
 // eslint-disable-next-line import/no-unresolved
 import { GoogleLogin } from 'react-google-login';
@@ -35,6 +35,7 @@ import useScriptRef from 'hooks/useScriptRef';
 import AnimateButton from 'ui-component/extended/AnimateButton';
 
 import * as $ from 'jquery';
+
 import 'jquery.soap';
 
 // assets
@@ -53,6 +54,8 @@ const FirebaseLogin = ({ ...others }) => {
     const matchDownSM = useMediaQuery(theme.breakpoints.down('md'));
     const customization = useSelector((state) => state.customization);
     const [checked, setChecked] = useState(true);
+    const [okEmailPassword, setOkEmailpassword] = useState(true);
+
     const navigate = useNavigate();
 
     const googleHandler = (response) => {
@@ -80,50 +83,23 @@ const FirebaseLogin = ({ ...others }) => {
             password: values.password
         };
 
-        console.log(JSON.stringify(user));
-
-        $.soap({
-            url: 'http://localhost:8080/api/v1/users/login',
-            data: JSON.stringify(user),
-            dataType: 'json',
-            success(soapResponse) {
-                // do stuff with soapResponse
-                // if you want to have the response as JSON use soapResponse.toJSON();
-                // or soapResponse.toString() to get XML string
-                // or soapResponse.toXML() to get XML DOM
-            },
-            error(SOAPResponse) {
-                // show error
-            }
-        });
-
-        /*
         $.ajax({
-            type: 'GET',
+            type: 'POST',
             url: 'http://localhost:8080/api/v1/users/login',
             data: JSON.stringify(user),
-            dataType: 'json',
-            headers: {
-                Accept: 'application/json',
-                'Content-Type': 'application/json'
-            },
-            success(data) {
-                if (data.status === true) console.log('User logged');
-                else console.log(`Failed to log in: ${data.status}, ${data.errorMessage}`);
-            },
-            error(data) {
-                console.log(data); // TODO: sistemare qua
-                // if (data.status === 'OK') console.log('Person has been added');
-                // else console.log(`Failed adding person: ${data.status}, ${data.errorMessage}`);
-            }
-        });
-        
-         */
+            contentType: 'application/json;charset=utf-8'
+        })
+            .done(() => {
+                console.log('Login Successful');
+                setOkEmailpassword(true);
+                navigate('/topics', { replace: false });
+            })
+            .fail((e, s, t) => {
+                console.log(`Failed: ${e.responseText}`);
+                setOkEmailpassword(false);
+            });
 
-        /* TODO: qua bisogna gestire il logout */
-        /* GESTIRE LA SESSIONE UTENTE */
-
-        /* navigate('/topics', { replace: false }); */
+        /* TODO: GESTIRE LA SESSIONE UTENTE */
     };
 
     const clientID = '282646887193-mj946se9m6a7qgmkl2npmrjfksbcht6r.apps.googleusercontent.com';
@@ -207,6 +183,11 @@ const FirebaseLogin = ({ ...others }) => {
                 <Grid item xs={12} container alignItems="center" justifyContent="center">
                     <Box sx={{ mb: 2 }}>
                         <Typography variant="subtitle1">Sign in with Email address</Typography>
+                        {!okEmailPassword && (
+                            <Typography variant="subtitle1" sx={{ color: '#ec5a5a' }}>
+                                Wrong email or password!
+                            </Typography>
+                        )}
                     </Box>
                 </Grid>
             </Grid>
