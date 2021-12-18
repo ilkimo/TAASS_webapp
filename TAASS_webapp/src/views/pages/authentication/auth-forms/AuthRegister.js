@@ -127,7 +127,6 @@ const FirebaseRegister = ({ ...others }) => {
                     ReactSession.setStoreType('localStorage');
                     ReactSession.set('username', user.email);
                     ReactSession.set('password', user.password);
-                    ReactSession.setStoreType();
 
                     navigate('/topics', { replace: false });
                 })
