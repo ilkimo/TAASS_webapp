@@ -39,6 +39,7 @@ import User1 from 'assets/images/users/user-round.svg';
 // assets
 import { IconLogout, IconSearch, IconSettings, IconUser } from '@tabler/icons';
 import { browserHistory } from 'react-router';
+import { ReactSession } from 'react-client-session';
 
 // ==============================|| PROFILE MENU ||============================== //
 
@@ -59,8 +60,9 @@ const ProfileSection = () => {
     const handleLogout = async () => {
         console.log('Logout');
 
-        /* TODO: qua bisogna gestire il logout */
-        /* GESTIRE LA SESSIONE UTENTE */
+        /* TODO: GESTIRE LA SESSIONE UTENTE */
+        ReactSession.remove('username');
+        ReactSession.remove('password');
 
         navigate('../pages/login/login3', { replace: true });
     };
@@ -165,7 +167,7 @@ const ProfileSection = () => {
                                             <Stack direction="row" spacing={0.5} alignItems="center">
                                                 <Typography variant="h4">Good Morning,</Typography>
                                                 <Typography component="span" variant="h4" sx={{ fontWeight: 400 }}>
-                                                    NOME UTENTE QUA
+                                                    {ReactSession.get('username')}
                                                 </Typography>
                                             </Stack>
                                         </Stack>

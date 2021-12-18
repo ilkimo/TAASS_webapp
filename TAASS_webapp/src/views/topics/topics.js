@@ -18,6 +18,8 @@ import TotalIncomeDarkCard from '../dashboard/Default/TotalIncomeDarkCard';
 import TotalIncomeLightCard from '../dashboard/Default/TotalIncomeLightCard';
 import MuiTypography from '@mui/material/Typography';
 
+import { ReactSession } from 'react-client-session';
+
 // ==============================|| DEFAULT DASHBOARD ||============================== //
 
 const style = {

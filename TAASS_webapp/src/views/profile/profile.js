@@ -19,6 +19,7 @@ import DialogContentText from '@mui/material/DialogContentText';
 import DialogActions from '@mui/material/DialogActions';
 import Button from '@mui/material/Button';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
+import { ReactSession } from 'react-client-session';
 
 // ==============================|| TYPOGRAPHY ||============================== //
 
@@ -48,8 +49,9 @@ const Profile = () => {
 
     /* TEST */
     const [values, setValues] = React.useState({
-        username: '',
+        username: ReactSession.get('username'),
         mail: '',
+        password: ReactSession.get('password'),
         oldPassword: '',
         newPassword: '',
         repeatNewPassword: '',
@@ -125,10 +127,12 @@ const Profile = () => {
                                 <InputLabel htmlFor="filled-adornment-username">Username</InputLabel>
                                 <FilledInput disabled id="filled-adornment-username" type="text" value={values.username} />
                             </FormControl>
+                            {/*
                             <FormControl fullWidth sx={{ mb: 2 }} variant="filled">
                                 <InputLabel htmlFor="filled-adornment-mail">Mail</InputLabel>
                                 <FilledInput disabled id="filled-adornment-mail" type="text" value={values.mail} />
                             </FormControl>
+                            */}
                             <FormControl fullWidth sx={{ mb: 2 }} variant="filled">
                                 <InputLabel htmlFor="filled-adornment-password">Password</InputLabel>
                                 <FilledInput

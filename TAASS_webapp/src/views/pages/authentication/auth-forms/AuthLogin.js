@@ -46,6 +46,8 @@ import FacebookLogin from 'react-facebook-login';
 import Google from 'assets/images/icons/social-google.svg';
 import Facebook from 'assets/images/icons/social-facebook.svg';
 
+import { ReactSession } from 'react-client-session';
+
 // ============================|| FIREBASE - LOGIN ||============================ //
 
 const FirebaseLogin = ({ ...others }) => {
@@ -92,6 +94,11 @@ const FirebaseLogin = ({ ...others }) => {
             .done(() => {
                 console.log('Login Successful');
                 setOkEmailpassword(true);
+
+                ReactSession.setStoreType('localStorage');
+                ReactSession.set('username', user.email);
+                ReactSession.set('password', user.password);
+
                 navigate('/topics', { replace: false });
             })
             .fail((e, s, t) => {

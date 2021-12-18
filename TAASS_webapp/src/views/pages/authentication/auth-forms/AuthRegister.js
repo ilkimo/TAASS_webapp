@@ -39,6 +39,8 @@ import { GoogleLogin } from 'react-google-login';
 import FacebookLogin from 'react-facebook-login';
 import $ from 'jquery';
 
+import { ReactSession } from 'react-client-session';
+
 // ===========================|| FIREBASE - REGISTER ||=========================== //
 
 const FirebaseRegister = ({ ...others }) => {
@@ -121,6 +123,12 @@ const FirebaseRegister = ({ ...others }) => {
             })
                 .done(() => {
                     console.log('Register Successful');
+
+                    ReactSession.setStoreType('localStorage');
+                    ReactSession.set('username', user.email);
+                    ReactSession.set('password', user.password);
+                    ReactSession.setStoreType();
+
                     navigate('/topics', { replace: false });
                 })
                 .fail((e, s, t) => {
