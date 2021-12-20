@@ -99,7 +99,7 @@ class AddTopic extends React.Component {
 
     handleSubmit = (event) => {
         event.preventDefault();
-        // alert(JSON.stringify(this.state.formValues));
+        alert(JSON.stringify(this.state.formValues));
     };
 
     handleClick = () => {
