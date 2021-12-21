@@ -6,7 +6,7 @@ import MainCard from 'ui-component/cards/MainCard';
 import SecondaryAction from 'ui-component/cards/CardSecondaryAction';
 import { gridSpacing } from 'store/constant';
 
-import { TextField, FormControl, Divider } from '@mui/material';
+import { TextField, FormControl, Divider, IconButton } from '@mui/material';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import { IconNotebook } from '@tabler/icons';
 import React, { useState } from 'react';
@@ -27,7 +27,10 @@ import { BlockPicker, CirclePicker } from 'react-color'; /* https://casesandberg
 import Collapse from '@mui/material/Collapse';
 import { ReactSession } from 'react-client-session';
 import * as $ from 'jquery';
-import { useNavigate, withRouter, BrowserRouter } from 'react-router-dom';
+import { useNavigate, withRouter, BrowserRouter, Link } from 'react-router-dom';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import { Alert } from '@mui/lab';
+import { getSession } from 'react-session-persist/lib';
 
 // ==============================|| TYPOGRAPHY ||============================== //
 
@@ -64,7 +67,8 @@ class AddTopic extends React.Component {
             topicValues: [{ topicName: '', topicDescription: '' }],
             displayColorPicker: false,
             topicName: '',
-            topicDescription: ''
+            topicDescription: '',
+            alert: false
         };
     }
 
@@ -110,7 +114,7 @@ class AddTopic extends React.Component {
         this.setState({ formValues: newFormValues });
     };
 
-    handleSubmit = (event) => {
+    handleSubmit = async (event) => {
         event.preventDefault();
         // alert(JSON.stringify(this.state.formValues));
 
@@ -120,8 +124,11 @@ class AddTopic extends React.Component {
 
         // navigate('/topics', { replace: true });
 
+        const session = await getSession();
+        console.log(session);
+
         let topic = {
-            id: String(ReactSession.get('id')),
+            id: String(session.user.id),
             name: this.state.topicName,
             description: this.state.topicDescription,
             nameType: this.state.formValues,
@@ -142,6 +149,18 @@ class AddTopic extends React.Component {
                 // this.props.navigation.navigate('nextScreen');
                 // this.props.navigate('/topics');
                 // this.props.history.push('/topics');
+
+                this.setState({ alert: true });
+                this.setState({
+                    background: '#f44336',
+                    firstDarkBackground: '#ea392c',
+                    secondDarkBackground: '#e02f22',
+                    formValues: [{ name: '', data: '' }],
+                    topicValues: [{ topicName: '', topicDescription: '' }],
+                    displayColorPicker: false,
+                    topicName: '',
+                    topicDescription: ''
+                });
             })
             .fail((e, s, t) => {
                 console.log(`Failed: ${e.responseText}`);
@@ -233,10 +252,17 @@ class AddTopic extends React.Component {
                         flexWrap: 'wrap'
                     }}
                 >
+                    <Link
+                        to={{
+                            pathname: '/topics/'
+                        }}
+                        // state={{ item: topic }}
+                    >
+                        <ArrowBackIcon className="iconColor mr-4" fontSize="medium" style={{ marginRight: '20' }} />
+                    </Link>
                     <MuiTypography variant="h2">Add Topic</MuiTypography>
                     <IconNotebook className="iconColor mx-4" fontSize="medium" />
                 </div>
-
                 <div className="pageStyle">
                     <Grid container spacing={2}>
                         <Grid item xs={12} lg={4} md={4} sm={12}>
@@ -353,6 +379,27 @@ class AddTopic extends React.Component {
                 <Fab onClick={() => this.addFormFields()} color="primary" aria-label="add" style={style}>
                     <AddIcon />
                 </Fab>
+                <Collapse in={this.state.alert}>
+                    <Alert
+                        variant="filled"
+                        severity="success"
+                        action={
+                            <IconButton
+                                aria-label="close"
+                                color="inherit"
+                                size="small"
+                                onClick={() => {
+                                    this.setState({ alert: false });
+                                }}
+                            >
+                                <CloseIcon fontSize="inherit" />
+                            </IconButton>
+                        }
+                        sx={{ mb: 2 }}
+                    >
+                        Topic aggiunto!
+                    </Alert>
+                </Collapse>
             </MainCard>
         );
     }
