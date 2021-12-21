@@ -11,7 +11,8 @@ import {
     Switch,
     MenuItem,
     Menu,
-    Avatar
+    Avatar,
+    IconButton
 } from '@mui/material';
 import React, { useState } from 'react';
 import Fab from '@mui/material/Fab';
@@ -40,7 +41,7 @@ import AdapterDateFns from '@mui/lab/AdapterDateFns';
 import PropTypes from 'prop-types';
 
 import { Link, useLocation, useNavigate, useParams } from 'react-router-dom';
-import { DesktopDatePicker, LocalizationProvider } from '@mui/lab';
+import { Alert, DesktopDatePicker, LocalizationProvider } from '@mui/lab';
 import { forEach } from 'react-bootstrap/ElementChildren';
 import TopicCard from './topicCard';
 import TopicRecordCard from './topicRecordCard';
@@ -58,6 +59,8 @@ import PictureAsPdfTwoToneIcon from '@mui/icons-material/PictureAsPdfOutlined';
 import ArchiveTwoToneIcon from '@mui/icons-material/ArchiveOutlined';
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
+import CloseIcon from '@mui/icons-material/Close';
+import Collapse from '@mui/material/Collapse';
 
 function TabPanel(props) {
     const { children, value, index, ...other } = props;
@@ -303,6 +306,9 @@ const TopicRecordsPage = (props) => {
     const [openEditTopic, setOpenEditTopic] = React.useState(false);
     const [scrollEditTopic, setScrollEditTopic] = React.useState('paper');
 
+    const [topicNameChanged, setTopicNameChanged] = React.useState(false);
+    const [topicNameChangedError, setTopicNameChangedError] = React.useState(false);
+
     const handleClickOpenEditTopic = (scrollType) => () => {
         setOpenEditTopic(true);
         setScrollEditTopic(scrollType);
@@ -312,21 +318,41 @@ const TopicRecordsPage = (props) => {
         setOpenEditTopic(false);
     };
 
-    const handleDialogEditTopicSubmit = () => {
+    const handleDialogEditTopicSubmit = async () => {
         console.log(`TOPIC MODIFICATO - nuovo nome: ${topicName}`);
 
-        console.log('STATE');
-        console.log(location.state);
-
-        console.log('ITEM');
-        console.log(location.state.item);
-
-        // location.state.item.nameChangeHandler(0, location.state.item.title, topicName);
-
-        location.state.item.name = topicName;
         setOpenEditTopic(false);
 
-        /* Bisogna capire come modificare il valore anche per quanto riguarda l'oggetto che ha il component padre */
+        const session = await getSession();
+
+        let obj = {
+            id: session.user.id,
+            name: location.state.item.name,
+            newName: topicName
+        };
+
+        console.log(obj);
+
+        $.ajax({
+            type: 'POST',
+            url: 'http://localhost:8080/api/v2/data/changeNameTopic',
+            data: JSON.stringify(obj),
+            contentType: 'application/json;charset=utf-8'
+        })
+            .done((response) => {
+                console.log('RESPONSE');
+                console.log(response);
+
+                location.state.item.name = topicName;
+                setOpenEditTopic(false);
+                setTopicNameChanged(true);
+                setTopicNameChangedError(false);
+            })
+            .fail((e, s, t) => {
+                console.log(`Failed: ${e.responseText}`);
+                setTopicNameChangedError(true);
+                setTopicNameChanged(false);
+            });
     };
 
     /* Delete topic */
@@ -371,6 +397,58 @@ const TopicRecordsPage = (props) => {
             .fail((e, s, t) => {
                 console.log(`Failed: ${e.responseText}`);
             });
+    };
+
+    /* Edit topic name */
+    /*
+
+    const [openEditTopicNameDialog, setOpenEditTopicNameDialog] = React.useState(false);
+    const [scrollEditTopicNameDialog, setScrollEditTopicNameDialog] = React.useState('paper');
+
+    const handleClickOpenEditTopicNameDialog = (scrollType) => () => {
+        setOpenDeleteTopicDialog(true);
+        setScrollDeleteTopicDialog(scrollType);
+    };
+
+    const handleCloseEditTopicNameDialog = () => {
+        setOpenDeleteTopicDialog(false);
+    };
+
+     */
+
+    const handleChangeTopicName = async () => {
+        // Query
+
+        const session = await getSession();
+
+        let obj = {
+            id: session.user.id,
+            name: location.state.item.name,
+            newName: ''
+        };
+
+        console.log(obj);
+
+        /*
+        $.ajax({
+            type: 'POST',
+            url: 'http://localhost:8080/api/v2/data/changeNameTopic',
+            data: JSON.stringify(obj),
+            contentType: 'application/json;charset=utf-8'
+        })
+            .done((response) => {
+                console.log('RESPONSE');
+                console.log(response);
+
+                setOpenEditTopic(false);
+
+                // navigate('/topics', { replace: false });
+            })
+            .fail((e, s, t) => {
+                console.log(`Failed: ${e.responseText}`);
+            });
+
+         */
     };
 
     const handleExportTopicMenu = () => {};
@@ -544,6 +622,48 @@ const TopicRecordsPage = (props) => {
                         </FormControl>
                     </Grid>
                 </Grid>
+                <Collapse in={topicNameChanged}>
+                    <Alert
+                        variant="filled"
+                        severity="success"
+                        action={
+                            <IconButton
+                                aria-label="close"
+                                color="inherit"
+                                size="small"
+                                onClick={() => {
+                                    setTopicNameChanged(false);
+                                }}
+                            >
+                                <CloseIcon fontSize="inherit" />
+                            </IconButton>
+                        }
+                        sx={{ mb: 2, mt: 2 }}
+                    >
+                        Topic name changed!
+                    </Alert>
+                </Collapse>
+                <Collapse in={topicNameChangedError}>
+                    <Alert
+                        variant="filled"
+                        severity="error"
+                        action={
+                            <IconButton
+                                aria-label="close"
+                                color="inherit"
+                                size="small"
+                                onClick={() => {
+                                    setTopicNameChangedError(false);
+                                }}
+                            >
+                                <CloseIcon fontSize="inherit" />
+                            </IconButton>
+                        }
+                        sx={{ mb: 2, mt: 2 }}
+                    >
+                        Error!
+                    </Alert>
+                </Collapse>
 
                 <div className="pageStyle">
                     <Box sx={{ width: '100%' }}>
