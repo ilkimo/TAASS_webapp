@@ -39,6 +39,7 @@ import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Toolti
 import { Bar } from 'react-chartjs-2';
 import * as $ from 'jquery';
 import { ReactSession } from 'react-client-session';
+import { getSession } from 'react-session-persist/lib';
 
 function TabPanel(props) {
     const { children, value, index, ...other } = props;
@@ -222,7 +223,7 @@ const TopicRecordsPage = (props) => {
         setTheArray(newFormValues);
     };
 
-    const handleDialogSubmit = () => {
+    const handleDialogSubmit = async () => {
         console.log('VALORI INSERITI: ');
         console.log(theArray);
 
@@ -233,8 +234,11 @@ const TopicRecordsPage = (props) => {
             arrayVal[index] = element.value;
         });
 
+        const session = await getSession();
+        console.log(session);
+
         let obj = {
-            userId: String(ReactSession.get('id')),
+            userId: String(session.user.id),
             topic: location.state.item.name,
             dataList: arrayVal
         };
@@ -250,6 +254,13 @@ const TopicRecordsPage = (props) => {
             .done((response) => {
                 console.log('RESPONSE');
                 console.log(response);
+
+                response.forEach(function (element, index) {
+                    if (element.name === location.state.item.name) {
+                        location.state.item.listRegistrazioni = element.listRegistrazioni;
+                    }
+                });
+                setOpen(false);
             })
             .fail((e, s, t) => {
                 console.log(`Failed: ${e.responseText}`);
