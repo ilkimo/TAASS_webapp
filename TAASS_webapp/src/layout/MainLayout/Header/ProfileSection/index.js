@@ -37,7 +37,7 @@ import UpgradePlanCard from './UpgradePlanCard';
 import User1 from 'assets/images/users/user-round.svg';
 
 // assets
-import { IconLogout, IconSearch, IconSettings, IconUser } from '@tabler/icons';
+import { IconLogout, IconSearch, IconSettings, IconUser, IconUserCircle } from '@tabler/icons';
 import { browserHistory } from 'react-router';
 import { ReactSession } from 'react-client-session';
 
@@ -134,6 +134,7 @@ const ProfileSection = () => {
                         lineHeight: 0
                     }
                 }}
+                /*
                 icon={
                     <Avatar
                         src={User1}
@@ -148,7 +149,8 @@ const ProfileSection = () => {
                         color="inherit"
                     />
                 }
-                label={<IconSettings stroke={1.5} size="1.5rem" color={theme.palette.secondary.main} />}
+                 */
+                label={<IconUserCircle stroke={1.5} size="1.5rem" color={theme.palette.secondary.main} />}
                 variant="outlined"
                 ref={anchorRef}
                 aria-controls={open ? 'menu-list-grow' : undefined}
