@@ -63,12 +63,17 @@ class AddTopic extends React.Component {
             background: '#f44336',
             firstDarkBackground: '#ea392c',
             secondDarkBackground: '#e02f22',
-            formValues: [{ name: '', data: '' }],
+            formValues: [
+                { name: 'Name', data: 'Text' },
+                { name: 'Date', data: 'Date' }
+            ],
             topicValues: [{ topicName: '', topicDescription: '' }],
             displayColorPicker: false,
             topicName: '',
             topicDescription: '',
-            alert: false
+            alert: false,
+            alertError: false,
+            alertCompileAllForm: false
         };
     }
 
@@ -116,7 +121,19 @@ class AddTopic extends React.Component {
 
     handleSubmit = async (event) => {
         event.preventDefault();
+        alert(`${this.state.topicName}; ${this.state.topicDescription}`);
         // alert(JSON.stringify(this.state.formValues));
+
+        /* Controllare tutti i dati! Ogni valore deve essere stato inserito */
+        if (this.state.topicName.replace(/\s/g, '').length > 0 && this.state.topicDescription.replace(/\s/g, '').length > 0) {
+            this.state.formValues.forEach((elem) => {
+                if (elem.name.replace(/\s/g, '').length === 0 || elem.data.replace(/\s/g, '').length === 0) {
+                    this.setState({ alertCompileAllForm: true });
+                }
+            });
+        } else {
+            this.setState({ alertCompileAllForm: true });
+        }
 
         // let navigate = useNavigate();
 
@@ -155,15 +172,20 @@ class AddTopic extends React.Component {
                     background: '#f44336',
                     firstDarkBackground: '#ea392c',
                     secondDarkBackground: '#e02f22',
-                    formValues: [{ name: '', data: '' }],
+                    formValues: [
+                        { name: 'Name', data: 'Text' },
+                        { name: 'Date', data: 'Date' }
+                    ],
                     topicValues: [{ topicName: '', topicDescription: '' }],
                     displayColorPicker: false,
                     topicName: '',
-                    topicDescription: ''
+                    topicDescription: '',
+                    alertError: false
                 });
             })
             .fail((e, s, t) => {
                 console.log(`Failed: ${e.responseText}`);
+                this.setState({ alertError: true, alert: false });
             });
     };
 
@@ -263,6 +285,71 @@ class AddTopic extends React.Component {
                     <MuiTypography variant="h2">Add Topic</MuiTypography>
                     <IconNotebook className="iconColor mx-4" fontSize="medium" />
                 </div>
+                <div>
+                    <Collapse in={this.state.alert}>
+                        <Alert
+                            variant="filled"
+                            severity="success"
+                            action={
+                                <IconButton
+                                    aria-label="close"
+                                    color="inherit"
+                                    size="small"
+                                    onClick={() => {
+                                        this.setState({ alert: false });
+                                    }}
+                                >
+                                    <CloseIcon fontSize="inherit" />
+                                </IconButton>
+                            }
+                            sx={{ mb: 2, mt: 2 }}
+                        >
+                            Topic added!
+                        </Alert>
+                    </Collapse>
+                    <Collapse in={this.state.alertError}>
+                        <Alert
+                            variant="filled"
+                            severity="error"
+                            action={
+                                <IconButton
+                                    aria-label="close"
+                                    color="inherit"
+                                    size="small"
+                                    onClick={() => {
+                                        this.setState({ alertError: false });
+                                    }}
+                                >
+                                    <CloseIcon fontSize="inherit" />
+                                </IconButton>
+                            }
+                            sx={{ mb: 2, mt: 2 }}
+                        >
+                            Error!
+                        </Alert>
+                    </Collapse>
+                    <Collapse in={this.state.alertCompileAllForm}>
+                        <Alert
+                            variant="filled"
+                            severity="error"
+                            action={
+                                <IconButton
+                                    aria-label="close"
+                                    color="inherit"
+                                    size="small"
+                                    onClick={() => {
+                                        this.setState({ alertCompileAllForm: false });
+                                    }}
+                                >
+                                    <CloseIcon fontSize="inherit" />
+                                </IconButton>
+                            }
+                            sx={{ mb: 2, mt: 2 }}
+                        >
+                            Please compile all data field!
+                        </Alert>
+                    </Collapse>
+                </div>
                 <div className="pageStyle">
                     <Grid container spacing={2}>
                         <Grid item xs={12} lg={4} md={4} sm={12}>
@@ -312,39 +399,79 @@ class AddTopic extends React.Component {
                             <form onSubmit={this.handleSubmit}>
                                 {this.state.formValues.map((element, index) => (
                                     <div key={index} style={{ marginBottom: 10 }}>
-                                        <Grid container spacing={3} alignItems="center" justify="center">
-                                            <Grid item xs={12} lg={5} md={5} sm={5}>
-                                                <FormControl fullWidth sx={{ m: 0 }} variant="filled" key={index}>
-                                                    <TextField
-                                                        id="outlined-basic"
-                                                        label="Field Name"
-                                                        variant="outlined"
-                                                        value={element.name || ''}
-                                                        name="name"
-                                                        size="small"
-                                                        onChange={(e) => this.handleChange(index, e)}
-                                                    />
-                                                </FormControl>
+                                        {index <= 1 ? (
+                                            <Grid container spacing={3} alignItems="center" justify="center">
+                                                <Grid item xs={12} lg={5} md={5} sm={5}>
+                                                    <FormControl fullWidth sx={{ m: 0 }} variant="filled" key={index}>
+                                                        <TextField
+                                                            disabled
+                                                            id="outlined-basic"
+                                                            label="Field Name"
+                                                            variant="outlined"
+                                                            value={element.name || ''}
+                                                            name="name"
+                                                            size="small"
+                                                            onChange={(e) => this.handleChange(index, e)}
+                                                        />
+                                                    </FormControl>
+                                                </Grid>
+                                                <Grid item xs={12} lg={5} md={5} sm={5}>
+                                                    <FormControl fullWidth sx={{ m: 0 }} variant="filled" key={index}>
+                                                        <InputLabel id="demo-simple-select-label">Field Type</InputLabel>
+                                                        <Select
+                                                            disabled
+                                                            label="Field Type"
+                                                            labelId="demo-simple-select-label"
+                                                            id="demo-simple-select"
+                                                            name="data"
+                                                            size="small"
+                                                            value={element.data || ''}
+                                                            onChange={(e) => this.handleChange(index, e)}
+                                                        >
+                                                            <MenuItem value="Text">Text</MenuItem>
+                                                            <MenuItem value="Integer Number">Integer Number</MenuItem>
+                                                            <MenuItem value="Floating Point Number">Floating Point Number</MenuItem>
+                                                            <MenuItem value="Date">Date</MenuItem>
+                                                        </Select>
+                                                    </FormControl>
+                                                </Grid>
                                             </Grid>
-                                            <Grid item xs={12} lg={5} md={5} sm={5}>
-                                                <FormControl fullWidth sx={{ m: 0 }} variant="filled" key={index}>
-                                                    <InputLabel id="demo-simple-select-label">Field Type</InputLabel>
-                                                    <Select
-                                                        label="Field Type"
-                                                        labelId="demo-simple-select-label"
-                                                        id="demo-simple-select"
-                                                        name="data"
-                                                        size="small"
-                                                        value={element.data || ''}
-                                                        onChange={(e) => this.handleChange(index, e)}
-                                                    >
-                                                        <MenuItem value="Text">Text</MenuItem>
-                                                        <MenuItem value="Integer Number">Integer Number</MenuItem>
-                                                        <MenuItem value="Floating Point Number">Floating Point Number</MenuItem>
-                                                    </Select>
-                                                </FormControl>
-                                            </Grid>
-                                            {index ? (
+                                        ) : null}
+
+                                        {index > 1 ? (
+                                            <Grid container spacing={3} alignItems="center" justify="center">
+                                                <Grid item xs={12} lg={5} md={5} sm={5}>
+                                                    <FormControl fullWidth sx={{ m: 0 }} variant="filled" key={index}>
+                                                        <TextField
+                                                            id="outlined-basic"
+                                                            label="Field Name"
+                                                            variant="outlined"
+                                                            value={element.name || ''}
+                                                            name="name"
+                                                            size="small"
+                                                            onChange={(e) => this.handleChange(index, e)}
+                                                        />
+                                                    </FormControl>
+                                                </Grid>
+                                                <Grid item xs={12} lg={5} md={5} sm={5}>
+                                                    <FormControl fullWidth sx={{ m: 0 }} variant="filled" key={index}>
+                                                        <InputLabel id="demo-simple-select-label">Field Type</InputLabel>
+                                                        <Select
+                                                            label="Field Type"
+                                                            labelId="demo-simple-select-label"
+                                                            id="demo-simple-select"
+                                                            name="data"
+                                                            size="small"
+                                                            value={element.data || ''}
+                                                            onChange={(e) => this.handleChange(index, e)}
+                                                        >
+                                                            <MenuItem value="Text">Text</MenuItem>
+                                                            <MenuItem value="Integer Number">Integer Number</MenuItem>
+                                                            <MenuItem value="Floating Point Number">Floating Point Number</MenuItem>
+                                                            <MenuItem value="Date">Date</MenuItem>
+                                                        </Select>
+                                                    </FormControl>
+                                                </Grid>
                                                 <Grid item xs={12} lg={2} md={2} sm={2}>
                                                     <FormControl fullWidth sx={{ m: 0 }} variant="filled" key={index}>
                                                         <Fab
@@ -362,8 +489,8 @@ class AddTopic extends React.Component {
                                                         </Fab>
                                                     </FormControl>
                                                 </Grid>
-                                            ) : null}
-                                        </Grid>
+                                            </Grid>
+                                        ) : null}
                                         <Divider sx={{ mt: 2 }} />
                                     </div>
                                 ))}
@@ -379,27 +506,6 @@ class AddTopic extends React.Component {
                 <Fab onClick={() => this.addFormFields()} color="primary" aria-label="add" style={style}>
                     <AddIcon />
                 </Fab>
-                <Collapse in={this.state.alert}>
-                    <Alert
-                        variant="filled"
-                        severity="success"
-                        action={
-                            <IconButton
-                                aria-label="close"
-                                color="inherit"
-                                size="small"
-                                onClick={() => {
-                                    this.setState({ alert: false });
-                                }}
-                            >
-                                <CloseIcon fontSize="inherit" />
-                            </IconButton>
-                        }
-                        sx={{ mb: 2 }}
-                    >
-                        Topic aggiunto!
-                    </Alert>
-                </Collapse>
             </MainCard>
         );
     }

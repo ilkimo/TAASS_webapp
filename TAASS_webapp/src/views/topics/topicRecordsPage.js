@@ -1,6 +1,18 @@
 // project imports
 import MainCard from 'ui-component/cards/MainCard';
-import { TextField, FormControl, Divider, Modal, FormLabel, FormGroup, FormControlLabel, Switch } from '@mui/material';
+import {
+    TextField,
+    FormControl,
+    Divider,
+    Modal,
+    FormLabel,
+    FormGroup,
+    FormControlLabel,
+    Switch,
+    MenuItem,
+    Menu,
+    Avatar
+} from '@mui/material';
 import React, { useState } from 'react';
 import Fab from '@mui/material/Fab';
 import AddIcon from '@mui/icons-material/Add';
@@ -40,6 +52,12 @@ import { Bar } from 'react-chartjs-2';
 import * as $ from 'jquery';
 import { ReactSession } from 'react-client-session';
 import { getSession } from 'react-session-persist/lib';
+import GetAppTwoToneIcon from '@mui/icons-material/GetAppOutlined';
+import FileCopyTwoToneIcon from '@mui/icons-material/FileCopyOutlined';
+import PictureAsPdfTwoToneIcon from '@mui/icons-material/PictureAsPdfOutlined';
+import ArchiveTwoToneIcon from '@mui/icons-material/ArchiveOutlined';
+import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
+import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 
 function TabPanel(props) {
     const { children, value, index, ...other } = props;
@@ -113,6 +131,8 @@ const TopicRecordsPage = (props) => {
 
     const location = useLocation();
 
+    const navigate = useNavigate();
+
     const params = useParams();
 
     const state = location.state;
@@ -120,6 +140,16 @@ const TopicRecordsPage = (props) => {
     const [topicName, setTopicName] = useState([state.item.title]);
 
     const formValues = [];
+
+    const [anchorEl, setAnchorEl] = useState(null);
+
+    const handleClickMenu = (event) => {
+        setAnchorEl(event.currentTarget);
+    };
+
+    const handleCloseMenu = () => {
+        setAnchorEl(null);
+    };
 
     if (theArray.length === 0) {
         state.item.nameType.forEach((element) => {
@@ -299,6 +329,52 @@ const TopicRecordsPage = (props) => {
         /* Bisogna capire come modificare il valore anche per quanto riguarda l'oggetto che ha il component padre */
     };
 
+    /* Delete topic */
+    const [openDeleteTopicDialog, setOpenDeleteTopicDialog] = React.useState(false);
+    const [scrollDeleteTopicDialog, setScrollDeleteTopicDialog] = React.useState('paper');
+
+    const handleClickOpenDeleteTopicDialog = (scrollType) => () => {
+        setOpenDeleteTopicDialog(true);
+        setScrollDeleteTopicDialog(scrollType);
+    };
+
+    const handleCloseDeleteTopicDialog = () => {
+        setOpenDeleteTopicDialog(false);
+    };
+
+    const handleDeleteTopic = async () => {
+        // Query
+
+        const session = await getSession();
+
+        let obj = {
+            id: session.user.id,
+            name: location.state.item.name
+        };
+
+        console.log(obj);
+
+        $.ajax({
+            type: 'POST',
+            url: 'http://localhost:8080/api/v2/data/deledeTopic',
+            data: JSON.stringify(obj),
+            contentType: 'application/json;charset=utf-8'
+        })
+            .done((response) => {
+                console.log('RESPONSE');
+                console.log(response);
+
+                setOpenDeleteTopicDialog(false);
+
+                navigate('/topics', { replace: false });
+            })
+            .fail((e, s, t) => {
+                console.log(`Failed: ${e.responseText}`);
+            });
+    };
+
+    const handleExportTopicMenu = () => {};
+
     const descriptionElementRef = React.useRef(null);
     React.useEffect(() => {
         if (open) {
@@ -373,7 +449,7 @@ const TopicRecordsPage = (props) => {
                         </div>
                     </Grid>
                     <Grid
-                        item
+                        container
                         xs={12}
                         lg={3}
                         md={3}
@@ -382,19 +458,72 @@ const TopicRecordsPage = (props) => {
                             paddingTop: 0
                         }}
                     >
-                        <FormControl fullWidth sx={{ m: 1 }} variant="outlined">
-                            <OutlinedInput
-                                id="outlined-adornment-weight"
-                                value={searchValue || ''}
-                                onChange={handleChangeSearchValue}
-                                endAdornment={<SearchIcon sx={{ color: 'action.active', mr: 1, my: 0.5 }} />}
-                                aria-describedby="outlined-weight-helper-text"
-                                inputProps={{
-                                    'aria-label': 'weight'
+                        <Grid item xs={2} lg={2} md={2} sm={2}>
+                            <Avatar
+                                variant="rounded"
+                                sx={{
+                                    ...theme.typography.commonAvatar,
+                                    ...theme.typography.mediumAvatar,
+                                    backgroundColor: location.state.item.color[0],
+                                    color: '#FFFFFF',
+                                    zIndex: 1,
+                                    mt: 1,
+                                    ml: 2
                                 }}
-                                size="small"
-                            />
-                        </FormControl>
+                                aria-controls="menu-earning-card"
+                                aria-haspopup="true"
+                                onClick={handleClickMenu}
+                            >
+                                <MoreHorizIcon fontSize="inherit" />
+                            </Avatar>
+                            <Menu
+                                id="menu-earning-card"
+                                anchorEl={anchorEl}
+                                keepMounted
+                                open={Boolean(anchorEl)}
+                                onClose={handleCloseMenu}
+                                variant="selectedMenu"
+                                anchorOrigin={{
+                                    vertical: 'bottom',
+                                    horizontal: 'right'
+                                }}
+                                transformOrigin={{
+                                    vertical: 'top',
+                                    horizontal: 'right'
+                                }}
+                            >
+                                <MenuItem onClick={handleExportTopicMenu}>
+                                    <GetAppTwoToneIcon sx={{ mr: 1.75 }} /> Export Topic
+                                </MenuItem>
+                                <MenuItem onClick={handleClickOpenDeleteTopicDialog('paper')}>
+                                    <DeleteForeverIcon sx={{ mr: 1.75 }} /> Delete Topic
+                                </MenuItem>
+                            </Menu>
+                        </Grid>
+                        <Grid
+                            item
+                            xs={10}
+                            lg={10}
+                            md={10}
+                            sm={10}
+                            style={{
+                                paddingTop: 0
+                            }}
+                        >
+                            <FormControl fullWidth sx={{ m: 1 }} variant="outlined">
+                                <OutlinedInput
+                                    id="outlined-adornment-weight"
+                                    value={searchValue || ''}
+                                    onChange={handleChangeSearchValue}
+                                    endAdornment={<SearchIcon sx={{ color: 'action.active', mr: 1, my: 0.5 }} />}
+                                    aria-describedby="outlined-weight-helper-text"
+                                    inputProps={{
+                                        'aria-label': 'weight'
+                                    }}
+                                    size="small"
+                                />
+                            </FormControl>
+                        </Grid>
                     </Grid>
                 </Grid>
                 <Grid container>
@@ -690,6 +819,34 @@ const TopicRecordsPage = (props) => {
                             })}
                         </DialogContentText>
                     </DialogContent>
+                </Dialog>
+
+                {/* Delete topic dialog */}
+                <Dialog
+                    open={openDeleteTopicDialog}
+                    onClose={handleCloseDeleteTopicDialog}
+                    scroll={scrollDeleteTopicDialog}
+                    aria-labelledby="scroll-dialog-title"
+                    aria-describedby="scroll-dialog-description"
+                >
+                    <DialogTitle id="scroll-dialog-title">
+                        <div>
+                            <Typography component="span" variant="h2">
+                                <div>Delete Topic - {location.state.item.name}</div>
+                            </Typography>
+                        </div>
+                    </DialogTitle>
+                    <DialogContent dividers={scroll === 'paper'}>
+                        <DialogContentText id="scroll-dialog-description" ref={descriptionElementRef} tabIndex={-1}>
+                            <Typography component="span" variant="h5">
+                                <div>Are you sure? This action is irreversible!</div>
+                            </Typography>
+                        </DialogContentText>
+                    </DialogContent>
+                    <DialogActions>
+                        <Button onClick={handleCloseDeleteTopicDialog}>Cancel</Button>
+                        <Button onClick={handleDeleteTopic}>Proceed</Button>
+                    </DialogActions>
                 </Dialog>
             </MainCard>
         </div>
