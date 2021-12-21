@@ -227,6 +227,8 @@ const TopicRecordsPage = (props) => {
     const [openRecordDetails, setOpenRecordDetails] = React.useState(false);
     const [scrollRecordDetails, setScrollRecordDetails] = React.useState('paper');
 
+    const [recordSelected, setRecordSelected] = React.useState(null);
+
     const handleClickOpen = (scrollType) => () => {
         setOpen(true);
         setScroll(scrollType);
@@ -237,6 +239,9 @@ const TopicRecordsPage = (props) => {
     };
 
     const handleClickOpenRecord = (scrollType, record) => () => {
+        // settare record selezionato
+        setRecordSelected(record);
+
         for (let i = 0; i < recordDetails.length; i += 1) {
             recordDetails[i].value = record.typeNameRegistration[i].data;
         }
@@ -399,40 +404,35 @@ const TopicRecordsPage = (props) => {
             });
     };
 
-    /* Edit topic name */
-    /*
+    /* Delete record */
+    const [openDeleteRecordDialog, setOpenDeleteRecordDialog] = React.useState(false);
+    const [scrollDeleteRecordDialog, setScrollDeleteRecordDialog] = React.useState('paper');
 
-    const [openEditTopicNameDialog, setOpenEditTopicNameDialog] = React.useState(false);
-    const [scrollEditTopicNameDialog, setScrollEditTopicNameDialog] = React.useState('paper');
-
-    const handleClickOpenEditTopicNameDialog = (scrollType) => () => {
-        setOpenDeleteTopicDialog(true);
-        setScrollDeleteTopicDialog(scrollType);
+    const handleClickOpenDeleteRecordDialog = (scrollType) => () => {
+        setOpenDeleteRecordDialog(true);
+        setScrollDeleteRecordDialog(scrollType);
     };
 
-    const handleCloseEditTopicNameDialog = () => {
-        setOpenDeleteTopicDialog(false);
+    const handleCloseDeleteRecordDialog = () => {
+        setOpenDeleteRecordDialog(false);
     };
 
-     */
-
-    const handleChangeTopicName = async () => {
+    const handleDeleteRecord = async () => {
         // Query
 
         const session = await getSession();
 
         let obj = {
-            id: session.user.id,
-            name: location.state.item.name,
-            newName: ''
+            idUser: session.user.id,
+            idReg: recordSelected.id,
+            topic: location.state.item.name
         };
 
         console.log(obj);
 
-        /*
         $.ajax({
             type: 'POST',
-            url: 'http://localhost:8080/api/v2/data/changeNameTopic',
+            url: 'http://localhost:8080/api/v2/data/deledeReg',
             data: JSON.stringify(obj),
             contentType: 'application/json;charset=utf-8'
         })
@@ -440,15 +440,17 @@ const TopicRecordsPage = (props) => {
                 console.log('RESPONSE');
                 console.log(response);
 
-                setOpenEditTopic(false);
-
-                // navigate('/topics', { replace: false });
+                response.forEach(function (element, index) {
+                    if (element.name === location.state.item.name) {
+                        location.state.item.listRegistrazioni = element.listRegistrazioni;
+                    }
+                });
+                setOpenDeleteRecordDialog(false);
+                setOpenRecordDetails(false);
             })
             .fail((e, s, t) => {
                 console.log(`Failed: ${e.responseText}`);
             });
-
-         */
     };
 
     const handleExportTopicMenu = () => {};
@@ -870,11 +872,19 @@ const TopicRecordsPage = (props) => {
                     aria-describedby="scroll-dialog-description"
                 >
                     <DialogTitle id="scroll-dialog-title">
-                        <div>
-                            <Typography component="span" variant="h2">
-                                <div>Record Details - {recordDetails[0].value}</div>
-                            </Typography>
-                        </div>
+                        <Grid container>
+                            <Grid item xs={12} lg={11} md={11} sm={11}>
+                                <Typography component="span" variant="h2">
+                                    <div>Record Details - {recordDetails[0].value}</div>
+                                </Typography>
+                            </Grid>
+                            <Grid item xs={12} lg={1} md={1} sm={1}>
+                                <DeleteForeverIcon
+                                    sx={{ mr: 1.75, color: '#f44336', cursor: 'pointer' }}
+                                    onClick={handleClickOpenDeleteRecordDialog('paper')}
+                                />
+                            </Grid>
+                        </Grid>
                     </DialogTitle>
                     <DialogContent dividers={scroll === 'paper'}>
                         <DialogContentText id="scroll-dialog-description" ref={descriptionElementRef} tabIndex={-1}>
@@ -968,6 +978,36 @@ const TopicRecordsPage = (props) => {
                         <Button onClick={handleDeleteTopic}>Proceed</Button>
                     </DialogActions>
                 </Dialog>
+
+                {/* Delete record dialog */}
+                {recordSelected ? (
+                    <Dialog
+                        open={openDeleteRecordDialog}
+                        onClose={handleCloseDeleteRecordDialog}
+                        scroll={scrollDeleteRecordDialog}
+                        aria-labelledby="scroll-dialog-title"
+                        aria-describedby="scroll-dialog-description"
+                    >
+                        <DialogTitle id="scroll-dialog-title">
+                            <div>
+                                <Typography component="span" variant="h2">
+                                    <div>Delete Record - {recordSelected.typeNameRegistration[0].data}</div>
+                                </Typography>
+                            </div>
+                        </DialogTitle>
+                        <DialogContent dividers={scroll === 'paper'}>
+                            <DialogContentText id="scroll-dialog-description" ref={descriptionElementRef} tabIndex={-1}>
+                                <Typography component="span" variant="h5">
+                                    <div>Are you sure? This action is irreversible!</div>
+                                </Typography>
+                            </DialogContentText>
+                        </DialogContent>
+                        <DialogActions>
+                            <Button onClick={handleCloseDeleteRecordDialog}>Cancel</Button>
+                            <Button onClick={handleDeleteRecord}>Proceed</Button>
+                        </DialogActions>
+                    </Dialog>
+                ) : null}
             </MainCard>
         </div>
     );
