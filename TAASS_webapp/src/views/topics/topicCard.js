@@ -67,7 +67,7 @@ CardWrapper.propTypes = {
 
 // ===========================|| DASHBOARD DEFAULT - EARNING CARD ||=========================== //
 
-const TopicCard = ({ isLoading, firstcolor, secondcolor, thirdcolor, title }) => {
+const TopicCard = ({ isLoading, firstcolor, secondcolor, thirdcolor, title, creationDate }) => {
     /*
 
     console.log('Props in Input :', firstcolor);
@@ -107,58 +107,16 @@ const TopicCard = ({ isLoading, firstcolor, secondcolor, thirdcolor, title }) =>
                             <Grid item>
                                 <Grid container justifyContent="space-between">
                                     <Grid item>
-                                        <Avatar
-                                            variant="rounded"
-                                            sx={{
-                                                ...theme.typography.commonAvatar,
-                                                ...theme.typography.mediumAvatar,
-                                                // backgroundColor: theme.palette.secondary.dark,
-                                                backgroundColor: firstcolor,
-                                                color: '#FFFFFF',
-                                                zIndex: 1
-                                            }}
-                                            aria-controls="menu-earning-card"
-                                            aria-haspopup="true"
-                                            onClick={handleClick}
-                                        >
-                                            <MoreHorizIcon fontSize="inherit" />
-                                        </Avatar>
-                                        <Menu
-                                            id="menu-earning-card"
-                                            anchorEl={anchorEl}
-                                            keepMounted
-                                            open={Boolean(anchorEl)}
-                                            onClose={handleClose}
-                                            variant="selectedMenu"
-                                            anchorOrigin={{
-                                                vertical: 'bottom',
-                                                horizontal: 'right'
-                                            }}
-                                            transformOrigin={{
-                                                vertical: 'top',
-                                                horizontal: 'right'
-                                            }}
-                                        >
-                                            <MenuItem onClick={handleClose}>
-                                                <GetAppTwoToneIcon sx={{ mr: 1.75 }} /> Import Card
-                                            </MenuItem>
-                                            <MenuItem onClick={handleClose}>
-                                                <FileCopyTwoToneIcon sx={{ mr: 1.75 }} /> Copy Data
-                                            </MenuItem>
-                                            <MenuItem onClick={handleClose}>
-                                                <PictureAsPdfTwoToneIcon sx={{ mr: 1.75 }} /> Export
-                                            </MenuItem>
-                                            <MenuItem onClick={handleClose}>
-                                                <ArchiveTwoToneIcon sx={{ mr: 1.75 }} /> Archive File
-                                            </MenuItem>
-                                        </Menu>
+                                        <Typography sx={{ fontSize: '1.725rem', fontWeight: 500, mr: 1, mt: 0.75 }}>{title}</Typography>
                                     </Grid>
                                 </Grid>
                             </Grid>
                             <Grid item>
                                 <Grid container>
                                     <Grid item>
-                                        <Typography sx={{ fontSize: '1.725rem', fontWeight: 500, mr: 1, mt: 1.75 }}>{title}</Typography>
+                                        <Typography sx={{ fontSize: '1.025rem', fontWeight: 500, mr: 1, mt: 4.75 }}>
+                                            <i>Creation date: {creationDate}</i>
+                                        </Typography>
                                     </Grid>
                                 </Grid>
                             </Grid>
@@ -175,7 +133,8 @@ TopicCard.propTypes = {
     firstcolor: PropTypes.string,
     secondcolor: PropTypes.string,
     thirdcolor: PropTypes.string,
-    title: PropTypes.string
+    title: PropTypes.string,
+    creationDate: PropTypes.string
 };
 
 export default TopicCard;

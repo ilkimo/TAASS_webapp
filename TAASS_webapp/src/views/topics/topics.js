@@ -222,6 +222,7 @@ class Topics extends React.Component {
                                                 secondcolor={topic.color[1]}
                                                 thirdcolor={topic.color[2]}
                                                 title={topic.name}
+                                                creationDate={topic.creationDate}
                                             />
                                         </Link>
                                     </Grid>
