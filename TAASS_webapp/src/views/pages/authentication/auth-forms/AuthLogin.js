@@ -46,7 +46,7 @@ import Google from 'assets/images/icons/social-google.svg';
 import Facebook from 'assets/images/icons/social-facebook.svg';
 
 import { ReactSession } from 'react-client-session';
-import { useSession, loadDataFromStorage, getSession } from 'react-session-persist';
+import { useSession, loadDataFromStorage, getSession, setSession } from 'react-session-persist';
 // ============================|| FIREBASE - LOGIN ||============================ //
 
 const FirebaseLogin = ({ ...others }) => {

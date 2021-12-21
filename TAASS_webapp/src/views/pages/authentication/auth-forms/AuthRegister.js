@@ -41,6 +41,8 @@ import $ from 'jquery';
 
 import { ReactSession } from 'react-client-session';
 
+import { useSession, loadDataFromStorage, getSession, setSession } from 'react-session-persist';
+
 // ===========================|| FIREBASE - REGISTER ||=========================== //
 
 const FirebaseRegister = ({ ...others }) => {
@@ -59,6 +61,8 @@ const FirebaseRegister = ({ ...others }) => {
 
     const clientID = '282646887193-mj946se9m6a7qgmkl2npmrjfksbcht6r.apps.googleusercontent.com';
     const navigate = useNavigate();
+
+    const { authenticated, saveSession } = useSession();
 
     const facebookHandle = (response) => {
         console.log(response);
@@ -126,6 +130,8 @@ const FirebaseRegister = ({ ...others }) => {
                     console.log(response);
 
                     console.log('Register Successful');
+
+                    saveSession({ user: response });
 
                     ReactSession.setStoreType('localStorage');
                     ReactSession.set('id', response.id);

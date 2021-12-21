@@ -40,7 +40,8 @@ import User1 from 'assets/images/users/user-round.svg';
 import { IconLogout, IconSearch, IconSettings, IconUser } from '@tabler/icons';
 import { browserHistory } from 'react-router';
 import { ReactSession } from 'react-client-session';
-import { getSession } from 'react-session-persist/lib';
+
+import { useSession, loadDataFromStorage, getSession, setSession, removeSession } from 'react-session-persist';
 
 // ==============================|| PROFILE MENU ||============================== //
 
@@ -61,6 +62,8 @@ const ProfileSection = () => {
     const anchorRef = useRef(null);
     const handleLogout = async () => {
         console.log('Logout');
+
+        removeSession();
 
         /* TODO: GESTIRE LA SESSIONE UTENTE */
         ReactSession.remove('username');
