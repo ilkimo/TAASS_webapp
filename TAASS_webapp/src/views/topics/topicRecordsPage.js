@@ -452,7 +452,6 @@ const TopicRecordsPage = (props) => {
                 console.log(`Failed: ${e.responseText}`);
             });
     };
-
     const handleExportTopicMenu = () => {};
 
     const descriptionElementRef = React.useRef(null);
