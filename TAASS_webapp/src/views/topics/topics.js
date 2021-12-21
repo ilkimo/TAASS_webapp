@@ -242,7 +242,16 @@ class Topics extends React.Component {
             );
         }
 
-        return <div>Loading...</div>;
+        return (
+            <div>
+                <MuiTypography variant="h3">There are not topic yet</MuiTypography>
+                <Link to="/addTopic/">
+                    <Fab color="primary" aria-label="add" style={style}>
+                        <AddIcon />
+                    </Fab>
+                </Link>
+            </div>
+        );
     }
 }
 

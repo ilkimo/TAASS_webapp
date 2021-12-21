@@ -121,14 +121,32 @@ const FirebaseRegister = ({ ...others }) => {
                 data: JSON.stringify(user),
                 contentType: 'application/json;charset=utf-8'
             })
-                .done(() => {
+                .done((response) => {
+                    console.log('RESPONSE');
+                    console.log(response);
+
                     console.log('Register Successful');
 
                     ReactSession.setStoreType('localStorage');
-                    ReactSession.set('username', user.email);
-                    ReactSession.set('password', user.password);
+                    ReactSession.set('id', response.id);
+                    ReactSession.set('username', response.email);
+                    ReactSession.set('password', response.password);
 
-                    navigate('/topics', { replace: false });
+                    $.ajax({
+                        type: 'POST',
+                        url: 'http://localhost:8080/api/v2/data/newuser',
+                        data: String(response.id),
+                        contentType: 'application/json;charset=utf-8'
+                    })
+                        .done((resp) => {
+                            console.log('RESPONSE');
+                            console.log(resp);
+
+                            navigate('/topics', { replace: false });
+                        })
+                        .fail((e, s, t) => {
+                            console.log(`Failed: ${e.responseText}`);
+                        });
                 })
                 .fail((e, s, t) => {
                     console.log(`Failed: ${e.responseText}`);
