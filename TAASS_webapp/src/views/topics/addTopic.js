@@ -124,15 +124,19 @@ class AddTopic extends React.Component {
         alert(`${this.state.topicName}; ${this.state.topicDescription}`);
         // alert(JSON.stringify(this.state.formValues));
 
+        let formOk = true;
+
         /* Controllare tutti i dati! Ogni valore deve essere stato inserito */
         if (this.state.topicName.replace(/\s/g, '').length > 0 && this.state.topicDescription.replace(/\s/g, '').length > 0) {
             this.state.formValues.forEach((elem) => {
                 if (elem.name.replace(/\s/g, '').length === 0 || elem.data.replace(/\s/g, '').length === 0) {
                     this.setState({ alertCompileAllForm: true });
+                    formOk = false;
                 }
             });
         } else {
             this.setState({ alertCompileAllForm: true });
+            formOk = false;
         }
 
         // let navigate = useNavigate();
@@ -144,49 +148,51 @@ class AddTopic extends React.Component {
         const session = await getSession();
         console.log(session);
 
-        let topic = {
-            id: String(session.user.id),
-            name: this.state.topicName,
-            description: this.state.topicDescription,
-            nameType: this.state.formValues,
-            color: [this.state.background, this.state.firstDarkBackground, this.state.secondDarkBackground]
-        };
+        if (formOk) {
+            let topic = {
+                id: String(session.user.id),
+                name: this.state.topicName,
+                description: this.state.topicDescription,
+                nameType: this.state.formValues,
+                color: [this.state.background, this.state.firstDarkBackground, this.state.secondDarkBackground]
+            };
 
-        console.log(topic);
+            console.log(topic);
 
-        $.ajax({
-            type: 'POST',
-            url: 'http://localhost:8080/api/v2/data/newTopic',
-            data: JSON.stringify(topic),
-            contentType: 'application/json;charset=utf-8'
-        })
-            .done((response) => {
-                console.log('RESPONSE');
-                console.log(response);
-                // this.props.navigation.navigate('nextScreen');
-                // this.props.navigate('/topics');
-                // this.props.history.push('/topics');
-
-                this.setState({ alert: true });
-                this.setState({
-                    background: '#f44336',
-                    firstDarkBackground: '#ea392c',
-                    secondDarkBackground: '#e02f22',
-                    formValues: [
-                        { name: 'Name', data: 'Text' },
-                        { name: 'Date', data: 'Date' }
-                    ],
-                    topicValues: [{ topicName: '', topicDescription: '' }],
-                    displayColorPicker: false,
-                    topicName: '',
-                    topicDescription: '',
-                    alertError: false
-                });
+            $.ajax({
+                type: 'POST',
+                url: 'http://localhost:8080/api/v2/data/newTopic',
+                data: JSON.stringify(topic),
+                contentType: 'application/json;charset=utf-8'
             })
-            .fail((e, s, t) => {
-                console.log(`Failed: ${e.responseText}`);
-                this.setState({ alertError: true, alert: false });
-            });
+                .done((response) => {
+                    console.log('RESPONSE');
+                    console.log(response);
+                    // this.props.navigation.navigate('nextScreen');
+                    // this.props.navigate('/topics');
+                    // this.props.history.push('/topics');
+
+                    this.setState({ alert: true });
+                    this.setState({
+                        background: '#f44336',
+                        firstDarkBackground: '#ea392c',
+                        secondDarkBackground: '#e02f22',
+                        formValues: [
+                            { name: 'Name', data: 'Text' },
+                            { name: 'Date', data: 'Date' }
+                        ],
+                        topicValues: [{ topicName: '', topicDescription: '' }],
+                        displayColorPicker: false,
+                        topicName: '',
+                        topicDescription: '',
+                        alertError: false
+                    });
+                })
+                .fail((e, s, t) => {
+                    console.log(`Failed: ${e.responseText}`);
+                    this.setState({ alertError: true, alert: false });
+                });
+        }
     };
 
     handleClick = () => {
