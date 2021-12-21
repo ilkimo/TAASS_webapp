@@ -27,6 +27,7 @@ import { BlockPicker, CirclePicker } from 'react-color'; /* https://casesandberg
 import Collapse from '@mui/material/Collapse';
 import { ReactSession } from 'react-client-session';
 import * as $ from 'jquery';
+import { useNavigate, withRouter, BrowserRouter } from 'react-router-dom';
 
 // ==============================|| TYPOGRAPHY ||============================== //
 
@@ -111,9 +112,13 @@ class AddTopic extends React.Component {
 
     handleSubmit = (event) => {
         event.preventDefault();
-        alert(JSON.stringify(this.state.formValues));
+        // alert(JSON.stringify(this.state.formValues));
+
+        // let navigate = useNavigate();
 
         /* TODO: make query */
+
+        // navigate('/topics', { replace: true });
 
         let topic = {
             id: String(ReactSession.get('id')),
@@ -134,6 +139,9 @@ class AddTopic extends React.Component {
             .done((response) => {
                 console.log('RESPONSE');
                 console.log(response);
+                // this.props.navigation.navigate('nextScreen');
+                // this.props.navigate('/topics');
+                // this.props.history.push('/topics');
             })
             .fail((e, s, t) => {
                 console.log(`Failed: ${e.responseText}`);

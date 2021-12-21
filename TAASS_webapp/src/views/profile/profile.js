@@ -9,7 +9,7 @@ import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 
 import { Row, Col, Container } from 'react-bootstrap';
 import EditIcon from '@mui/icons-material/Edit';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Grid from '@mui/material/Grid';
 import Dialog from '@mui/material/Dialog';
 import DialogTitle from '@mui/material/DialogTitle';
@@ -20,10 +20,39 @@ import DialogActions from '@mui/material/DialogActions';
 import Button from '@mui/material/Button';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
 import { ReactSession } from 'react-client-session';
+import { getSession } from 'react-session-persist/lib';
 
 // ==============================|| TYPOGRAPHY ||============================== //
-
 const Profile = () => {
+    /* TEST */
+    const [values, setValues] = React.useState({
+        username: '',
+        mail: '',
+        password: '',
+        oldPassword: '',
+        newPassword: '',
+        repeatNewPassword: '',
+        showOldPassword: false,
+        showNewPassword: false,
+        showRepeatNewPassword: false
+    });
+
+    useEffect(() => {
+        async function getSessionUser() {
+            // You need to restrict it at some point
+            // This is just dummy code and should be replaced by actual
+            const session = await getSession();
+            console.log(session);
+            setValues({
+                ...values,
+                username: session.user.email,
+                password: session.user.password
+            });
+        }
+
+        getSessionUser();
+    }, []);
+
     /* Edit Topic Name */
     const [openEditPassword, setOpenEditPassword] = React.useState(false);
     const [scrollEditPassword, setScrollEditPassword] = React.useState('paper');
@@ -46,19 +75,6 @@ const Profile = () => {
             }
         }
     }, [openEditPassword]);
-
-    /* TEST */
-    const [values, setValues] = React.useState({
-        username: ReactSession.get('username'),
-        mail: '',
-        password: ReactSession.get('password'),
-        oldPassword: '',
-        newPassword: '',
-        repeatNewPassword: '',
-        showOldPassword: false,
-        showNewPassword: false,
-        showRepeatNewPassword: false
-    });
 
     const handleChange = (prop) => (event) => {
         setValues({ ...values, [prop]: event.target.value });

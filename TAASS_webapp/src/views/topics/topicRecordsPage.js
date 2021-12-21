@@ -155,7 +155,7 @@ const TopicRecordsPage = (props) => {
             {
                 label: `I miei ${state.item.title}`,
                 data: [10, 20, 30, 40, 50, 60, 0, 0, 0, 0, 0, 2],
-                backgroundColor: location.state.item.thirdcolor
+                backgroundColor: location.state.item.color[2]
             }
         ]
     };
@@ -389,6 +389,9 @@ const TopicRecordsPage = (props) => {
                 <Grid container>
                     <Grid item>
                         <FormControl component="fieldset">
+                            <Typography component="span" variant="h4" sx={{ pl: 2, pt: 1 }}>
+                                <div>Description: {location.state.item.description}</div>
+                            </Typography>
                             <FormLabel component="legend" />
                             <FormGroup aria-label="position" row>
                                 <FormControlLabel
@@ -399,11 +402,6 @@ const TopicRecordsPage = (props) => {
                                 />
                             </FormGroup>
                         </FormControl>
-                    </Grid>
-                    <Grid item>
-                        <Typography component="span" variant="h5">
-                            <div>Description: {location.state.item.description}</div>
-                        </Typography>
                     </Grid>
                 </Grid>
 

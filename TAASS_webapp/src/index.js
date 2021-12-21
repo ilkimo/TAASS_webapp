@@ -4,6 +4,8 @@ import ReactDOM from 'react-dom';
 import { BrowserRouter } from 'react-router-dom';
 import { Provider } from 'react-redux';
 
+import Session from 'react-session-persist';
+
 // project imports
 import * as serviceWorker from 'serviceWorker';
 import App from 'App';
@@ -17,7 +19,9 @@ import 'assets/scss/style.scss';
 ReactDOM.render(
     <Provider store={store}>
         <BrowserRouter>
-            <App />
+            <Session>
+                <App />
+            </Session>
         </BrowserRouter>
     </Provider>,
     document.getElementById('root')

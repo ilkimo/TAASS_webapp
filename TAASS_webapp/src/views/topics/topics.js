@@ -22,6 +22,7 @@ import { ReactSession } from 'react-client-session';
 
 import * as $ from 'jquery';
 import 'jquery.soap';
+import { getSession } from 'react-session-persist/lib';
 
 // ==============================|| DEFAULT DASHBOARD ||============================== //
 
@@ -163,11 +164,14 @@ class Topics extends React.Component {
     }
 
     async getTopics() {
+        const session = await getSession();
+        console.log(session);
+
         const setState = this.setState.bind(this);
         $.ajax({
             type: 'POST',
             url: 'http://localhost:8080/api/v2/data/topics',
-            data: String(ReactSession.get('id')),
+            data: String(session.user.id),
             contentType: 'application/json;charset=utf-8'
         })
             .done((response) => {

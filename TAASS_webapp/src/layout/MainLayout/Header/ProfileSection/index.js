@@ -40,6 +40,7 @@ import User1 from 'assets/images/users/user-round.svg';
 import { IconLogout, IconSearch, IconSettings, IconUser } from '@tabler/icons';
 import { browserHistory } from 'react-router';
 import { ReactSession } from 'react-client-session';
+import { getSession } from 'react-session-persist/lib';
 
 // ==============================|| PROFILE MENU ||============================== //
 
@@ -48,6 +49,7 @@ const ProfileSection = () => {
     const customization = useSelector((state) => state.customization);
     const navigate = useNavigate();
 
+    const [user, setUser] = useState({});
     const [sdm, setSdm] = useState(true);
     const [value, setValue] = useState('');
     const [notification, setNotification] = useState(false);
@@ -66,6 +68,18 @@ const ProfileSection = () => {
 
         navigate('../pages/login/login3', { replace: true });
     };
+
+    useEffect(() => {
+        async function getSessionUser() {
+            // You need to restrict it at some point
+            // This is just dummy code and should be replaced by actual
+            const session = await getSession();
+            console.log(session);
+            setUser(session.user);
+        }
+
+        getSessionUser();
+    }, []);
 
     const handleClose = (event) => {
         if (anchorRef.current && anchorRef.current.contains(event.target)) {
@@ -167,7 +181,7 @@ const ProfileSection = () => {
                                             <Stack direction="row" spacing={0.5} alignItems="center">
                                                 <Typography variant="h4">Good Morning,</Typography>
                                                 <Typography component="span" variant="h4" sx={{ fontWeight: 400 }}>
-                                                    {ReactSession.get('username')}
+                                                    {user.email}
                                                 </Typography>
                                             </Stack>
                                         </Stack>

@@ -46,7 +46,7 @@ import Google from 'assets/images/icons/social-google.svg';
 import Facebook from 'assets/images/icons/social-facebook.svg';
 
 import { ReactSession } from 'react-client-session';
-
+import { useSession, loadDataFromStorage, getSession } from 'react-session-persist';
 // ============================|| FIREBASE - LOGIN ||============================ //
 
 const FirebaseLogin = ({ ...others }) => {
@@ -58,6 +58,8 @@ const FirebaseLogin = ({ ...others }) => {
     const [okEmailPassword, setOkEmailpassword] = useState(true);
 
     const navigate = useNavigate();
+
+    const { authenticated, saveSession } = useSession();
 
     const googleHandler = (response) => {
         console.log(response);
@@ -90,12 +92,17 @@ const FirebaseLogin = ({ ...others }) => {
             data: JSON.stringify(user),
             contentType: 'application/json;charset=utf-8'
         })
-            .done((response) => {
+            .done(async (response) => {
                 console.log('RESPONSE');
                 console.log(response);
 
                 console.log('Login Successful');
                 setOkEmailpassword(true);
+
+                saveSession({ user: response });
+
+                const session = await getSession();
+                console.log(session);
 
                 ReactSession.setStoreType('localStorage');
                 ReactSession.set('id', response.id);
