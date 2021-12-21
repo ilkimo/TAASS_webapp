@@ -126,6 +126,8 @@ const TopicRecordsPage = (props) => {
                 theArray.push({ value: 'initial value' });
             } else if (element.data === 'Integer Number') {
                 theArray.push({ value: 9 });
+            } else if (element.data === 'Floating Point Number') {
+                theArray.push({ value: 9.0 });
             } else if (element.data === 'Date') {
                 theArray.push({ value: new Date() });
             }
@@ -134,6 +136,8 @@ const TopicRecordsPage = (props) => {
                 recordDetails.push({ value: '' });
             } else if (element.data === 'Integer Number') {
                 recordDetails.push({ value: 0 });
+            } else if (element.data === 'Floating Point Number') {
+                recordDetails.push({ value: 0.0 });
             } else if (element.data === 'Date') {
                 recordDetails.push({ value: new Date() });
             }
@@ -558,6 +562,21 @@ const TopicRecordsPage = (props) => {
                                         </FormControl>
                                     );
                                 }
+
+                                if (d.data === 'Floating Point Number') {
+                                    return (
+                                        <FormControl fullWidth sx={{ mb: 2 }} variant="filled" key={i}>
+                                            <TextField
+                                                value={theArray[i].value}
+                                                // value={formValues[i].value}
+                                                label={`${d.name}`}
+                                                inputProps={{ inputMode: 'numeric', pattern: '([0-9]*[.])?[0-9]+' }}
+                                                onChange={(e) => handleValueChange(i, e)}
+                                            />
+                                        </FormControl>
+                                    );
+                                }
+
                                 if (d.data === 'Date') {
                                     return (
                                         <FormControl fullWidth sx={{ mb: 2 }}>
@@ -623,6 +642,19 @@ const TopicRecordsPage = (props) => {
                                                 // value={formValues[i].value}
                                                 label={`${d.name}`}
                                                 inputProps={{ inputMode: 'numeric', pattern: '[0-9]*' }}
+                                                onChange={(e) => handleValueChange(i, e)}
+                                            />
+                                        </FormControl>
+                                    );
+                                }
+                                if (d.data === 'Floating Point Number') {
+                                    return (
+                                        <FormControl fullWidth sx={{ mb: 2 }} variant="filled" key={i}>
+                                            <TextField
+                                                value={recordDetails[i].value}
+                                                // value={formValues[i].value}
+                                                label={`${d.name}`}
+                                                inputProps={{ inputMode: 'numeric', pattern: '([0-9]*[.])?[0-9]+' }}
                                                 onChange={(e) => handleValueChange(i, e)}
                                             />
                                         </FormControl>

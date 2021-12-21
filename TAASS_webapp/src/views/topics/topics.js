@@ -242,7 +242,7 @@ class Topics extends React.Component {
             );
         }
 
-        return <div>Loading... CIAO {this.state.topics}</div>;
+        return <div>Loading...</div>;
     }
 }
 

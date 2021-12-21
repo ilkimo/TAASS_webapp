@@ -26,6 +26,7 @@ import Paper from '@mui/material/Paper';
 import { BlockPicker, CirclePicker } from 'react-color'; /* https://casesandberg.github.io/react-color/ */
 import Collapse from '@mui/material/Collapse';
 import { ReactSession } from 'react-client-session';
+import * as $ from 'jquery';
 
 // ==============================|| TYPOGRAPHY ||============================== //
 
@@ -58,7 +59,7 @@ class AddTopic extends React.Component {
             background: '#f44336',
             firstDarkBackground: '#ea392c',
             secondDarkBackground: '#e02f22',
-            formValues: [{ name: '', fieldType: '' }],
+            formValues: [{ name: '', data: '' }],
             topicValues: [{ topicName: '', topicDescription: '' }],
             displayColorPicker: false,
             topicName: '',
@@ -97,7 +98,7 @@ class AddTopic extends React.Component {
     };
 
     addFormFields = () => {
-        let newFormValues = [...this.state.formValues, { name: '', fieldType: '' }];
+        let newFormValues = [...this.state.formValues, { name: '', data: '' }];
         this.setState({ formValues: newFormValues });
     };
 
@@ -114,12 +115,29 @@ class AddTopic extends React.Component {
 
         /* TODO: make query */
 
-        /*
-        var topic = {
+        let topic = {
             id: String(ReactSession.get('id')),
-            name:
-        }
-         */
+            name: this.state.topicName,
+            description: this.state.topicDescription,
+            nameType: this.state.formValues,
+            color: [this.state.background, this.state.firstDarkBackground, this.state.secondDarkBackground]
+        };
+
+        console.log(topic);
+
+        $.ajax({
+            type: 'POST',
+            url: 'http://localhost:8080/api/v2/data/newTopic',
+            data: JSON.stringify(topic),
+            contentType: 'application/json;charset=utf-8'
+        })
+            .done((response) => {
+                console.log('RESPONSE');
+                console.log(response);
+            })
+            .fail((e, s, t) => {
+                console.log(`Failed: ${e.responseText}`);
+            });
     };
 
     handleClick = () => {
@@ -216,7 +234,7 @@ class AddTopic extends React.Component {
                         <Grid item xs={12} lg={4} md={4} sm={12}>
                             <MuiTypography variant="h4">What is the form of your data?</MuiTypography>
                             <MuiTypography variant="body2" gutterBottom>
-                                Please press the plks button to add a field you want to save of your data and press the Done Button when tou
+                                Please press the plis button to add a field you want to save of your data and press the Done Button when tou
                                 finish.
                             </MuiTypography>
                             <FormControl fullWidth sx={{ mt: 1, mb: 2 }} variant="filled">
@@ -281,9 +299,9 @@ class AddTopic extends React.Component {
                                                         label="Field Type"
                                                         labelId="demo-simple-select-label"
                                                         id="demo-simple-select"
-                                                        name="fieldType"
+                                                        name="data"
                                                         size="small"
-                                                        value={element.fieldType || ''}
+                                                        value={element.data || ''}
                                                         onChange={(e) => this.handleChange(index, e)}
                                                     >
                                                         <MenuItem value="Text">Text</MenuItem>
