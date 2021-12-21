@@ -35,7 +35,6 @@ import useScriptRef from 'hooks/useScriptRef';
 import AnimateButton from 'ui-component/extended/AnimateButton';
 
 import * as $ from 'jquery';
-
 import 'jquery.soap';
 
 // assets
@@ -91,13 +90,17 @@ const FirebaseLogin = ({ ...others }) => {
             data: JSON.stringify(user),
             contentType: 'application/json;charset=utf-8'
         })
-            .done(() => {
+            .done((response) => {
+                console.log('RESPONSE');
+                console.log(response);
+
                 console.log('Login Successful');
                 setOkEmailpassword(true);
 
                 ReactSession.setStoreType('localStorage');
-                ReactSession.set('username', user.email);
-                ReactSession.set('password', user.password);
+                ReactSession.set('id', response.id);
+                ReactSession.set('username', response.email);
+                ReactSession.set('password', response.password);
 
                 navigate('/topics', { replace: false });
             })

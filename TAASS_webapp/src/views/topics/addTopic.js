@@ -25,6 +25,7 @@ import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
 import { BlockPicker, CirclePicker } from 'react-color'; /* https://casesandberg.github.io/react-color/ */
 import Collapse from '@mui/material/Collapse';
+import { ReactSession } from 'react-client-session';
 
 // ==============================|| TYPOGRAPHY ||============================== //
 
@@ -59,7 +60,9 @@ class AddTopic extends React.Component {
             secondDarkBackground: '#e02f22',
             formValues: [{ name: '', fieldType: '' }],
             topicValues: [{ topicName: '', topicDescription: '' }],
-            displayColorPicker: false
+            displayColorPicker: false,
+            topicName: '',
+            topicDescription: ''
         };
     }
 
@@ -68,6 +71,14 @@ class AddTopic extends React.Component {
         newFormValues[i][e.target.name] = e.target.value;
 
         this.setState({ formValues: newFormValues });
+    };
+
+    handleTopicNameChange = (e) => {
+        this.setState({ topicName: e.target.value });
+    };
+
+    handleTopicDescriptionChange = (e) => {
+        this.setState({ topicDescription: e.target.value });
     };
 
     handleChangeComplete = (color) => {
@@ -100,6 +111,15 @@ class AddTopic extends React.Component {
     handleSubmit = (event) => {
         event.preventDefault();
         alert(JSON.stringify(this.state.formValues));
+
+        /* TODO: make query */
+
+        /*
+        var topic = {
+            id: String(ReactSession.get('id')),
+            name:
+        }
+         */
     };
 
     handleClick = () => {
@@ -196,11 +216,19 @@ class AddTopic extends React.Component {
                         <Grid item xs={12} lg={4} md={4} sm={12}>
                             <MuiTypography variant="h4">What is the form of your data?</MuiTypography>
                             <MuiTypography variant="body2" gutterBottom>
-                                Please press the plkus button to add a field you want to save of your data and press the Done Button when
-                                tou finish.
+                                Please press the plks button to add a field you want to save of your data and press the Done Button when tou
+                                finish.
                             </MuiTypography>
                             <FormControl fullWidth sx={{ mt: 1, mb: 2 }} variant="filled">
-                                <TextField id="outlined-basic" label="Topic Name" variant="outlined" name="name" size="small" />
+                                <TextField
+                                    id="outlined-basic"
+                                    label="Topic Name"
+                                    variant="outlined"
+                                    name="name"
+                                    size="small"
+                                    value={this.state.topicName || ''}
+                                    onChange={this.handleTopicNameChange}
+                                />
                                 <TextField
                                     sx={{ mt: 2 }}
                                     id="filled-multiline-static"
@@ -209,6 +237,8 @@ class AddTopic extends React.Component {
                                     rows={4}
                                     defaultValue="Default Value"
                                     variant="filled"
+                                    value={this.state.topicDescription || ''}
+                                    onChange={this.handleTopicDescriptionChange}
                                 />
                             </FormControl>
                             <div>

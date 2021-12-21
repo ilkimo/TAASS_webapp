@@ -20,6 +20,9 @@ import MuiTypography from '@mui/material/Typography';
 
 import { ReactSession } from 'react-client-session';
 
+import * as $ from 'jquery';
+import 'jquery.soap';
+
 // ==============================|| DEFAULT DASHBOARD ||============================== //
 
 const style = {
@@ -118,66 +121,129 @@ const changeTopicNameHandler = (index, oldName, newName) => {
     fakeTopics[index].title = newName;
 };
 
-const Topics = (props) => {
+class Topics extends React.Component {
+    /*
     const [isLoading, setLoading] = useState(true);
+    const [userObject, setUserObject] = useState({});
+
     useEffect(() => {
         setLoading(false);
     }, []);
 
-    return (
-        <Grid container spacing={gridSpacing}>
-            {/* <HomeSlider /> */}
+    $.ajax({
+        type: 'POST',
+        url: 'http://localhost:8080/api/v2/data/document',
+        data: String(ReactSession.get('id')),
+        contentType: 'application/json;charset=utf-8'
+    })
+        .done((response) => {
+            console.log('RESPONSE');
+            console.log(response);
 
-            <Grid container>
-                <Grid item xs={12} style={{ marginLeft: 20, marginTop: 20 }}>
-                    <MuiTypography variant="h2">Your Topics</MuiTypography>
-                </Grid>
-                <Grid item xs={12}>
+            setUserObject(response);
+        })
+        .fail((e, s, t) => {
+            console.log(`Failed: ${e.responseText}`);
+        });
+
+    console.log('userObject');
+    console.log(userObject);
+    */
+
+    constructor() {
+        super();
+        this.state = {
+            topics: null
+        };
+        this.getTopics = this.getTopics.bind(this);
+    }
+
+    componentDidMount() {
+        this.getTopics();
+    }
+
+    async getTopics() {
+        const setState = this.setState.bind(this);
+        $.ajax({
+            type: 'POST',
+            url: 'http://localhost:8080/api/v2/data/topics',
+            data: String(ReactSession.get('id')),
+            contentType: 'application/json;charset=utf-8'
+        })
+            .done((response) => {
+                console.log('RESPONSE');
+                console.log(response);
+                // this.state.topics = response;
+                setState({ topics: response });
+
+                console.log('userObject');
+                console.log(this.state.topics);
+            })
+            .fail((e, s, t) => {
+                console.log(`Failed: ${e.responseText}`);
+            });
+    }
+
+    render() {
+        if (this.state.topics) {
+            return (
+                <Grid container spacing={gridSpacing}>
+                    {/* <HomeSlider /> */}
+
                     <Grid container>
-                        {fakeTopics.map((topic, i) => (
-                            <Grid item key={i} xs={12} sm={6} md={6} lg={4}>
-                                <Link
-                                    to={{
-                                        pathname: '/topicRecordsPage/'
-                                        /*
-                                        state: {
-                                            item: topic,
-                                            handlerNameChange: changeTopicNameHandler
-                                        }
-                                      
-                                         */
-                                    }}
-                                    state={{ item: topic }}
-                                    style={{ textDecoration: 'none' }}
-                                >
-                                    <TopicCard
-                                        key={i}
-                                        firstcolor={topic.firstcolor}
-                                        secondcolor={topic.secondcolor}
-                                        thirdcolor={topic.thirdcolor}
-                                        title={topic.title}
-                                    />
-                                </Link>
-                            </Grid>
-                        ))}
-                    </Grid>
-                </Grid>
-            </Grid>
+                        <Grid item xs={12} style={{ marginLeft: 20, marginTop: 20 }}>
+                            <MuiTypography variant="h2">Your Topics</MuiTypography>
+                        </Grid>
+                        <Grid item xs={12}>
+                            <Grid container>
+                                {this.state.topics.map((topic, i) => (
+                                    <Grid item key={i} xs={12} sm={6} md={6} lg={4}>
+                                        <Link
+                                            to={{
+                                                pathname: '/topicRecordsPage/'
+                                                /*
+                                            state: {
+                                                item: topic,
+                                                handlerNameChange: changeTopicNameHandler
+                                            }
 
-            <Grid container spacing={gridSpacing}>
-                <Grid item xs={12}>
-                    <Grid container spacing={gridSpacing}>
-                        <Grid item lg={4} md={6} sm={6} xs={12} />
+                                             */
+                                            }}
+                                            state={{ item: topic }}
+                                            style={{ textDecoration: 'none' }}
+                                        >
+                                            <TopicCard
+                                                key={i}
+                                                firstcolor={topic.color[0]}
+                                                secondcolor={topic.color[1]}
+                                                thirdcolor={topic.color[2]}
+                                                title={topic.name}
+                                            />
+                                        </Link>
+                                    </Grid>
+                                ))}
+                            </Grid>
+                        </Grid>
                     </Grid>
+
+                    <Grid container spacing={gridSpacing}>
+                        <Grid item xs={12}>
+                            <Grid container spacing={gridSpacing}>
+                                <Grid item lg={4} md={6} sm={6} xs={12} />
+                            </Grid>
+                        </Grid>
+                    </Grid>
+                    <Link to="/addTopic/">
+                        <Fab color="primary" aria-label="add" style={style}>
+                            <AddIcon />
+                        </Fab>
+                    </Link>
                 </Grid>
-            </Grid>
-            <Link to="/addTopic/">
-                <Fab color="primary" aria-label="add" style={style}>
-                    <AddIcon />
-                </Fab>
-            </Link>
-        </Grid>
-    );
-};
+            );
+        }
+
+        return <div>Loading... CIAO {this.state.topics}</div>;
+    }
+}
 
 export default Topics;

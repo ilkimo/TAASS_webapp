@@ -37,6 +37,8 @@ import TopicRecordCard from './topicRecordCard';
 import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend } from 'chart.js';
 
 import { Bar } from 'react-chartjs-2';
+import * as $ from 'jquery';
+import { ReactSession } from 'react-client-session';
 
 function TabPanel(props) {
     const { children, value, index, ...other } = props;
@@ -119,20 +121,20 @@ const TopicRecordsPage = (props) => {
     const formValues = [];
 
     if (theArray.length === 0) {
-        state.item.data.forEach((element) => {
-            if (element.type === 'Text') {
+        state.item.nameType.forEach((element) => {
+            if (element.data === 'Text') {
                 theArray.push({ value: 'initial value' });
-            } else if (element.type === 'Integer Number') {
+            } else if (element.data === 'Integer Number') {
                 theArray.push({ value: 9 });
-            } else if (element.type === 'Date') {
+            } else if (element.data === 'Date') {
                 theArray.push({ value: new Date() });
             }
 
-            if (element.type === 'Text') {
+            if (element.data === 'Text') {
                 recordDetails.push({ value: '' });
-            } else if (element.type === 'Integer Number') {
+            } else if (element.data === 'Integer Number') {
                 recordDetails.push({ value: 0 });
-            } else if (element.type === 'Date') {
+            } else if (element.data === 'Date') {
                 recordDetails.push({ value: new Date() });
             }
 
@@ -198,7 +200,7 @@ const TopicRecordsPage = (props) => {
 
     const handleClickOpenRecord = (scrollType, record) => () => {
         for (let i = 0; i < recordDetails.length; i += 1) {
-            recordDetails[i].value = record.values[i];
+            recordDetails[i].value = record.typeNameRegistration[i].data;
         }
 
         setOpenRecordDetails(true);
@@ -219,6 +221,35 @@ const TopicRecordsPage = (props) => {
     const handleDialogSubmit = () => {
         console.log('VALORI INSERITI: ');
         console.log(theArray);
+
+        let arrayVal = new Array(theArray.length);
+
+        theArray.forEach(function (element, index) {
+            // eslint-disable-next-line no-undef
+            arrayVal[index] = element.value;
+        });
+
+        let obj = {
+            userId: String(ReactSession.get('id')),
+            topic: location.state.item.name,
+            dataList: arrayVal
+        };
+
+        console.log(obj);
+
+        $.ajax({
+            type: 'POST',
+            url: 'http://localhost:8080/api/v2/data/newRegi',
+            data: JSON.stringify(obj),
+            contentType: 'application/json;charset=utf-8'
+        })
+            .done((response) => {
+                console.log('RESPONSE');
+                console.log(response);
+            })
+            .fail((e, s, t) => {
+                console.log(`Failed: ${e.responseText}`);
+            });
 
         // setOpen(false);
     };
@@ -247,7 +278,7 @@ const TopicRecordsPage = (props) => {
 
         // location.state.item.nameChangeHandler(0, location.state.item.title, topicName);
 
-        location.state.item.title = topicName;
+        location.state.item.name = topicName;
         setOpenEditTopic(false);
 
         /* Bisogna capire come modificare il valore anche per quanto riguarda l'oggetto che ha il component padre */
@@ -310,18 +341,18 @@ const TopicRecordsPage = (props) => {
                                 <ArrowBackIcon
                                     className="iconColor mx-4"
                                     fontSize="medium"
-                                    style={{ fill: location.state.item.firstcolor, marginRight: '20' }}
+                                    style={{ fill: location.state.item.color[0], marginRight: '20' }}
                                 />
                             </Link>
 
                             <Typography component="span" variant="h2">
-                                <div>{location.state.item.title}</div>
+                                <div>{location.state.item.name}</div>
                             </Typography>
 
                             <EditIcon
                                 className="iconColor mx-4"
                                 fontSize="medium"
-                                style={{ fill: location.state.item.firstcolor, cursor: 'pointer' }}
+                                style={{ fill: location.state.item.color[0], cursor: 'pointer' }}
                                 onClick={handleClickOpenEditTopic('paper')}
                             />
                         </div>
@@ -365,6 +396,11 @@ const TopicRecordsPage = (props) => {
                             </FormGroup>
                         </FormControl>
                     </Grid>
+                    <Grid item>
+                        <Typography component="span" variant="h5">
+                            <div>Description: {location.state.item.description}</div>
+                        </Typography>
+                    </Grid>
                 </Grid>
 
                 <div className="pageStyle">
@@ -375,24 +411,22 @@ const TopicRecordsPage = (props) => {
                                 onChange={handleChange}
                                 aria-label="basic tabs example"
                                 TabIndicatorProps={{
-                                    style: { background: location.state.item.firstcolor }
+                                    style: { background: location.state.item.color[0] }
                                 }}
                             >
                                 <Tab
-                                    label={
-                                        <span style={{ color: location.state.item.firstcolor }}>I miei {location.state.item.title}</span>
-                                    }
+                                    label={<span style={{ color: location.state.item.color[0] }}>I miei {location.state.item.name}</span>}
                                     {...a11yProps(0)}
                                 />
-                                <Tab label={<span style={{ color: location.state.item.firstcolor }}>Performance</span>} {...a11yProps(1)} />
+                                <Tab label={<span style={{ color: location.state.item.color[0] }}>Performance</span>} {...a11yProps(1)} />
                                 {/* <Tab label="Item Three" {...a11yProps(2)} /> */}
                             </Tabs>
                         </Box>
                         <TabPanel value={value} index={0}>
                             {/* I miei {location.state.item.title} */}
 
-                            {state.item.records.length > 0
-                                ? state.item.records.map((record, i) => (
+                            {state.item.listRegistrazioni.length > 0
+                                ? state.item.listRegistrazioni.map((record, i) => (
                                       <Grid
                                           item
                                           key={record}
@@ -403,11 +437,11 @@ const TopicRecordsPage = (props) => {
                                           onClick={handleClickOpenRecord('paper', record)}
                                       >
                                           <TopicRecordCard
-                                              firstcolor={state.item.firstcolor}
-                                              secondcolor={state.item.secondcolor}
-                                              thirdcolor={state.item.thirdcolor}
-                                              title={record.values[0]}
-                                              date={record.values[1]}
+                                              firstcolor={state.item.color[0]}
+                                              secondcolor={state.item.color[1]}
+                                              thirdcolor={state.item.color[2]}
+                                              title={record.typeNameRegistration[0].data}
+                                              date="12-12-2021"
                                           />
                                       </Grid>
                                   ))
@@ -432,10 +466,10 @@ const TopicRecordsPage = (props) => {
                 </div>
                 <Fab
                     onClick={handleClickOpen('paper')}
-                    color={location.state.item.firstcolor}
+                    color={location.state.item.color[0]}
                     aria-label="add"
                     style={{
-                        backgroundColor: location.state.item.firstcolor,
+                        backgroundColor: location.state.item.color[0],
                         margin: 0,
                         top: 'auto',
                         right: 20,
@@ -458,7 +492,7 @@ const TopicRecordsPage = (props) => {
                     <DialogTitle id="scroll-dialog-title">
                         <div>
                             <Typography component="span" variant="h2">
-                                <div>Edit Topic - {state.item.title}</div>
+                                <div>Edit Topic - {state.item.name}</div>
                             </Typography>
                         </div>
                     </DialogTitle>
@@ -491,14 +525,14 @@ const TopicRecordsPage = (props) => {
                     <DialogTitle id="scroll-dialog-title">
                         <div>
                             <Typography component="span" variant="h2">
-                                <div>Add Record - {state.item.title}</div>
+                                <div>Add Record - {state.item.name}</div>
                             </Typography>
                         </div>
                     </DialogTitle>
                     <DialogContent dividers={scroll === 'paper'}>
                         <DialogContentText id="scroll-dialog-description" ref={descriptionElementRef} tabIndex={-1}>
-                            {state.item.data.map((d, i) => {
-                                if (d.type === 'Text') {
+                            {state.item.nameType.map((d, i) => {
+                                if (d.data === 'Text') {
                                     return (
                                         <FormControl fullWidth sx={{ mb: 2 }} variant="filled" key={i}>
                                             <TextField
@@ -511,7 +545,7 @@ const TopicRecordsPage = (props) => {
                                         </FormControl>
                                     );
                                 }
-                                if (d.type === 'Integer Number') {
+                                if (d.data === 'Integer Number') {
                                     return (
                                         <FormControl fullWidth sx={{ mb: 2 }} variant="filled" key={i}>
                                             <TextField
@@ -524,7 +558,7 @@ const TopicRecordsPage = (props) => {
                                         </FormControl>
                                     );
                                 }
-                                if (d.type === 'Date') {
+                                if (d.data === 'Date') {
                                     return (
                                         <FormControl fullWidth sx={{ mb: 2 }}>
                                             <LocalizationProvider dateAdapter={AdapterDateFns} key={i}>
@@ -567,8 +601,8 @@ const TopicRecordsPage = (props) => {
                     </DialogTitle>
                     <DialogContent dividers={scroll === 'paper'}>
                         <DialogContentText id="scroll-dialog-description" ref={descriptionElementRef} tabIndex={-1}>
-                            {state.item.data.map((d, i) => {
-                                if (d.type === 'Text') {
+                            {state.item.nameType.map((d, i) => {
+                                if (d.data === 'Text') {
                                     return (
                                         <FormControl fullWidth sx={{ mb: 2 }} variant="filled" key={i}>
                                             <TextField
@@ -581,7 +615,7 @@ const TopicRecordsPage = (props) => {
                                         </FormControl>
                                     );
                                 }
-                                if (d.type === 'Integer Number') {
+                                if (d.data === 'Integer Number') {
                                     return (
                                         <FormControl fullWidth sx={{ mb: 2 }} variant="filled" key={i}>
                                             <TextField
@@ -594,7 +628,7 @@ const TopicRecordsPage = (props) => {
                                         </FormControl>
                                     );
                                 }
-                                if (d.type === 'Date') {
+                                if (d.data === 'Date') {
                                     return (
                                         <FormControl fullWidth sx={{ mb: 2 }}>
                                             <LocalizationProvider dateAdapter={AdapterDateFns} key={i}>
