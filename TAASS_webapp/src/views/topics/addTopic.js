@@ -121,7 +121,7 @@ class AddTopic extends React.Component {
 
     handleSubmit = async (event) => {
         event.preventDefault();
-        alert(`${this.state.topicName}; ${this.state.topicDescription}`);
+        // alert(`${this.state.topicName}; ${this.state.topicDescription}`);
         // alert(JSON.stringify(this.state.formValues));
 
         let formOk = true;

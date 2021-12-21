@@ -223,6 +223,8 @@ const TopicRecordsPage = (props) => {
     const [open, setOpen] = React.useState(false);
     const [scroll, setScroll] = React.useState('paper');
 
+    const [addRecordError, setAddRecordError] = React.useState(false);
+
     /**/
     const [openRecordDetails, setOpenRecordDetails] = React.useState(false);
     const [scrollRecordDetails, setScrollRecordDetails] = React.useState('paper');
@@ -272,37 +274,52 @@ const TopicRecordsPage = (props) => {
             arrayVal[index] = element.value;
         });
 
+        // controllo compilazione form
+        let formOk = true;
+
+        /* Controllare tutti i dati! Ogni valore deve essere stato inserito */
+        arrayVal.forEach((elem) => {
+            if (String(elem).replace(/\s/g, '').length === 0) {
+                setAddRecordError(true);
+                formOk = false;
+            }
+        });
+
         const session = await getSession();
         console.log(session);
 
-        let obj = {
-            userId: String(session.user.id),
-            topic: location.state.item.name,
-            dataList: arrayVal
-        };
+        if (formOk) {
+            setAddRecordError(false);
 
-        console.log(obj);
+            let obj = {
+                userId: String(session.user.id),
+                topic: location.state.item.name,
+                dataList: arrayVal
+            };
 
-        $.ajax({
-            type: 'POST',
-            url: 'http://localhost:8080/api/v2/data/newRegi',
-            data: JSON.stringify(obj),
-            contentType: 'application/json;charset=utf-8'
-        })
-            .done((response) => {
-                console.log('RESPONSE');
-                console.log(response);
+            console.log(obj);
 
-                response.forEach(function (element, index) {
-                    if (element.name === location.state.item.name) {
-                        location.state.item.listRegistrazioni = element.listRegistrazioni;
-                    }
-                });
-                setOpen(false);
+            $.ajax({
+                type: 'POST',
+                url: 'http://localhost:8080/api/v2/data/newRegi',
+                data: JSON.stringify(obj),
+                contentType: 'application/json;charset=utf-8'
             })
-            .fail((e, s, t) => {
-                console.log(`Failed: ${e.responseText}`);
-            });
+                .done((response) => {
+                    console.log('RESPONSE');
+                    console.log(response);
+
+                    response.forEach(function (element, index) {
+                        if (element.name === location.state.item.name) {
+                            location.state.item.listRegistrazioni = element.listRegistrazioni;
+                        }
+                    });
+                    setOpen(false);
+                })
+                .fail((e, s, t) => {
+                    console.log(`Failed: ${e.responseText}`);
+                });
+        }
 
         // setOpen(false);
     };
@@ -790,6 +807,27 @@ const TopicRecordsPage = (props) => {
                             <Typography component="span" variant="h2">
                                 <div>Add Record - {state.item.name}</div>
                             </Typography>
+                            <Collapse in={addRecordError}>
+                                <Alert
+                                    variant="filled"
+                                    severity="error"
+                                    action={
+                                        <IconButton
+                                            aria-label="close"
+                                            color="inherit"
+                                            size="small"
+                                            onClick={() => {
+                                                setAddRecordError(false);
+                                            }}
+                                        >
+                                            <CloseIcon fontSize="inherit" />
+                                        </IconButton>
+                                    }
+                                    sx={{ mb: 2, mt: 2 }}
+                                >
+                                    Please compile all data field!
+                                </Alert>
+                            </Collapse>
                         </div>
                     </DialogTitle>
                     <DialogContent dividers={scroll === 'paper'}>
