@@ -490,9 +490,10 @@ const TopicRecordsPage = (props) => {
         setTheArray(newFormValues);
     };
 
-    const [shareTopicsChecked, setShareTopicsChecked] = React.useState(false);
+    const [shareTopicsChecked, setShareTopicsChecked] = React.useState(location.state.item.shared);
 
     const handleShareSwitchChange = async (event) => {
+        setShareTopicsChecked(!shareTopicsChecked);
         location.state.item.shared = !location.state.item.shared;
         setShareTopicsChecked(event.target.checked);
 
@@ -683,9 +684,7 @@ const TopicRecordsPage = (props) => {
                             <FormGroup aria-label="position" row>
                                 <FormControlLabel
                                     value="start"
-                                    control={
-                                        <Switch color="primary" checked={location.state.item.shared} onChange={handleShareSwitchChange} />
-                                    }
+                                    control={<Switch color="primary" checked={shareTopicsChecked} onChange={handleShareSwitchChange} />}
                                     label="Share this topic with others users"
                                     labelPlacement="start"
                                 />
