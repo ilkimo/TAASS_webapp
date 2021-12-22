@@ -97,15 +97,6 @@ function a11yProps(index) {
     };
 }
 
-const Item = styled(Paper)(({ theme }) => ({
-    ...theme.typography.body2,
-    padding: theme.spacing(1),
-    textAlign: 'center',
-    color: theme.palette.text.secondary
-}));
-
-ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
-
 export const options = {
     responsive: true,
     plugins: {
@@ -119,7 +110,14 @@ export const options = {
     }
 };
 
-const labels = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+const Item = styled(Paper)(({ theme }) => ({
+    ...theme.typography.body2,
+    padding: theme.spacing(1),
+    textAlign: 'center',
+    color: theme.palette.text.secondary
+}));
+
+ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 
 const TopicRecordsPage = (props) => {
     const theme = useTheme();
@@ -140,7 +138,7 @@ const TopicRecordsPage = (props) => {
 
     const state = location.state;
 
-    const [topicName, setTopicName] = useState([state.item.title]);
+    const [topicName, setTopicName] = useState([state.item.name]);
 
     const formValues = [];
 
@@ -152,6 +150,33 @@ const TopicRecordsPage = (props) => {
 
     const handleCloseMenu = () => {
         setAnchorEl(null);
+    };
+
+    const labels = [
+        'January',
+        'February',
+        'March',
+        'April',
+        'May',
+        'June',
+        'July',
+        'August',
+        'September',
+        'October',
+        'November',
+        'December'
+    ];
+
+    /* TODO: costruire questa struttura andando a contare quanti record sono stati inseriti in ogni mese */
+    let data = {
+        labels,
+        datasets: [
+            {
+                label: `My ${topicName[0]}`,
+                data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                backgroundColor: location.state.item.color[2]
+            }
+        ]
     };
 
     if (theArray.length === 0) {
@@ -186,19 +211,58 @@ const TopicRecordsPage = (props) => {
             console.log(theArray);
             console.log(recordDetails);
         });
+
+        /* TODO: da sistemare perchè non funziona */
+        state.item.listRegistrazioni.forEach((record) => {
+            let month = record.creationDate.slice(5, 7);
+
+            console.log(month);
+
+            switch (month) {
+                case '01':
+                    data.datasets[0].data[0] += 1;
+                    break;
+                case '02':
+                    data.datasets[0].data[1] += 1;
+                    break;
+                case '03':
+                    data.datasets[0].data[2] += 1;
+                    break;
+                case '04':
+                    data.datasets[0].data[3] += 1;
+                    break;
+                case '05':
+                    data.datasets[0].data[4] += 1;
+                    break;
+                case '06':
+                    data.datasets[0].data[5] += 1;
+                    break;
+                case '07':
+                    data.datasets[0].data[6] += 1;
+                    break;
+                case '08':
+                    data.datasets[0].data[7] += 1;
+                    break;
+                case '09':
+                    data.datasets[0].data[8] += 1;
+                    break;
+                case '10':
+                    data.datasets[0].data[9] += 1;
+                    break;
+                case '11':
+                    data.datasets[0].data[10] += 1;
+                    break;
+                case '12':
+                    data.datasets[0].data[11] += 1;
+                    break;
+                default:
+                    break;
+            }
+        });
     }
 
-    /* TODO: costruire questa struttura andando a contare quanti record sono stati inseriti in ogni mese */
-    const data = {
-        labels,
-        datasets: [
-            {
-                label: `I miei ${state.item.title}`,
-                data: [10, 20, 30, 40, 50, 60, 0, 0, 0, 0, 0, 2],
-                backgroundColor: location.state.item.color[2]
-            }
-        ]
-    };
+    console.log('DATA');
+    console.log(data.datasets[0]);
 
     const handleTopicNameChange = (event, newValue) => {
         setTopicName(event.target.value);
