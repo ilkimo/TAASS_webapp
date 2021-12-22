@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 
 // material-ui
 import { styled, useTheme } from '@mui/material/styles';
-import { Avatar, Box, Grid, Menu, MenuItem, Typography } from '@mui/material';
+import { Avatar, Box, FormControl, Grid, IconButton, Menu, MenuItem, TextField, Typography } from '@mui/material';
 
 // project imports
 import MainCard from 'ui-component/cards/MainCard';
@@ -21,6 +21,14 @@ import ArchiveTwoToneIcon from '@mui/icons-material/ArchiveOutlined';
 import Dialog from '@mui/material/Dialog';
 import DialogTitle from '@mui/material/DialogTitle';
 import DialogContent from '@mui/material/DialogContent';
+import DialogActions from '@mui/material/DialogActions';
+import Button from '@mui/material/Button';
+import * as $ from 'jquery';
+import { getSession } from 'react-session-persist/lib';
+import DialogContentText from '@mui/material/DialogContentText';
+import Collapse from '@mui/material/Collapse';
+import { Alert } from '@mui/lab';
+import CloseIcon from '@mui/icons-material/Close';
 
 const CardWrapper = styled(MainCard)(({ theme, firstcolor, secondcolor, thirdcolor }) => ({
     // backgroundColor: theme.palette.secondary.dark,
@@ -92,8 +100,76 @@ const SharedTopicCard = ({ isLoading, firstcolor, secondcolor, thirdcolor, title
         setAnchorEl(null);
     };
 
+    /* Edit Topic Name */
+    const [openSetTopicName, setOpenSetTopicName] = React.useState(false);
+    const [scrollSetTopicName, setScrollSetTopicName] = React.useState('paper');
+
+    const [newName, setNewName] = React.useState('');
+
+    const [topicNameChanged, setTopicNameChanged] = React.useState(false);
+    const [topicNameChangedError, setTopicNameChangedError] = React.useState(false);
+
+    /* Topic details */
     const [openTopicDetails, setOpenTopicDetails] = React.useState(false);
     const [scrollTopicDetails, setScrollTopicDetails] = React.useState('paper');
+
+    const [topicNameError, setTopicNameError] = React.useState(false);
+
+    const [topicCloned, setTopicCloned] = React.useState(false);
+
+    const handleClickOpenSetTopicName = (scrollType) => () => {
+        setOpenSetTopicName(true);
+        setScrollSetTopicName(scrollType);
+    };
+
+    const handleCloseSetTopicName = () => {
+        setOpenSetTopicName(false);
+    };
+
+    const handleTopicNameChange = (event, newValue) => {
+        setNewName(event.target.value);
+    };
+
+    const handleDialogSetTopicNameSubmit = async () => {
+        // query
+
+        const session = await getSession();
+        console.log(session);
+
+        let top = {
+            id: String(session.user.id),
+            name: newName,
+            description: topic.description,
+            nameType: topic.nameType,
+            color: [topic.color[0], topic.color[1], topic.color[2]]
+        };
+
+        $.ajax({
+            type: 'POST',
+            url: 'http://localhost:8080/api/v2/data/newTopic',
+            data: JSON.stringify(top),
+            contentType: 'application/json;charset=utf-8'
+        })
+            .done((response) => {
+                console.log('RESPONSE');
+                console.log(response);
+                // this.props.navigation.navigate('nextScreen');
+                // this.props.navigate('/topics');
+                // this.props.history.push('/topics');
+
+                setOpenSetTopicName(false);
+                // setOpenTopicDetails(false);
+
+                setTopicCloned(true);
+
+                setTopicNameError(false);
+            })
+            .fail((e, s, t) => {
+                console.log(`Failed: ${e.responseText}`);
+                setTopicCloned(false);
+                setTopicNameError(true);
+            });
+    };
 
     const handleClickOpenTopicDetails = (scrollType) => () => {
         console.log('APRO');
@@ -104,6 +180,44 @@ const SharedTopicCard = ({ isLoading, firstcolor, secondcolor, thirdcolor, title
 
     const handleCloseTopicDetails = () => {
         setOpenTopicDetails(false);
+    };
+
+    const handleCloneTopic = () => {
+        console.log('CLONO IL TOPIC');
+        setOpenSetTopicName(true);
+
+        /*
+        // query
+
+        const session = await getSession();
+        console.log(session);
+
+        let top = {
+            id: String(session.user.id),
+            name: 'Nuovo topic',
+            description: topic.description,
+            nameType: topic.nameType,
+            color: [topic.color[0], topic.color[1], topic.color[2]]
+        };
+
+        $.ajax({
+            type: 'POST',
+            url: 'http://localhost:8080/api/v2/data/newTopic',
+            data: JSON.stringify(top),
+            contentType: 'application/json;charset=utf-8'
+        })
+            .done((response) => {
+                console.log('RESPONSE');
+                console.log(response);
+                // this.props.navigation.navigate('nextScreen');
+                // this.props.navigate('/topics');
+                // this.props.history.push('/topics');
+            })
+            .fail((e, s, t) => {
+                console.log(`Failed: ${e.responseText}`);
+            });
+
+         */
     };
 
     return (
@@ -159,6 +273,27 @@ const SharedTopicCard = ({ isLoading, firstcolor, secondcolor, thirdcolor, title
                             </div>
                         </DialogTitle>
                         <DialogContent dividers={scrollTopicDetails === 'paper'}>
+                            <Collapse in={topicCloned}>
+                                <Alert
+                                    variant="filled"
+                                    severity="success"
+                                    action={
+                                        <IconButton
+                                            aria-label="close"
+                                            color="inherit"
+                                            size="small"
+                                            onClick={() => {
+                                                setTopicCloned(false);
+                                            }}
+                                        >
+                                            <CloseIcon fontSize="inherit" />
+                                        </IconButton>
+                                    }
+                                    sx={{ mb: 2, mt: 2 }}
+                                >
+                                    Topic cloned!
+                                </Alert>
+                            </Collapse>
                             <Grid container>
                                 {/*
                                 <Grid item xs={12} s={6} md={6} lg={6}>
@@ -185,6 +320,65 @@ const SharedTopicCard = ({ isLoading, firstcolor, secondcolor, thirdcolor, title
                                 </Typography>
                             </Grid>
                         </DialogContent>
+                        <DialogActions>
+                            <Button onClick={handleCloseTopicDetails}>Cancel</Button>
+                            <Button onClick={handleCloneTopic}>Clone</Button>
+                        </DialogActions>
+                    </Dialog>
+
+                    {/* Set topic name */}
+                    <Dialog
+                        open={openSetTopicName}
+                        onClose={handleCloseSetTopicName}
+                        scroll={scrollSetTopicName}
+                        aria-labelledby="scroll-dialog-title"
+                        aria-describedby="scroll-dialog-description"
+                    >
+                        <DialogTitle id="scroll-dialog-title">
+                            <div>
+                                <Typography component="span" variant="h2">
+                                    <div>Set topic name</div>
+                                </Typography>
+                            </div>
+                        </DialogTitle>
+                        <DialogContent dividers={scrollSetTopicName === 'paper'}>
+                            <Collapse in={topicNameError}>
+                                <Alert
+                                    variant="filled"
+                                    severity="error"
+                                    action={
+                                        <IconButton
+                                            aria-label="close"
+                                            color="inherit"
+                                            size="small"
+                                            onClick={() => {
+                                                setTopicNameError(false);
+                                            }}
+                                        >
+                                            <CloseIcon fontSize="inherit" />
+                                        </IconButton>
+                                    }
+                                    sx={{ mb: 2, mt: 2 }}
+                                >
+                                    Topic name already exists!
+                                </Alert>
+                            </Collapse>
+                            <DialogContentText id="scroll-dialog-description" tabIndex={-1}>
+                                <FormControl fullWidth sx={{ mb: 2 }} variant="filled">
+                                    <TextField
+                                        value={newName}
+                                        id="outlined-basic"
+                                        label="Topic name"
+                                        variant="outlined"
+                                        onChange={handleTopicNameChange}
+                                    />
+                                </FormControl>
+                            </DialogContentText>
+                        </DialogContent>
+                        <DialogActions>
+                            <Button onClick={handleCloseSetTopicName}>Cancel</Button>
+                            <Button onClick={handleDialogSetTopicNameSubmit}>Submit</Button>
+                        </DialogActions>
                     </Dialog>
                 </>
             )}
