@@ -568,10 +568,10 @@ const TopicRecordsPage = (props) => {
                 <Grid container spacing={2}>
                     <Grid
                         item
-                        xs={12}
-                        lg={9}
-                        md={9}
-                        sm={12}
+                        xs={11}
+                        lg={11}
+                        md={11}
+                        sm={11}
                         style={{
                             display: 'flex',
                             alignItems: 'center',
@@ -612,15 +612,15 @@ const TopicRecordsPage = (props) => {
                     </Grid>
                     <Grid
                         container
-                        xs={12}
-                        lg={3}
-                        md={3}
-                        sm={12}
+                        xs={1}
+                        lg={1}
+                        md={1}
+                        sm={1}
                         style={{
                             paddingTop: 0
                         }}
                     >
-                        <Grid item xs={2} lg={2} md={2} sm={2}>
+                        <Grid item xs={12} lg={12} md={12} sm={12}>
                             <Avatar
                                 variant="rounded"
                                 sx={{
@@ -662,6 +662,7 @@ const TopicRecordsPage = (props) => {
                                 </MenuItem>
                             </Menu>
                         </Grid>
+                        {/*
                         <Grid
                             item
                             xs={10}
@@ -686,6 +687,7 @@ const TopicRecordsPage = (props) => {
                                 />
                             </FormControl>
                         </Grid>
+                        */}
                     </Grid>
                 </Grid>
                 <Grid container>

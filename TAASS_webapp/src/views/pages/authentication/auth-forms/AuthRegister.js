@@ -72,7 +72,8 @@ const FirebaseRegister = ({ ...others }) => {
         console.log(response);
     };
 
-    const googleHandler = async () => {
+    const googleHandler = (response) => {
+        console.log(response);
         console.error('Register');
     };
 
@@ -308,6 +309,7 @@ const FirebaseRegister = ({ ...others }) => {
                     values
                 }) => (
                     <form noValidate onSubmit={handleSubmit} {...others}>
+                        {/*
                         <Grid container spacing={matchDownSM ? 0 : 2}>
                             <Grid item xs={12} sm={6}>
                                 <TextField
@@ -336,6 +338,7 @@ const FirebaseRegister = ({ ...others }) => {
                                 />
                             </Grid>
                         </Grid>
+                        */}
                         <FormControl fullWidth error={Boolean(touched.email && errors.email)} sx={{ ...theme.typography.customInput }}>
                             <InputLabel htmlFor="outlined-adornment-email-register">Email Address / Username</InputLabel>
                             <OutlinedInput
