@@ -71,7 +71,7 @@ CardWrapper.propTypes = {
 
 // ===========================|| DASHBOARD DEFAULT - EARNING CARD ||=========================== //
 
-const SharedTopicCard = ({ isLoading, firstcolor, secondcolor, thirdcolor, title }) => {
+const SharedTopicCard = ({ isLoading, firstcolor, secondcolor, thirdcolor, title, creationDate, topic }) => {
     /*
 
     console.log('Props in Input :', firstcolor);
@@ -120,69 +120,22 @@ const SharedTopicCard = ({ isLoading, firstcolor, secondcolor, thirdcolor, title
                         firstcolor={firstcolor}
                         secondcolor={secondcolor}
                         thirdcolor={thirdcolor}
+                        onClick={handleClickOpenTopicDetails('paper')}
                     >
                         <Box sx={{ pt: 2.25, px: 2.25 }}>
                             <Grid container direction="column">
                                 <Grid item>
                                     <Grid container justifyContent="space-between">
                                         <Grid item>
-                                            <Avatar
-                                                variant="rounded"
-                                                sx={{
-                                                    ...theme.typography.commonAvatar,
-                                                    ...theme.typography.mediumAvatar,
-                                                    // backgroundColor: theme.palette.secondary.dark,
-                                                    backgroundColor: firstcolor,
-                                                    color: '#FFFFFF',
-                                                    zIndex: 1
-                                                }}
-                                                aria-controls="menu-earning-card"
-                                                aria-haspopup="true"
-                                                onClick={handleClick}
-                                            >
-                                                <MoreHorizIcon fontSize="inherit" />
-                                            </Avatar>
-                                            <Menu
-                                                id="menu-earning-card"
-                                                anchorEl={anchorEl}
-                                                keepMounted
-                                                open={Boolean(anchorEl)}
-                                                onClose={handleClose}
-                                                variant="selectedMenu"
-                                                anchorOrigin={{
-                                                    vertical: 'bottom',
-                                                    horizontal: 'right'
-                                                }}
-                                                transformOrigin={{
-                                                    vertical: 'top',
-                                                    horizontal: 'right'
-                                                }}
-                                            >
-                                                <MenuItem onClick={handleClickOpenTopicDetails('paper')}>
-                                                    <InfoOutlinedIcon sx={{ mr: 1.75 }} /> View Details
-                                                </MenuItem>
-                                                <MenuItem onClick={handleClose}>
-                                                    <GetAppTwoToneIcon sx={{ mr: 1.75 }} /> Import Card
-                                                </MenuItem>
-                                                <MenuItem onClick={handleClose}>
-                                                    <FileCopyTwoToneIcon sx={{ mr: 1.75 }} /> Copy Data
-                                                </MenuItem>
-                                                <MenuItem onClick={handleClose}>
-                                                    <PictureAsPdfTwoToneIcon sx={{ mr: 1.75 }} /> Export
-                                                </MenuItem>
-                                                <MenuItem onClick={handleClose}>
-                                                    <ArchiveTwoToneIcon sx={{ mr: 1.75 }} /> Archive File
-                                                </MenuItem>
-                                            </Menu>
+                                            <Typography sx={{ fontSize: '1.725rem', fontWeight: 500, mr: 1, mt: 0.75 }}>{title}</Typography>
                                         </Grid>
                                     </Grid>
                                 </Grid>
                                 <Grid item>
                                     <Grid container>
                                         <Grid item>
-                                            <Typography sx={{ fontSize: '1.725rem', fontWeight: 500, mr: 1, mt: 1.75 }}>{title}</Typography>
-                                            <Typography sx={{ fontSize: '1.325rem', fontWeight: 300, mr: 1, mt: 0.5 }}>
-                                                Nome proprietario
+                                            <Typography sx={{ fontSize: '1.025rem', fontWeight: 500, mr: 1, mt: 4.75 }}>
+                                                <i>Creation date: {creationDate}</i>
                                             </Typography>
                                         </Grid>
                                     </Grid>
@@ -207,20 +160,28 @@ const SharedTopicCard = ({ isLoading, firstcolor, secondcolor, thirdcolor, title
                         </DialogTitle>
                         <DialogContent dividers={scrollTopicDetails === 'paper'}>
                             <Grid container>
+                                {/*
                                 <Grid item xs={12} s={6} md={6} lg={6}>
                                     <Typography component="span" variant="h4">
                                         <div>Owner: Owner name</div>
                                     </Typography>
                                 </Grid>
-                                <Grid item xs={12} s={6} md={6} lg={6}>
+                                */}
+                                <Grid item xs={12} s={12} md={12} lg={12}>
                                     <Typography component="span" variant="h4">
-                                        <div>Topic name: topic name</div>
+                                        <div>Topic name: {topic.name}</div>
                                     </Typography>
                                 </Grid>
                             </Grid>
                             <Grid container sx={{ mt: 3 }}>
                                 <Typography component="span" variant="body1">
                                     <div>Topic has this structure:</div>
+                                    {topic.nameType.map((nameType, i) => (
+                                        <Typography component="span" variant="body1">
+                                            <b>{nameType.name}</b>: {nameType.data}
+                                            <br />
+                                        </Typography>
+                                    ))}
                                 </Typography>
                             </Grid>
                         </DialogContent>
@@ -236,7 +197,9 @@ SharedTopicCard.propTypes = {
     firstcolor: PropTypes.string,
     secondcolor: PropTypes.string,
     thirdcolor: PropTypes.string,
-    title: PropTypes.string
+    title: PropTypes.string,
+    creationDate: PropTypes.string,
+    topic: PropTypes.object
 };
 
 export default SharedTopicCard;

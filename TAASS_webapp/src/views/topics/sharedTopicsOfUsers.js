@@ -25,6 +25,8 @@ import DialogContentText from '@mui/material/DialogContentText';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
 import DialogActions from '@mui/material/DialogActions';
 import Button from '@mui/material/Button';
+import { getSession } from 'react-session-persist/lib';
+import * as $ from 'jquery';
 
 // ==============================|| DEFAULT DASHBOARD ||============================== //
 
@@ -88,12 +90,7 @@ const fakeTopics = [
     }
 ];
 
-const SharedTopicsOfUsers = (props) => {
-    const [isLoading, setLoading] = useState(true);
-    useEffect(() => {
-        setLoading(false);
-    }, []);
-
+class SharedTopicsOfUsers extends React.Component {
     /*
     const [openTopicDetails, setOpenTopicDetails] = React.useState(false);
     const [scrollTopicDetails, setScrollTopicDetails] = React.useState('paper');
@@ -109,45 +106,86 @@ const SharedTopicsOfUsers = (props) => {
     };
     */
 
-    return (
-        <>
-            <Grid container spacing={gridSpacing}>
-                <Grid container>
-                    <Grid item xs={12} style={{ marginLeft: 20, marginTop: 20 }}>
-                        <Typography variant="h2">Topics of other users</Typography>
-                    </Grid>
-                    <Grid item xs={12}>
+    constructor() {
+        super();
+        this.state = {
+            sharedTopics: null
+        };
+        this.getSharedTopics = this.getSharedTopics.bind(this);
+    }
+
+    componentDidMount() {
+        this.getSharedTopics();
+    }
+
+    async getSharedTopics() {
+        const session = await getSession();
+        console.log(session);
+
+        const setState = this.setState.bind(this);
+        $.ajax({
+            type: 'POST',
+            url: 'http://localhost:8080/api/v2/data/sharedTopic',
+            data: String(session.user.id),
+            contentType: 'application/json;charset=utf-8'
+        })
+            .done((response) => {
+                console.log('RESPONSE');
+                console.log(response);
+                // this.state.topics = response;
+                setState({ sharedTopics: response });
+
+                console.log('userObject');
+                console.log(this.state.sharedTopics);
+            })
+            .fail((e, s, t) => {
+                console.log(`Failed: ${e.responseText}`);
+            });
+    }
+
+    render() {
+        if (this.state.sharedTopics) {
+            return (
+                <>
+                    <Grid container spacing={gridSpacing}>
                         <Grid container>
-                            {fakeTopics.map((topic, i) => (
-                                <Grid item key={i} xs={12} sm={6} md={6} lg={4}>
-                                    <SharedTopicCard
-                                        key={i}
-                                        firstcolor={topic.firstcolor}
-                                        secondcolor={topic.secondcolor}
-                                        thirdcolor={topic.thirdcolor}
-                                        title={topic.title}
-                                    />
+                            <Grid item xs={12} style={{ marginLeft: 20, marginTop: 20 }}>
+                                <Typography variant="h2">Topics of other users</Typography>
+                            </Grid>
+                            <Grid item xs={12}>
+                                <Grid container>
+                                    {this.state.sharedTopics.map((topic, i) => (
+                                        <Grid item key={i} xs={12} sm={6} md={6} lg={4}>
+                                            <SharedTopicCard
+                                                key={i}
+                                                firstcolor={topic.color[0]}
+                                                secondcolor={topic.color[1]}
+                                                thirdcolor={topic.color[2]}
+                                                title={topic.name}
+                                                creationDate={topic.creationDate}
+                                                topic={topic}
+                                            />
+                                        </Grid>
+                                    ))}
                                 </Grid>
-                            ))}
+                            </Grid>
                         </Grid>
-                    </Grid>
-                </Grid>
 
-                <Grid container spacing={gridSpacing}>
-                    <Grid item xs={12}>
                         <Grid container spacing={gridSpacing}>
-                            <Grid item lg={4} md={6} sm={6} xs={12} />
+                            <Grid item xs={12}>
+                                <Grid container spacing={gridSpacing}>
+                                    <Grid item lg={4} md={6} sm={6} xs={12} />
+                                </Grid>
+                            </Grid>
                         </Grid>
+                        <Link to="/addTopic/">
+                            <Fab color="primary" aria-label="add" style={style}>
+                                <AddIcon />
+                            </Fab>
+                        </Link>
                     </Grid>
-                </Grid>
-                <Link to="/addTopic/">
-                    <Fab color="primary" aria-label="add" style={style}>
-                        <AddIcon />
-                    </Fab>
-                </Link>
-            </Grid>
 
-            {/*
+                    {/*
             <Dialog
                 open={openTopicDetails}
                 onClose={handleCloseTopicDetails}
@@ -183,8 +221,21 @@ const SharedTopicsOfUsers = (props) => {
                 </DialogContent>
             </Dialog>
             */}
-        </>
-    );
-};
+                </>
+            );
+        }
+
+        return (
+            <div>
+                <Typography variant="h3">There are not topic yet</Typography>
+                <Link to="/addTopic/">
+                    <Fab color="primary" aria-label="add" style={style}>
+                        <AddIcon />
+                    </Fab>
+                </Link>
+            </div>
+        );
+    }
+}
 
 export default SharedTopicsOfUsers;
