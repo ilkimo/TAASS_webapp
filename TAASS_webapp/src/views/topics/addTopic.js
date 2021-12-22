@@ -438,6 +438,7 @@ class AddTopic extends React.Component {
                                                             <MenuItem value="Integer Number">Integer Number</MenuItem>
                                                             <MenuItem value="Floating Point Number">Floating Point Number</MenuItem>
                                                             <MenuItem value="Date">Date</MenuItem>
+                                                            <MenuItem value="Hour">Hour</MenuItem>
                                                         </Select>
                                                     </FormControl>
                                                 </Grid>
@@ -475,6 +476,7 @@ class AddTopic extends React.Component {
                                                             <MenuItem value="Integer Number">Integer Number</MenuItem>
                                                             <MenuItem value="Floating Point Number">Floating Point Number</MenuItem>
                                                             <MenuItem value="Date">Date</MenuItem>
+                                                            <MenuItem value="Hour">Hour</MenuItem>
                                                         </Select>
                                                     </FormControl>
                                                 </Grid>

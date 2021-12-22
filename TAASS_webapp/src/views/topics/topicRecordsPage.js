@@ -41,7 +41,7 @@ import AdapterDateFns from '@mui/lab/AdapterDateFns';
 import PropTypes from 'prop-types';
 
 import { Link, useLocation, useNavigate, useParams } from 'react-router-dom';
-import { Alert, DesktopDatePicker, LocalizationProvider } from '@mui/lab';
+import { Alert, DesktopDatePicker, LocalizationProvider, TimePicker } from '@mui/lab';
 import { forEach } from 'react-bootstrap/ElementChildren';
 import TopicCard from './topicCard';
 import TopicRecordCard from './topicRecordCard';
@@ -155,15 +155,19 @@ const TopicRecordsPage = (props) => {
     };
 
     if (theArray.length === 0) {
+        console.log(state.item.nameType);
+
         state.item.nameType.forEach((element) => {
             if (element.data === 'Text') {
-                theArray.push({ value: 'initial value' });
+                theArray.push({ value: '' });
             } else if (element.data === 'Integer Number') {
-                theArray.push({ value: 9 });
+                theArray.push({ value: 0 });
             } else if (element.data === 'Floating Point Number') {
-                theArray.push({ value: 9.0 });
+                theArray.push({ value: 0.0 });
             } else if (element.data === 'Date') {
                 theArray.push({ value: new Date() });
+            } else if (element.data === 'Hour') {
+                theArray.push({ value: '' });
             }
 
             if (element.data === 'Text') {
@@ -174,6 +178,8 @@ const TopicRecordsPage = (props) => {
                 recordDetails.push({ value: 0.0 });
             } else if (element.data === 'Date') {
                 recordDetails.push({ value: new Date() });
+            } else if (element.data === 'Hour') {
+                recordDetails.push({ value: '' });
             }
 
             // console.log(element.name);
@@ -279,6 +285,7 @@ const TopicRecordsPage = (props) => {
 
         /* Controllare tutti i dati! Ogni valore deve essere stato inserito */
         arrayVal.forEach((elem) => {
+            console.log(String(elem));
             if (String(elem).replace(/\s/g, '').length === 0) {
                 setAddRecordError(true);
                 formOk = false;
@@ -484,6 +491,13 @@ const TopicRecordsPage = (props) => {
     const [dateValue, dateValueSetValue] = React.useState(new Date());
 
     const handleDateTimeChange = (i, newValue) => {
+        let newFormValues = [...theArray];
+        newFormValues[i].value = newValue;
+
+        setTheArray(newFormValues);
+    };
+
+    const handleTimeChange = (i, newValue) => {
         let newFormValues = [...theArray];
         newFormValues[i].value = newValue;
 
@@ -943,6 +957,21 @@ const TopicRecordsPage = (props) => {
                                         </FormControl>
                                     );
                                 }
+
+                                if (d.data === 'Hour') {
+                                    return (
+                                        <FormControl fullWidth sx={{ mb: 2 }}>
+                                            <LocalizationProvider dateAdapter={AdapterDateFns} key={i}>
+                                                <TimePicker
+                                                    label={`${d.name}`}
+                                                    value={theArray[i].value}
+                                                    onChange={(e) => handleTimeChange(i, e)}
+                                                    renderInput={(params) => <TextField {...params} />}
+                                                />
+                                            </LocalizationProvider>
+                                        </FormControl>
+                                    );
+                                }
                                 return <FormControl fullWidth sx={{ mb: 2 }} variant="filled" key={i} />;
                             })}
                         </DialogContentText>
@@ -1028,6 +1057,20 @@ const TopicRecordsPage = (props) => {
                                                     // value={formValues[i].value}
                                                     onChange={(e) => handleDateTimeChange(i, e)}
                                                     // onChange={handleDateTimeChange(i)}
+                                                    renderInput={(params) => <TextField {...params} />}
+                                                />
+                                            </LocalizationProvider>
+                                        </FormControl>
+                                    );
+                                }
+                                if (d.data === 'Hour') {
+                                    return (
+                                        <FormControl fullWidth sx={{ mb: 2 }}>
+                                            <LocalizationProvider dateAdapter={AdapterDateFns} key={i}>
+                                                <TimePicker
+                                                    label={`${d.name}`}
+                                                    value={recordDetails[i].value}
+                                                    onChange={(e) => handleTimeChange(i, e)}
                                                     renderInput={(params) => <TextField {...params} />}
                                                 />
                                             </LocalizationProvider>
