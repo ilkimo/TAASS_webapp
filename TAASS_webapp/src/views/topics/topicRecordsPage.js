@@ -404,7 +404,7 @@ const TopicRecordsPage = (props) => {
 
         $.ajax({
             type: 'POST',
-            url: 'http://localhost:8080/api/v2/data/deledeTopic',
+            url: 'http://localhost:8080/api/v2/data/deleteTopic',
             data: JSON.stringify(obj),
             contentType: 'application/json;charset=utf-8'
         })
@@ -449,7 +449,7 @@ const TopicRecordsPage = (props) => {
 
         $.ajax({
             type: 'POST',
-            url: 'http://localhost:8080/api/v2/data/deledeReg',
+            url: 'http://localhost:8080/api/v2/data/deleteReg',
             data: JSON.stringify(obj),
             contentType: 'application/json;charset=utf-8'
         })
@@ -492,8 +492,33 @@ const TopicRecordsPage = (props) => {
 
     const [shareTopicsChecked, setShareTopicsChecked] = React.useState(false);
 
-    const handleShareSwitchChange = (event) => {
+    const handleShareSwitchChange = async (event) => {
+        location.state.item.shared = !location.state.item.shared;
         setShareTopicsChecked(event.target.checked);
+
+        const session = await getSession();
+
+        let obj = {
+            id: session.user.id,
+            name: location.state.item.name,
+            newName: null
+        };
+
+        console.log(obj);
+
+        $.ajax({
+            type: 'POST',
+            url: 'http://localhost:8080/api/v2/data/changSharedTopic',
+            data: JSON.stringify(obj),
+            contentType: 'application/json;charset=utf-8'
+        })
+            .done((response) => {
+                console.log('RESPONSE');
+                console.log(response);
+            })
+            .fail((e, s, t) => {
+                console.log(`Failed: ${e.responseText}`);
+            });
     };
 
     return (
@@ -632,7 +657,9 @@ const TopicRecordsPage = (props) => {
                             <FormGroup aria-label="position" row>
                                 <FormControlLabel
                                     value="start"
-                                    control={<Switch color="primary" checked={shareTopicsChecked} onChange={handleShareSwitchChange} />}
+                                    control={
+                                        <Switch color="primary" checked={location.state.item.shared} onChange={handleShareSwitchChange} />
+                                    }
                                     label="Share this topic with others users"
                                     labelPlacement="start"
                                 />
