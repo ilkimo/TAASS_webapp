@@ -331,7 +331,7 @@ class AddTopic extends React.Component {
                             }
                             sx={{ mb: 2, mt: 2 }}
                         >
-                            Error!
+                            Topic name already exists!
                         </Alert>
                     </Collapse>
                     <Collapse in={this.state.alertCompileAllForm}>
