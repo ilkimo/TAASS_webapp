@@ -140,13 +140,16 @@ const Profile = () => {
 
                 let obj = {
                     id: session.user.id,
-                    oldPassword: values.oldPassword,
-                    newPassword: values.newPassword
+                    password: values.oldPassword,
+                    newPassword: values.newPassword,
+                    mail: null,
+                    newMail: null,
+                    newName: null,
+                    newSurname: null
                 };
 
                 console.log(obj);
 
-                /*
                 $.ajax({
                     type: 'POST',
                     url: 'http://localhost:8080/api/v1/users/changePassword',
@@ -170,14 +173,11 @@ const Profile = () => {
                         setOpenPasswordChanged(true);
                         setOpenCompileAllForms(false);
                         setOpenMatchPassword(false);
-
                     })
                     .fail((e, s, t) => {
                         console.log(`Failed: ${e.responseText}`);
                         setOpenCompileAllForms(true);
                     });
-                    
-                 */
             } else {
                 setOpenMatchPassword(true);
                 setOpenCompileAllForms(false);
