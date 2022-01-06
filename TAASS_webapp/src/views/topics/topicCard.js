@@ -115,7 +115,9 @@ const TopicCard = ({ isLoading, firstcolor, secondcolor, thirdcolor, title, crea
                                 <Grid container>
                                     <Grid item>
                                         <Typography sx={{ fontSize: '1.025rem', fontWeight: 500, mr: 1, mt: 4.75 }}>
-                                            <i>Creation date: {creationDate}</i>
+                                            <i>
+                                                Creation date: {creationDate.day}/{creationDate.month}/{creationDate.year}
+                                            </i>
                                         </Typography>
                                     </Grid>
                                 </Grid>

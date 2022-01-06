@@ -184,8 +184,13 @@ class Topics extends React.Component {
             .done((response) => {
                 console.log('RESPONSE');
                 console.log(response);
+
+                let objResponse = JSON.parse(response);
+
+                console.log(objResponse);
+
                 // this.state.topics = response;
-                setState({ topics: response.topicList });
+                setState({ topics: objResponse.topicList });
 
                 console.log('userObject');
                 console.log(this.state.topics);

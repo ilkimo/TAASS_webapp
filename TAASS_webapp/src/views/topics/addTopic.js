@@ -161,7 +161,7 @@ class AddTopic extends React.Component {
 
             $.ajax({
                 type: 'POST',
-                url: 'http://localhost:8080/api/v2/data/newTopic',
+                url: 'http://localhost:8080/gateway/newTopic',
                 data: JSON.stringify(topic),
                 contentType: 'application/json;charset=utf-8'
             })
