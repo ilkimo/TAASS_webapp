@@ -28,7 +28,7 @@ export default function HomepageNotLogged(props) {
     const navigate = useNavigate();
 
     const handleLogin = async () => {
-        console.log('Logout');
+        console.log('Login');
 
         /* TODO: qua bisogna gestire il logout */
         /* GESTIRE LA SESSIONE UTENTE */

@@ -122,7 +122,7 @@ const FirebaseRegister = ({ ...others }) => {
 
             $.ajax({
                 type: 'POST',
-                url: 'http://localhost:8080/api/v1/users/create',
+                url: 'http://localhost:8080/gateway/create',
                 data: JSON.stringify(user),
                 contentType: 'application/json;charset=utf-8'
             })
@@ -132,17 +132,21 @@ const FirebaseRegister = ({ ...others }) => {
 
                     console.log('Register Successful');
 
-                    saveSession({ user: response });
+                    saveSession({ user: response.userInformation });
 
                     ReactSession.setStoreType('localStorage');
-                    ReactSession.set('id', response.id);
-                    ReactSession.set('username', response.email);
-                    ReactSession.set('password', response.password);
+                    ReactSession.set('id', response.userInformation.id);
+                    ReactSession.set('username', response.userInformation.email);
+                    ReactSession.set('password', response.userInformation.password);
+                    ReactSession.set('googleLogin', false);
 
+                    navigate('/topics', { replace: false });
+
+                    /*
                     $.ajax({
                         type: 'POST',
                         url: 'http://localhost:8080/api/v2/data/newuser',
-                        data: String(response.id),
+                        data: String(response.userInformation.id),
                         contentType: 'application/json;charset=utf-8'
                     })
                         .done((resp) => {
@@ -154,6 +158,8 @@ const FirebaseRegister = ({ ...others }) => {
                         .fail((e, s, t) => {
                             console.log(`Failed: ${e.responseText}`);
                         });
+
+                     */
                 })
                 .fail((e, s, t) => {
                     console.log(`Failed: ${e.responseText}`);

@@ -66,8 +66,10 @@ const ProfileSection = () => {
         removeSession();
 
         /* TODO: GESTIRE LA SESSIONE UTENTE */
+        ReactSession.remove('id');
         ReactSession.remove('username');
         ReactSession.remove('password');
+        ReactSession.remove('googleLogin');
 
         navigate('../pages/login/login3', { replace: true });
     };

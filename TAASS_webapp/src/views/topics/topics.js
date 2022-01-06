@@ -168,17 +168,24 @@ class Topics extends React.Component {
         console.log(session);
 
         const setState = this.setState.bind(this);
+
+        let object = {
+            id: null,
+            idUser: session.user.id,
+            topicList: null
+        };
+
         $.ajax({
             type: 'POST',
-            url: 'http://localhost:8080/api/v2/data/topics',
-            data: String(session.user.id),
+            url: 'http://localhost:8080/gateway/topicUser',
+            data: JSON.stringify(object),
             contentType: 'application/json;charset=utf-8'
         })
             .done((response) => {
                 console.log('RESPONSE');
                 console.log(response);
                 // this.state.topics = response;
-                setState({ topics: response });
+                setState({ topics: response.topicList });
 
                 console.log('userObject');
                 console.log(this.state.topics);
