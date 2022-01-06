@@ -152,7 +152,7 @@ const Profile = () => {
 
                 $.ajax({
                     type: 'POST',
-                    url: 'http://localhost:8080/api/v1/users/changePassword',
+                    url: 'http://localhost:8080/gateway/changePassword',
                     data: JSON.stringify(obj),
                     contentType: 'application/json;charset=utf-8'
                 })
