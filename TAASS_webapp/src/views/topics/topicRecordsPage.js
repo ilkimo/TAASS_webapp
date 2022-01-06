@@ -431,7 +431,7 @@ const TopicRecordsPage = (props) => {
 
         $.ajax({
             type: 'POST',
-            url: 'http://localhost:8080/api/v2/data/changeNameTopic',
+            url: 'http://localhost:8080/gateway/changeNameTopic',
             data: JSON.stringify(obj),
             contentType: 'application/json;charset=utf-8'
         })
