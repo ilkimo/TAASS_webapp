@@ -478,7 +478,7 @@ const TopicRecordsPage = (props) => {
 
         $.ajax({
             type: 'POST',
-            url: 'http://localhost:8080/api/v2/data/deleteTopic',
+            url: 'http://localhost:8080/gateway/delTopic',
             data: JSON.stringify(obj),
             contentType: 'application/json;charset=utf-8'
         })
