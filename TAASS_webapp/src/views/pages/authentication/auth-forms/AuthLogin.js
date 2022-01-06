@@ -88,7 +88,7 @@ const FirebaseLogin = ({ ...others }) => {
 
         $.ajax({
             type: 'POST',
-            url: 'http://localhost:8080/api/v1/users/login',
+            url: 'http://localhost:8080/gateway/login',
             data: JSON.stringify(user),
             contentType: 'application/json;charset=utf-8'
         })
@@ -96,18 +96,21 @@ const FirebaseLogin = ({ ...others }) => {
                 console.log('RESPONSE');
                 console.log(response);
 
+                let objResponse = JSON.parse(response);
+
                 console.log('Login Successful');
                 setOkEmailpassword(true);
 
-                saveSession({ user: response });
+                saveSession({ user: objResponse.userInformation });
 
                 const session = await getSession();
                 console.log(session);
 
                 ReactSession.setStoreType('localStorage');
-                ReactSession.set('id', response.id);
-                ReactSession.set('username', response.email);
-                ReactSession.set('password', response.password);
+                ReactSession.set('id', objResponse.userInformation.id);
+                ReactSession.set('username', objResponse.userInformation.email);
+                ReactSession.set('password', objResponse.userInformation.password);
+                ReactSession.set('googleLogin', false);
 
                 navigate('/topics', { replace: false });
             })
