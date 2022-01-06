@@ -249,7 +249,9 @@ const SharedTopicCard = ({ isLoading, firstcolor, secondcolor, thirdcolor, title
                                     <Grid container>
                                         <Grid item>
                                             <Typography sx={{ fontSize: '1.025rem', fontWeight: 500, mr: 1, mt: 4.75 }}>
-                                                <i>Creation date: {creationDate}</i>
+                                                <i>
+                                                    Creation date: {creationDate.day}/{creationDate.month}/{creationDate.year}
+                                                </i>
                                             </Typography>
                                         </Grid>
                                     </Grid>
@@ -392,7 +394,7 @@ SharedTopicCard.propTypes = {
     secondcolor: PropTypes.string,
     thirdcolor: PropTypes.string,
     title: PropTypes.string,
-    creationDate: PropTypes.string,
+    creationDate: PropTypes.object,
     topic: PropTypes.object
 };
 

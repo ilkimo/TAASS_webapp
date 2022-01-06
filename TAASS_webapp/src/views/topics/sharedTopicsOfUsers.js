@@ -125,15 +125,18 @@ class SharedTopicsOfUsers extends React.Component {
         const setState = this.setState.bind(this);
         $.ajax({
             type: 'POST',
-            url: 'http://localhost:8080/api/v2/data/sharedTopic',
+            url: 'http://localhost:8080/gateway/sharedTopic',
             data: String(session.user.id),
             contentType: 'application/json;charset=utf-8'
         })
             .done((response) => {
                 console.log('RESPONSE');
                 console.log(response);
+
+                let objResponse = JSON.parse(response);
+
                 // this.state.topics = response;
-                setState({ sharedTopics: response });
+                setState({ sharedTopics: objResponse });
 
                 console.log('userObject');
                 console.log(this.state.sharedTopics);
