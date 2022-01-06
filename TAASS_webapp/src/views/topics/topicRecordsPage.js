@@ -214,7 +214,7 @@ const TopicRecordsPage = (props) => {
 
         /* TODO: da sistemare perchè non funziona */
         state.item.listRegistrazioni.forEach((record) => {
-            let month = record.creationDate.slice(5, 7);
+            let month = record.creationDate.month;
 
             console.log(month);
 
@@ -315,7 +315,7 @@ const TopicRecordsPage = (props) => {
         setRecordSelected(record);
 
         for (let i = 0; i < recordDetails.length; i += 1) {
-            recordDetails[i].value = record.typeNameRegistration[i].data;
+            recordDetails[i].value = record.typeNameRegistration[i].val;
         }
 
         setOpenRecordDetails(true);
@@ -372,7 +372,7 @@ const TopicRecordsPage = (props) => {
 
             $.ajax({
                 type: 'POST',
-                url: 'http://localhost:8080/api/v2/data/newRegi',
+                url: 'http://localhost:8080/gateway/newReg',
                 data: JSON.stringify(obj),
                 contentType: 'application/json;charset=utf-8'
             })
@@ -380,7 +380,10 @@ const TopicRecordsPage = (props) => {
                     console.log('RESPONSE');
                     console.log(response);
 
-                    response.forEach(function (element, index) {
+                    let objResponse = JSON.parse(response);
+                    console.log(objResponse);
+
+                    objResponse.topicList.forEach(function (element, index) {
                         if (element.name === location.state.item.name) {
                             location.state.item.listRegistrazioni = element.listRegistrazioni;
                         }
@@ -852,8 +855,8 @@ const TopicRecordsPage = (props) => {
                                               firstcolor={state.item.color[0]}
                                               secondcolor={state.item.color[1]}
                                               thirdcolor={state.item.color[2]}
-                                              title={record.typeNameRegistration[0].data}
-                                              date="12-12-2021"
+                                              title={record.typeNameRegistration[0].val}
+                                              date={record.typeNameRegistration[1].val.slice(0, 10)}
                                           />
                                       </Grid>
                                   ))
