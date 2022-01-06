@@ -523,7 +523,7 @@ const TopicRecordsPage = (props) => {
 
         $.ajax({
             type: 'POST',
-            url: 'http://localhost:8080/api/v2/data/deleteReg',
+            url: 'http://localhost:8080/gateway/delReg',
             data: JSON.stringify(obj),
             contentType: 'application/json;charset=utf-8'
         })
@@ -531,11 +531,22 @@ const TopicRecordsPage = (props) => {
                 console.log('RESPONSE');
                 console.log(response);
 
+                let objResponse = JSON.parse(response);
+
+                /*
                 response.forEach(function (element, index) {
                     if (element.name === location.state.item.name) {
                         location.state.item.listRegistrazioni = element.listRegistrazioni;
                     }
                 });
+                 */
+
+                objResponse.topicList.forEach(function (element, index) {
+                    if (element.name === location.state.item.name) {
+                        location.state.item.listRegistrazioni = element.listRegistrazioni;
+                    }
+                });
+
                 setOpenDeleteRecordDialog(false);
                 setOpenRecordDetails(false);
             })
