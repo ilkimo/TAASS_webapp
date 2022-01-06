@@ -261,9 +261,6 @@ const TopicRecordsPage = (props) => {
         });
     }
 
-    console.log('DATA');
-    console.log(data.datasets[0]);
-
     const handleTopicNameChange = (event, newValue) => {
         setTopicName(event.target.value);
     };

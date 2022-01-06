@@ -63,6 +63,48 @@ const FirebaseLogin = ({ ...others }) => {
 
     const googleHandler = (response) => {
         console.log(response);
+
+        let user = {
+            name: null,
+            surname: null,
+            email: response.profileObj.email,
+            password: ''
+        };
+
+        console.log(user);
+
+        $.ajax({
+            type: 'POST',
+            url: 'http://localhost:8080/gateway/loginGoogle',
+            data: JSON.stringify(user),
+            contentType: 'application/json;charset=utf-8'
+        })
+            .done(async (response) => {
+                console.log('RESPONSE');
+                console.log(response);
+
+                let objResponse = JSON.parse(response);
+
+                console.log('Login Successful');
+                setOkEmailpassword(true);
+
+                saveSession({ user: objResponse.userInformation, googleLogin: true });
+
+                const session = await getSession();
+                console.log(session);
+
+                ReactSession.setStoreType('localStorage');
+                ReactSession.set('id', objResponse.userInformation.id);
+                ReactSession.set('username', objResponse.userInformation.email);
+                ReactSession.set('password', objResponse.userInformation.password);
+                ReactSession.set('googleLogin', true);
+
+                navigate('/topics', { replace: false });
+            })
+            .fail((e, s, t) => {
+                console.log(`Failed: ${e.responseText}`);
+                setOkEmailpassword(false);
+            });
     };
 
     const facebookHandle = (response) => {
@@ -101,7 +143,7 @@ const FirebaseLogin = ({ ...others }) => {
                 console.log('Login Successful');
                 setOkEmailpassword(true);
 
-                saveSession({ user: objResponse.userInformation });
+                saveSession({ user: objResponse.userInformation, googleLogin: false });
 
                 const session = await getSession();
                 console.log(session);
@@ -153,6 +195,7 @@ const FirebaseLogin = ({ ...others }) => {
                         </AnimateButton>
                     </FormControl>
                 </Grid>
+                {/*
                 <Grid item xs={12}>
                     <FormControl fullWidth>
                         <AnimateButton>
@@ -170,6 +213,7 @@ const FirebaseLogin = ({ ...others }) => {
                         </AnimateButton>
                     </FormControl>
                 </Grid>
+                */}
                 <Grid item xs={12}>
                     <Box
                         sx={{

@@ -93,9 +93,11 @@ export default function HomepageNotLogged(props) {
                             backgroundColor: 'white'
                         }}
                     >
+                        {/*
                         <Fab onClick={testUserSession} variant="extended" color="primary" style={{ zIndex: 10 }}>
                             Test User session
                         </Fab>
+                        */}
                         <Fab onClick={handleLogin} variant="extended" color="primary" style={{ zIndex: 10 }}>
                             Login
                         </Fab>

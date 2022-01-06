@@ -72,9 +72,65 @@ const FirebaseRegister = ({ ...others }) => {
         console.log(response);
     };
 
-    const googleHandler = (response) => {
-        console.log(response);
+    const googleHandler = (resp) => {
+        console.log(resp);
         console.error('Register');
+
+        let user = {
+            name: null,
+            surname: null,
+            email: resp.profileObj.email,
+            password: ''
+        };
+
+        console.log(JSON.stringify(user));
+
+        $.ajax({
+            type: 'POST',
+            url: 'http://localhost:8080/gateway/createGoogle',
+            data: JSON.stringify(user),
+            contentType: 'application/json;charset=utf-8'
+        })
+            .done((response) => {
+                console.log('RESPONSE');
+                console.log(response);
+
+                console.log('Register Successful');
+
+                saveSession({ user: response.userInformation });
+
+                ReactSession.setStoreType('localStorage');
+                ReactSession.set('id', response.userInformation.id);
+                ReactSession.set('username', response.userInformation.email);
+                ReactSession.set('password', response.userInformation.password);
+                ReactSession.set('googleLogin', false);
+
+                navigate('/topics', { replace: false });
+
+                /*
+                $.ajax({
+                    type: 'POST',
+                    url: 'http://localhost:8080/api/v2/data/newuser',
+                    data: String(response.userInformation.id),
+                    contentType: 'application/json;charset=utf-8'
+                })
+                    .done((resp) => {
+                        console.log('RESPONSE');
+                        console.log(resp);
+
+                        navigate('/topics', { replace: false });
+                    })
+                    .fail((e, s, t) => {
+                        console.log(`Failed: ${e.responseText}`);
+                    });
+
+                 */
+            })
+            .fail((e, s, t) => {
+                console.log(`Failed: ${e.responseText}`);
+                setOkEmailpassword(true);
+                setEmailInUse(true);
+            });
     };
 
     const handleClickShowPassword = () => {
@@ -195,6 +251,7 @@ const FirebaseRegister = ({ ...others }) => {
                         </AnimateButton>
                     </FormControl>
                 </Grid>
+                {/*
                 <Grid item xs={12}>
                     <FormControl fullWidth>
                         <AnimateButton>
@@ -212,6 +269,7 @@ const FirebaseRegister = ({ ...others }) => {
                         </AnimateButton>
                     </FormControl>
                 </Grid>
+                */}
                 {/*
                 <Grid item xs={12}>
                     <AnimateButton>

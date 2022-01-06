@@ -41,6 +41,8 @@ const Profile = () => {
         showRepeatNewPassword: false
     });
 
+    const [loggedWithGoogle, setLoggedWithGoogle] = useState(false);
+
     useEffect(() => {
         async function getSessionUser() {
             // You need to restrict it at some point
@@ -52,6 +54,8 @@ const Profile = () => {
                 username: session.user.email,
                 password: session.user.password
             });
+
+            setLoggedWithGoogle(session.googleLogin);
         }
 
         getSessionUser();
@@ -230,26 +234,31 @@ const Profile = () => {
                                 <FilledInput disabled id="filled-adornment-mail" type="text" value={values.mail} />
                             </FormControl>
                             */}
-                            <FormControl fullWidth sx={{ mb: 2 }} variant="filled">
-                                <InputLabel htmlFor="filled-adornment-password">Password</InputLabel>
-                                <FilledInput
-                                    disabled
-                                    id="filled-adornment-password"
-                                    type="text"
-                                    // value={values.password}
-                                    value="change password"
-                                    endAdornment={
-                                        <InputAdornment position="end">
-                                            <EditIcon
-                                                className="iconColor"
-                                                fontSize="medium"
-                                                style={{ cursor: 'pointer' }}
-                                                onClick={handleClickOpenEditTopic('paper')}
-                                            />
-                                        </InputAdornment>
-                                    }
-                                />
-                            </FormControl>
+
+                            {loggedWithGoogle ? (
+                                <div />
+                            ) : (
+                                <FormControl fullWidth sx={{ mb: 2 }} variant="filled">
+                                    <InputLabel htmlFor="filled-adornment-password">Password</InputLabel>
+                                    <FilledInput
+                                        disabled
+                                        id="filled-adornment-password"
+                                        type="text"
+                                        // value={values.password}
+                                        value="change password"
+                                        endAdornment={
+                                            <InputAdornment position="end">
+                                                <EditIcon
+                                                    className="iconColor"
+                                                    fontSize="medium"
+                                                    style={{ cursor: 'pointer' }}
+                                                    onClick={handleClickOpenEditTopic('paper')}
+                                                />
+                                            </InputAdornment>
+                                        }
+                                    />
+                                </FormControl>
+                            )}
                         </Grid>
                     </Grid>
                 </div>

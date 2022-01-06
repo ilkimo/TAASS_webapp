@@ -43,6 +43,8 @@ import { ReactSession } from 'react-client-session';
 
 import { useSession, loadDataFromStorage, getSession, setSession, removeSession } from 'react-session-persist';
 
+import GoogleLogout from 'react-google-login';
+import { gapi } from 'gapi-script';
 // ==============================|| PROFILE MENU ||============================== //
 
 const ProfileSection = () => {
@@ -51,6 +53,7 @@ const ProfileSection = () => {
     const navigate = useNavigate();
 
     const [user, setUser] = useState({});
+    const [loggedWithGoogle, setLoggedWithGoogle] = useState(false);
     const [sdm, setSdm] = useState(true);
     const [value, setValue] = useState('');
     const [notification, setNotification] = useState(false);
@@ -74,6 +77,45 @@ const ProfileSection = () => {
         navigate('../pages/login/login3', { replace: true });
     };
 
+    const responseGoogle = (response) => {
+        console.log(response);
+    };
+
+    const logout = (response) => {
+        const auth2 = gapi.auth2.getAuthInstance();
+
+        if (auth2 != null) {
+            auth2.signOut().then(
+                auth2.disconnect().then(function () {
+                    console.log('LOGOUT SUCCESSFUL');
+
+                    ReactSession.remove('id');
+                    ReactSession.remove('username');
+                    ReactSession.remove('password');
+                    ReactSession.remove('googleLogin');
+
+                    navigate('../pages/login/login3', { replace: true });
+                })
+            );
+        }
+    };
+
+    const handleLogoutFromGoogle = async (resp) => {
+        console.log(resp);
+
+        console.log('Logout from Google');
+
+        removeSession();
+
+        /* TODO: GESTIRE LA SESSIONE UTENTE */
+        ReactSession.remove('id');
+        ReactSession.remove('username');
+        ReactSession.remove('password');
+        ReactSession.remove('googleLogin');
+
+        navigate('../pages/login/login3', { replace: true });
+    };
+
     useEffect(() => {
         async function getSessionUser() {
             // You need to restrict it at some point
@@ -81,6 +123,7 @@ const ProfileSection = () => {
             const session = await getSession();
             console.log(session);
             setUser(session.user);
+            setLoggedWithGoogle(session.googleLogin);
         }
 
         getSessionUser();
@@ -228,16 +271,42 @@ const ProfileSection = () => {
                                                     </ListItemIcon>
                                                     <ListItemText primary={<Typography variant="body2">Account Settings</Typography>} />
                                                 </ListItemButton>
+
+                                                {/* if */}
+                                                {loggedWithGoogle ? (
+                                                    <ListItemButton
+                                                        sx={{ borderRadius: `${customization.borderRadius}px` }}
+                                                        selected={selectedIndex === 4}
+                                                        onClick={logout}
+                                                    >
+                                                        <ListItemIcon>
+                                                            <IconLogout stroke={1.5} size="1.3rem" />
+                                                        </ListItemIcon>
+                                                        <ListItemText
+                                                            primary={<Typography variant="body2">Logout from Google</Typography>}
+                                                        />
+                                                    </ListItemButton>
+                                                ) : (
+                                                    <ListItemButton
+                                                        sx={{ borderRadius: `${customization.borderRadius}px` }}
+                                                        selected={selectedIndex === 4}
+                                                        onClick={handleLogout}
+                                                    >
+                                                        <ListItemIcon>
+                                                            <IconLogout stroke={1.5} size="1.3rem" />
+                                                        </ListItemIcon>
+                                                        <ListItemText primary={<Typography variant="body2">Logout</Typography>} />
+                                                    </ListItemButton>
+                                                )}
+
+                                                {/* Google Logout
                                                 <ListItemButton
                                                     sx={{ borderRadius: `${customization.borderRadius}px` }}
                                                     selected={selectedIndex === 4}
-                                                    onClick={handleLogout}
                                                 >
-                                                    <ListItemIcon>
-                                                        <IconLogout stroke={1.5} size="1.3rem" />
-                                                    </ListItemIcon>
-                                                    <ListItemText primary={<Typography variant="body2">Logout</Typography>} />
+                                                    <GoogleLogout buttonText="Logout" onLogoutSuccess={handleLogoutFromGoogle} />
                                                 </ListItemButton>
+                                                */}
                                             </List>
                                         </Box>
                                     </PerfectScrollbar>
