@@ -170,6 +170,7 @@ class Topics extends React.Component {
         const setState = this.setState.bind(this);
 
         let object = {
+            type: 'UserData',
             id: null,
             idUser: session.user.id,
             topicList: null

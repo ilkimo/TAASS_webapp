@@ -150,6 +150,7 @@ class AddTopic extends React.Component {
 
         if (formOk) {
             let topic = {
+                type: 'Topic',
                 id: String(session.user.id),
                 name: this.state.topicName,
                 description: this.state.topicDescription,

@@ -137,6 +137,7 @@ const SharedTopicCard = ({ isLoading, firstcolor, secondcolor, thirdcolor, title
         console.log(session);
 
         let top = {
+            type: 'Topic',
             id: String(session.user.id),
             name: newName,
             description: topic.description,
@@ -250,7 +251,7 @@ const SharedTopicCard = ({ isLoading, firstcolor, secondcolor, thirdcolor, title
                                         <Grid item>
                                             <Typography sx={{ fontSize: '1.025rem', fontWeight: 500, mr: 1, mt: 4.75 }}>
                                                 <i>
-                                                    Creation date: {creationDate.day}/{creationDate.month}/{creationDate.year}
+                                                    Creation date: {creationDate[0]}/{creationDate[1]}/{creationDate[2]}
                                                 </i>
                                             </Typography>
                                         </Grid>

@@ -312,7 +312,7 @@ const TopicRecordsPage = (props) => {
         setRecordSelected(record);
 
         for (let i = 0; i < recordDetails.length; i += 1) {
-            recordDetails[i].value = record.typeNameRegistration[i].val;
+            recordDetails[i].value = record.typeNameRegistration[i].data;
         }
 
         setOpenRecordDetails(true);
@@ -373,11 +373,8 @@ const TopicRecordsPage = (props) => {
                 data: JSON.stringify(obj),
                 contentType: 'application/json;charset=utf-8'
             })
-                .done((response) => {
+                .done((objResponse) => {
                     console.log('RESPONSE');
-                    console.log(response);
-
-                    let objResponse = JSON.parse(response);
                     console.log(objResponse);
 
                     objResponse.topicList.forEach(function (element, index) {
@@ -863,8 +860,8 @@ const TopicRecordsPage = (props) => {
                                               firstcolor={state.item.color[0]}
                                               secondcolor={state.item.color[1]}
                                               thirdcolor={state.item.color[2]}
-                                              title={record.typeNameRegistration[0].val}
-                                              date={record.typeNameRegistration[1].val.slice(0, 10)}
+                                              title={record.typeNameRegistration[0].data}
+                                              date={record.creationDate}
                                           />
                                       </Grid>
                                   ))

@@ -123,6 +123,9 @@ const ProfileSection = () => {
             const session = await getSession();
             console.log(session);
             setUser(session.user);
+
+            console.log(session.googleLogin);
+
             setLoggedWithGoogle(session.googleLogin);
         }
 

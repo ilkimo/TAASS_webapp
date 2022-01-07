@@ -97,13 +97,13 @@ const FirebaseRegister = ({ ...others }) => {
 
                 console.log('Register Successful');
 
-                saveSession({ user: response.userInformation });
+                saveSession({ user: response.userInformation, googleLogin: true });
 
                 ReactSession.setStoreType('localStorage');
                 ReactSession.set('id', response.userInformation.id);
                 ReactSession.set('username', response.userInformation.email);
                 ReactSession.set('password', response.userInformation.password);
-                ReactSession.set('googleLogin', false);
+                ReactSession.set('googleLogin', true);
 
                 navigate('/topics', { replace: false });
 
