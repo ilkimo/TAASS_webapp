@@ -41,6 +41,8 @@ import $ from 'jquery';
 
 import { ReactSession } from 'react-client-session';
 
+import { backendUrl } from '../../../../utils/utils';
+
 import { useSession, loadDataFromStorage, getSession, setSession } from 'react-session-persist';
 
 // ===========================|| FIREBASE - REGISTER ||=========================== //
@@ -87,7 +89,7 @@ const FirebaseRegister = ({ ...others }) => {
 
         $.ajax({
             type: 'POST',
-            url: 'http://localhost:8080/gateway/createGoogle',
+            url: `${backendUrl}createGoogle`,
             data: JSON.stringify(user),
             contentType: 'application/json;charset=utf-8'
         })
@@ -162,6 +164,9 @@ const FirebaseRegister = ({ ...others }) => {
         console.log(values.email);
         console.log(values.password);
 
+        console.log('backendUrl');
+        console.log(backendUrl);
+
         if ((values.email === '' && values.password === '') || !validateEmail(values.email)) {
             console.log('SONO QUA');
             setEmailInUse(false);
@@ -178,7 +183,7 @@ const FirebaseRegister = ({ ...others }) => {
 
             $.ajax({
                 type: 'POST',
-                url: 'http://localhost:8080/gateway/create',
+                url: `${backendUrl}create`,
                 data: JSON.stringify(user),
                 contentType: 'application/json;charset=utf-8'
             })

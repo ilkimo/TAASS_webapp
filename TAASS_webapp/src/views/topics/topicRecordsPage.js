@@ -61,6 +61,7 @@ import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import CloseIcon from '@mui/icons-material/Close';
 import Collapse from '@mui/material/Collapse';
+import { backendUrl } from '../../utils/utils';
 
 function TabPanel(props) {
     const { children, value, index, ...other } = props;
@@ -369,7 +370,7 @@ const TopicRecordsPage = (props) => {
 
             $.ajax({
                 type: 'POST',
-                url: 'http://localhost:8080/gateway/newReg',
+                url: `${backendUrl}newReg`,
                 data: JSON.stringify(obj),
                 contentType: 'application/json;charset=utf-8'
             })
@@ -425,7 +426,7 @@ const TopicRecordsPage = (props) => {
 
         $.ajax({
             type: 'POST',
-            url: 'http://localhost:8080/gateway/changeNameTopic',
+            url: `${backendUrl}changeNameTopic`,
             data: JSON.stringify(obj),
             contentType: 'application/json;charset=utf-8'
         })
@@ -472,7 +473,7 @@ const TopicRecordsPage = (props) => {
 
         $.ajax({
             type: 'POST',
-            url: 'http://localhost:8080/gateway/delTopic',
+            url: `${backendUrl}delTopic`,
             data: JSON.stringify(obj),
             contentType: 'application/json;charset=utf-8'
         })
@@ -517,7 +518,7 @@ const TopicRecordsPage = (props) => {
 
         $.ajax({
             type: 'POST',
-            url: 'http://localhost:8080/gateway/delReg',
+            url: `${backendUrl}delReg`,
             data: JSON.stringify(obj),
             contentType: 'application/json;charset=utf-8'
         })
@@ -595,7 +596,7 @@ const TopicRecordsPage = (props) => {
 
         $.ajax({
             type: 'POST',
-            url: 'http://localhost:8080/gateway/changSharedTopic',
+            url: `${backendUrl}changSharedTopic`,
             data: JSON.stringify(obj),
             contentType: 'application/json;charset=utf-8'
         })

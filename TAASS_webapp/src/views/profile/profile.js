@@ -25,6 +25,7 @@ import { Alert } from '@mui/lab';
 import CloseIcon from '@mui/icons-material/Close';
 import Collapse from '@mui/material/Collapse';
 import $ from 'jquery';
+import { backendUrl } from '../../utils/utils';
 
 // ==============================|| TYPOGRAPHY ||============================== //
 const Profile = () => {
@@ -156,7 +157,7 @@ const Profile = () => {
 
                 $.ajax({
                     type: 'POST',
-                    url: 'http://localhost:8080/gateway/changePassword',
+                    url: `${backendUrl}changePassword`,
                     data: JSON.stringify(obj),
                     contentType: 'application/json;charset=utf-8'
                 })

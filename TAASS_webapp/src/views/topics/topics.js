@@ -23,6 +23,7 @@ import { ReactSession } from 'react-client-session';
 import * as $ from 'jquery';
 import 'jquery.soap';
 import { getSession } from 'react-session-persist/lib';
+import { backendUrl } from '../../utils/utils';
 
 // ==============================|| DEFAULT DASHBOARD ||============================== //
 
@@ -178,7 +179,7 @@ class Topics extends React.Component {
 
         $.ajax({
             type: 'POST',
-            url: 'http://localhost:8080/gateway/topicUser',
+            url: `${backendUrl}topicUser`,
             data: JSON.stringify(object),
             contentType: 'application/json;charset=utf-8'
         })

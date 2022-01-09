@@ -46,6 +46,7 @@ export default function HomepageNotLogged(props) {
             password: ''
         };
 
+        /*
         $.ajax({
             type: 'POST',
             url: 'http://localhost:8080/api/v1/users/session',
@@ -60,6 +61,8 @@ export default function HomepageNotLogged(props) {
             .fail((e, s, t) => {
                 console.log(`Failed: ${e.responseText}`);
             });
+
+         */
 
         /*
         $.ajax({

@@ -29,6 +29,7 @@ import DialogContentText from '@mui/material/DialogContentText';
 import Collapse from '@mui/material/Collapse';
 import { Alert } from '@mui/lab';
 import CloseIcon from '@mui/icons-material/Close';
+import { backendUrl } from '../../utils/utils';
 
 const CardWrapper = styled(MainCard)(({ theme, firstcolor, secondcolor, thirdcolor }) => ({
     // backgroundColor: theme.palette.secondary.dark,
@@ -147,7 +148,7 @@ const SharedTopicCard = ({ isLoading, firstcolor, secondcolor, thirdcolor, title
 
         $.ajax({
             type: 'POST',
-            url: 'http://localhost:8080/gateway/newTopic',
+            url: `${backendUrl}newTopic`,
             data: JSON.stringify(top),
             contentType: 'application/json;charset=utf-8'
         })

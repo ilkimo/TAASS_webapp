@@ -27,6 +27,7 @@ import DialogActions from '@mui/material/DialogActions';
 import Button from '@mui/material/Button';
 import { getSession } from 'react-session-persist/lib';
 import * as $ from 'jquery';
+import { backendUrl } from '../../utils/utils';
 
 // ==============================|| DEFAULT DASHBOARD ||============================== //
 
@@ -125,7 +126,7 @@ class SharedTopicsOfUsers extends React.Component {
         const setState = this.setState.bind(this);
         $.ajax({
             type: 'POST',
-            url: 'http://localhost:8080/gateway/sharedTopic',
+            url: `${backendUrl}sharedTopic`,
             data: String(session.user.id),
             contentType: 'application/json;charset=utf-8'
         })

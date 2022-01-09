@@ -47,6 +47,7 @@ import Facebook from 'assets/images/icons/social-facebook.svg';
 
 import { ReactSession } from 'react-client-session';
 import { useSession, loadDataFromStorage, getSession, setSession } from 'react-session-persist';
+import { backendUrl } from '../../../../utils/utils';
 // ============================|| FIREBASE - LOGIN ||============================ //
 
 const FirebaseLogin = ({ ...others }) => {
@@ -75,7 +76,7 @@ const FirebaseLogin = ({ ...others }) => {
 
         $.ajax({
             type: 'POST',
-            url: 'http://localhost:8080/gateway/loginGoogle',
+            url: `${backendUrl}loginGoogle`,
             data: JSON.stringify(user),
             contentType: 'application/json;charset=utf-8'
         })
@@ -130,7 +131,7 @@ const FirebaseLogin = ({ ...others }) => {
 
         $.ajax({
             type: 'POST',
-            url: 'http://localhost:8080/gateway/login',
+            url: `${backendUrl}login`,
             data: JSON.stringify(user),
             contentType: 'application/json;charset=utf-8'
         })

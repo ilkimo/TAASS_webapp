@@ -31,6 +31,7 @@ import { useNavigate, withRouter, BrowserRouter, Link } from 'react-router-dom';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { Alert } from '@mui/lab';
 import { getSession } from 'react-session-persist/lib';
+import { backendUrl } from '../../utils/utils';
 
 // ==============================|| TYPOGRAPHY ||============================== //
 
@@ -162,7 +163,7 @@ class AddTopic extends React.Component {
 
             $.ajax({
                 type: 'POST',
-                url: 'http://localhost:8080/gateway/newTopic',
+                url: `${backendUrl}newTopic`,
                 data: JSON.stringify(topic),
                 contentType: 'application/json;charset=utf-8'
             })
