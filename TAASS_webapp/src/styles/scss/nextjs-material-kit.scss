@@ -1,0 +1,291 @@
+/*!
+
+=========================================================
+* NextJS Material Kit v1.2.0 based on Material Kit Free - v2.0.2 (Bootstrap 4.0.0 Final Edition) and Material Kit React v1.8.0
+=========================================================
+
+* Product Page: https://www.creative-tim.com/product/nextjs-material-kit
+* Copyright 2021 Creative Tim (https://www.creative-tim.com)
+* Licensed under MIT (https://github.com/creativetimofficial/nextjs-material-kit/blob/main/LICENSE.md)
+
+* Coded by Creative Tim
+
+=========================================================
+
+* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+
+*/
+
+$cardBorderRadius: 10px;
+
+.cardTopic {
+  width: 19rem; // era 20
+  border-radius: $cardBorderRadius;
+  box-shadow: 0 10px 20px -5px rgba(0, 0, 0, 0.125);
+}
+
+.colorCardTopic {
+  height: 125px;
+  border-radius: $cardBorderRadius $cardBorderRadius 0 0;
+}
+
+.homePage {
+  display: grid;
+  place-items: center;
+}
+
+@mixin white-gradient {
+  background: linear-gradient(to right, rgba(255, 255, 255, 1) 0%, rgba(255, 255, 255, 0) 100%);
+}
+
+$animationSpeed: 25s;
+$cardMarginLeft: 140px;
+$sliderHeight: 200px;
+$cardWidth: 20rem;
+
+// Animation
+@keyframes scroll {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(calc(-20rem * 6));
+  }
+}
+
+// Animation
+@keyframes scrollToRight {
+  0% {
+    transform: translateX(calc(-20rem * 6));
+  }
+  100% {
+    transform: translateX(0);
+  }
+}
+
+// Styling
+.slider {
+  box-shadow: 0 10px -5px rgba(0, 0, 0, 0.125);
+  height: $sliderHeight;
+  //margin: auto;
+  margin-top: 50px;
+  overflow: hidden;
+  position: relative;
+  width: 90%;
+  display: grid;
+  place-items: center;
+
+  &::before,
+  &::after {
+    @include white-gradient;
+    content: '';
+    height: 300px;
+    position: absolute;
+    width: $cardWidth;
+    z-index: 2;
+  }
+
+  &::after {
+    right: 0;
+    top: 0;
+    transform: rotateZ(180deg);
+  }
+
+  &::before {
+    left: 0;
+    top: 0;
+  }
+
+  .slide-track {
+    animation: scroll $animationSpeed linear infinite;
+    display: flex;
+    width: calc(20rem * 12);
+  }
+
+  .slide {
+    text-align: left;
+    height: 180px;
+    width: $cardWidth;
+    padding: 15px;
+    display: flex;
+    align-items: center;
+  }
+}
+
+// Styling
+.sliderToRight {
+  box-shadow: 0 10px -5px rgba(0, 0, 0, 0.125);
+  height: $sliderHeight;
+  //margin: auto;
+  margin-top: 50px;
+  overflow: hidden;
+  position: relative;
+  width: 90%;
+  display: grid;
+  place-items: center;
+
+  &::before,
+  &::after {
+    @include white-gradient;
+    content: '';
+    height: 300px;
+    position: absolute;
+    width: $cardWidth;
+    z-index: 2;
+  }
+
+  &::after {
+    right: 0;
+    top: 0;
+    transform: rotateZ(180deg);
+  }
+
+  &::before {
+    left: 0;
+    top: 0;
+  }
+
+  .slide-track-to-right {
+    animation: scrollToRight $animationSpeed linear infinite;
+    display: flex;
+    width: calc(20rem * 12);
+  }
+
+  .slide-to-right {
+    text-align: left;
+    height: 180px;
+    width: $cardWidth;
+    padding: 15px;
+    display: flex;
+    align-items: center;
+  }
+}
+
+.buttonLogin {
+  background-color: #dc3545;
+  color: #ffffff;
+  border-radius: 20px;
+  width: 100px;
+}
+
+.iconColor {
+  color: #000000;
+  margin-left: 0.5rem;
+}
+
+.pageStyle {
+  padding: 1rem 0rem 1rem 0rem;
+}
+
+// zoom on card
+.zoom {
+  transition: transform .2s; /* Animation */
+  cursor: pointer;
+}
+
+.zoom:hover {
+  transform: scale(1.08); /* (150% zoom - Note: if the zoom is too large, it will go outside of the viewport) */
+}
+
+.rowC {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+
+.cardContainer {
+  display: flex;
+  justify-content: space-around;
+  margin-top: -150px;
+}
+
+.cardContainer div {
+  background-color: white;
+  padding: 100px 50px;
+  z-index: 10;
+}
+
+.container {
+  width: 95%;
+  position: relative;
+  margin: 20px;
+}
+
+.box {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 2rem;
+  left: 0;
+  opacity: 0.8; /* for demo purpose  */
+  padding-left: 0;
+}
+
+.box-inside {
+  width: 92%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  opacity: 1; /* for demo purpose  */
+  margin-left: 0;
+  padding-left: 0;
+  padding-right: 2rem;
+  padding-top: 8rem;
+}
+
+.stack-top {
+  z-index: 9;
+  margin: 1rem 1rem 8% 8%; /* for demo purpose  */
+}
+
+/*Card Homepage*/
+.parent {
+  position: relative;
+  width: 100%;
+  height: 300px;
+  margin: 10px;
+}
+
+.child1 {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+}
+
+.child2 {
+  z-index: 1;
+  margin-top: 4rem;
+  margin-left: 4rem;
+}
+
+.googleLoginButton {
+  width: 100%;
+  justify-content: center;
+}
+
+.facebookLoginButton {
+  width: 100%;
+  height: 3rem;
+  border-radius: 3px;
+  font-family: Helvetica, sans-serif;
+  font-weight: 700;
+  -webkit-font-smoothing: antialiased;
+  color: #fff;
+  cursor: pointer;
+  display: inline-block;
+  font-size: calc(.27548vw + 12.71074px);
+  text-decoration: none;
+  text-transform: uppercase;
+  transition: background-color .3s, border-color .3s;
+  background-color: #4c69ba;
+  border: calc(0.06887vw + 0.67769px) solid #4c69ba;
+}
+
+
+.kep-login-facebook {
+
+}
