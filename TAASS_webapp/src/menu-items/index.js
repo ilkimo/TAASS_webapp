@@ -8,7 +8,8 @@ import topicsOfAllusers from './topicsOfAllUsers';
 // ==============================|| MENU ITEMS ||============================== //
 
 const menuItems = {
-    items: [customPages, topicsOfAllusers, dashboard, utilities, other]
+    // dashboard, utilities, other
+    items: [customPages, topicsOfAllusers]
 };
 
 export default menuItems;
