@@ -137,7 +137,7 @@ class SharedTopicsOfUsers extends React.Component {
                 let objResponse = JSON.parse(response);
 
                 // this.state.topics = response;
-                setState({ sharedTopics: objResponse });
+                setState({ sharedTopics: objResponse.sharedTopicList });
 
                 console.log('userObject');
                 console.log(this.state.sharedTopics);
