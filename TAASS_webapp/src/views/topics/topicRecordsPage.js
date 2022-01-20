@@ -143,6 +143,8 @@ const TopicRecordsPage = (props) => {
 
     const formValues = [];
 
+    const [graphLoaded, setGraphLoaded] = useState(false);
+
     const [anchorEl, setAnchorEl] = useState(null);
 
     const handleClickMenu = (event) => {
@@ -213,53 +215,60 @@ const TopicRecordsPage = (props) => {
             console.log(recordDetails);
         });
 
+        console.log(data.datasets[0]);
+
         /* TODO: da sistemare perchè non funziona */
         state.item.listRegistrazioni.forEach((record) => {
-            let month = record.creationDate.month;
+            console.log(record);
+
+            let month = record.creationDate[1];
 
             console.log(month);
 
             switch (month) {
-                case '01':
+                case 1:
                     data.datasets[0].data[0] += 1;
                     break;
-                case '02':
+                case 2:
                     data.datasets[0].data[1] += 1;
                     break;
-                case '03':
+                case 3:
                     data.datasets[0].data[2] += 1;
                     break;
-                case '04':
+                case 4:
                     data.datasets[0].data[3] += 1;
                     break;
-                case '05':
+                case 5:
                     data.datasets[0].data[4] += 1;
                     break;
-                case '06':
+                case 6:
                     data.datasets[0].data[5] += 1;
                     break;
-                case '07':
+                case 7:
                     data.datasets[0].data[6] += 1;
                     break;
-                case '08':
+                case 8:
                     data.datasets[0].data[7] += 1;
                     break;
-                case '09':
+                case 9:
                     data.datasets[0].data[8] += 1;
                     break;
-                case '10':
+                case 10:
                     data.datasets[0].data[9] += 1;
                     break;
-                case '11':
+                case 11:
                     data.datasets[0].data[10] += 1;
                     break;
-                case '12':
+                case 12:
                     data.datasets[0].data[11] += 1;
                     break;
                 default:
                     break;
             }
         });
+
+        console.log(data.datasets[0]);
+        setGraphLoaded(true);
     }
 
     const handleTopicNameChange = (event, newValue) => {
@@ -848,15 +857,7 @@ const TopicRecordsPage = (props) => {
 
                             {state.item.listRegistrazioni.length > 0
                                 ? state.item.listRegistrazioni.map((record, i) => (
-                                      <Grid
-                                          item
-                                          key={record}
-                                          xs={12}
-                                          sm={12}
-                                          md={6}
-                                          lg={6}
-                                          onClick={handleClickOpenRecord('paper', record)}
-                                      >
+                                      <Grid item key={i} xs={12} sm={12} md={6} lg={6} onClick={handleClickOpenRecord('paper', record)}>
                                           <TopicRecordCard
                                               firstcolor={state.item.color[0]}
                                               secondcolor={state.item.color[1]}
@@ -870,11 +871,15 @@ const TopicRecordsPage = (props) => {
                         </TabPanel>
                         <TabPanel value={value} index={1}>
                             {/* Performance */}
-                            <Grid container>
-                                <Grid item lg={9} md={12} s={12} xs={12}>
-                                    <Bar options={options} data={data} />
+                            {graphLoaded ? (
+                                <Grid container>
+                                    <Grid item lg={9} md={12} s={12} xs={12}>
+                                        <Bar options={options} data={data} />
+                                    </Grid>
                                 </Grid>
-                            </Grid>
+                            ) : (
+                                'Non ci sono dati'
+                            )}
                         </TabPanel>
                         {/*
 
