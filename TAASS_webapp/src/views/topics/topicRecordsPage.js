@@ -383,8 +383,12 @@ const TopicRecordsPage = (props) => {
                 data: JSON.stringify(obj),
                 contentType: 'application/json;charset=utf-8'
             })
-                .done((objResponse) => {
+                .done((response) => {
                     console.log('RESPONSE');
+                    console.log(response);
+
+                    let objResponse = JSON.parse(response);
+
                     console.log(objResponse);
 
                     objResponse.topicList.forEach(function (element, index) {
