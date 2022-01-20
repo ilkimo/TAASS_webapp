@@ -32,7 +32,49 @@ export default function Settings() {
                 <MuiTypography variant="h2">Settings</MuiTypography>
                 <SettingsIcon className="iconColor mx-4" fontSize="medium" />
             </div>
-
+            <div
+                style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    flexWrap: 'wrap',
+                    marginTop: '1rem'
+                }}
+            >
+                <MuiTypography variant="h5">App Version: 1.0</MuiTypography>
+            </div>
+            <div
+                style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    flexWrap: 'wrap',
+                    marginTop: '1rem'
+                }}
+            >
+                <MuiTypography variant="h5">Dipartimento di Informatica</MuiTypography>
+            </div>
+            <div
+                style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    flexWrap: 'wrap',
+                    marginTop: '1rem'
+                }}
+            >
+                <MuiTypography variant="h5">TAASS Project</MuiTypography>
+                <br />
+            </div>
+            <div
+                style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    flexWrap: 'wrap',
+                    marginTop: '1rem'
+                }}
+            >
+                <MuiTypography variant="h5">Naretto Gabriele, Scarpinati Livio e Viberti Kim Marco</MuiTypography>
+                <br />
+            </div>
+            {/*
             <FormControl component="fieldset">
                 <FormLabel component="legend" />
                 <FormGroup aria-label="position" row>
@@ -44,6 +86,7 @@ export default function Settings() {
                     />
                 </FormGroup>
             </FormControl>
+            */}
         </MainCard>
     );
 }
