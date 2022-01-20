@@ -143,7 +143,8 @@ const SharedTopicCard = ({ isLoading, firstcolor, secondcolor, thirdcolor, title
             name: newName,
             description: topic.description,
             nameType: topic.nameType,
-            color: [topic.color[0], topic.color[1], topic.color[2]]
+            color: [topic.color[0], topic.color[1], topic.color[2]],
+            shared: false
         };
 
         $.ajax({

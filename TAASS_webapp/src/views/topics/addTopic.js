@@ -156,7 +156,8 @@ class AddTopic extends React.Component {
                 name: this.state.topicName,
                 description: this.state.topicDescription,
                 nameType: this.state.formValues,
-                color: [this.state.background, this.state.firstDarkBackground, this.state.secondDarkBackground]
+                color: [this.state.background, this.state.firstDarkBackground, this.state.secondDarkBackground],
+                shared: false
             };
 
             console.log(topic);
@@ -438,7 +439,7 @@ class AddTopic extends React.Component {
                                                         >
                                                             <MenuItem value="Text">Text</MenuItem>
                                                             <MenuItem value="Integer Number">Integer Number</MenuItem>
-                                                            <MenuItem value="Floating Point Number">Floating Point Number</MenuItem>
+                                                            {/* <MenuItem value="Floating Point Number">Floating Point Number</MenuItem> */}
                                                             <MenuItem value="Date">Date</MenuItem>
                                                             <MenuItem value="Hour">Hour</MenuItem>
                                                         </Select>
