@@ -1,13 +1,8 @@
 // project imports
-import SubCard from 'ui-component/cards/SubCard';
 import MainCard from 'ui-component/cards/MainCard';
-import SecondaryAction from 'ui-component/cards/CardSecondaryAction';
-import { gridSpacing } from 'store/constant';
 
-import { TextField, FormControl, FilledInput, InputLabel, InputAdornment, IconButton } from '@mui/material';
+import { FilledInput, FormControl, IconButton, InputAdornment, InputLabel } from '@mui/material';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
-
-import { Row, Col, Container } from 'react-bootstrap';
 import EditIcon from '@mui/icons-material/Edit';
 import React, { useEffect, useState } from 'react';
 import Grid from '@mui/material/Grid';
@@ -19,7 +14,6 @@ import DialogContentText from '@mui/material/DialogContentText';
 import DialogActions from '@mui/material/DialogActions';
 import Button from '@mui/material/Button';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
-import { ReactSession } from 'react-client-session';
 import { getSession, saveSession } from 'react-session-persist/lib';
 import { Alert } from '@mui/lab';
 import CloseIcon from '@mui/icons-material/Close';
@@ -229,12 +223,6 @@ const Profile = () => {
                                 <InputLabel htmlFor="filled-adornment-username">Username</InputLabel>
                                 <FilledInput disabled id="filled-adornment-username" type="text" value={values.username} />
                             </FormControl>
-                            {/*
-                            <FormControl fullWidth sx={{ mb: 2 }} variant="filled">
-                                <InputLabel htmlFor="filled-adornment-mail">Mail</InputLabel>
-                                <FilledInput disabled id="filled-adornment-mail" type="text" value={values.mail} />
-                            </FormControl>
-                            */}
 
                             {loggedWithGoogle ? (
                                 <div />

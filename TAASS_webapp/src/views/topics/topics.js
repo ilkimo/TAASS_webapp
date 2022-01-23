@@ -1,24 +1,16 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 
 // material-ui
-import { FormControl, Grid } from '@mui/material';
+import { Grid } from '@mui/material';
 
 // project imports
-
 import { gridSpacing } from 'store/constant';
-import HomeSlider from '../homeNotLogged/homeSlider';
 import Fab from '@mui/material/Fab';
 import AddIcon from '@mui/icons-material/Add';
 
 import { Link } from 'react-router-dom';
 import TopicCard from './topicCard';
-import EarningCard from '../dashboard/Default/EarningCard';
-import TotalOrderLineChartCard from '../dashboard/Default/TotalOrderLineChartCard';
-import TotalIncomeDarkCard from '../dashboard/Default/TotalIncomeDarkCard';
-import TotalIncomeLightCard from '../dashboard/Default/TotalIncomeLightCard';
 import MuiTypography from '@mui/material/Typography';
-
-import { ReactSession } from 'react-client-session';
 
 import * as $ from 'jquery';
 import 'jquery.soap';
@@ -124,34 +116,6 @@ const changeTopicNameHandler = (index, oldName, newName) => {
 };
 
 class Topics extends React.Component {
-    /*
-    const [isLoading, setLoading] = useState(true);
-    const [userObject, setUserObject] = useState({});
-
-    useEffect(() => {
-        setLoading(false);
-    }, []);
-
-    $.ajax({
-        type: 'POST',
-        url: 'http://localhost:8080/api/v2/data/document',
-        data: String(ReactSession.get('id')),
-        contentType: 'application/json;charset=utf-8'
-    })
-        .done((response) => {
-            console.log('RESPONSE');
-            console.log(response);
-
-            setUserObject(response);
-        })
-        .fail((e, s, t) => {
-            console.log(`Failed: ${e.responseText}`);
-        });
-
-    console.log('userObject');
-    console.log(userObject);
-    */
-
     constructor() {
         super();
         this.state = {
@@ -191,7 +155,6 @@ class Topics extends React.Component {
 
                 console.log(objResponse);
 
-                // this.state.topics = response;
                 setState({ topics: objResponse.topicList });
 
                 console.log('userObject');
@@ -219,13 +182,6 @@ class Topics extends React.Component {
                                         <Link
                                             to={{
                                                 pathname: '/topicRecordsPage/'
-                                                /*
-                                            state: {
-                                                item: topic,
-                                                handlerNameChange: changeTopicNameHandler
-                                            }
-
-                                             */
                                             }}
                                             state={{ item: topic }}
                                             style={{ textDecoration: 'none' }}

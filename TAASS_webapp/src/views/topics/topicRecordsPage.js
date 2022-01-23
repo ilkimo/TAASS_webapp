@@ -1,19 +1,6 @@
 // project imports
 import MainCard from 'ui-component/cards/MainCard';
-import {
-    TextField,
-    FormControl,
-    Divider,
-    Modal,
-    FormLabel,
-    FormGroup,
-    FormControlLabel,
-    Switch,
-    MenuItem,
-    Menu,
-    Avatar,
-    IconButton
-} from '@mui/material';
+import { Avatar, FormControl, FormControlLabel, FormGroup, FormLabel, IconButton, Menu, MenuItem, Switch, TextField } from '@mui/material';
 import React, { useState } from 'react';
 import Fab from '@mui/material/Fab';
 import AddIcon from '@mui/icons-material/Add';
@@ -26,8 +13,6 @@ import Paper from '@mui/material/Paper';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import Typography from '@mui/material/Typography';
-import SearchIcon from '@mui/icons-material/Search';
-import OutlinedInput from '@mui/material/OutlinedInput';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
@@ -36,27 +21,20 @@ import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import AdapterDateFns from '@mui/lab/AdapterDateFns';
 // eslint-disable-next-line import/no-extraneous-dependencies
-
 // ==============================|| TYPOGRAPHY ||============================== //
 import PropTypes from 'prop-types';
 
 import { Link, useLocation, useNavigate, useParams } from 'react-router-dom';
 import { Alert, DesktopDatePicker, LocalizationProvider, TimePicker } from '@mui/lab';
-import { forEach } from 'react-bootstrap/ElementChildren';
-import TopicCard from './topicCard';
 import TopicRecordCard from './topicRecordCard';
 
 /* Test histogram */
-import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend } from 'chart.js';
+import { BarElement, CategoryScale, Chart as ChartJS, Legend, LinearScale, Title, Tooltip } from 'chart.js';
 
 import { Bar } from 'react-chartjs-2';
 import * as $ from 'jquery';
-import { ReactSession } from 'react-client-session';
 import { getSession } from 'react-session-persist/lib';
 import GetAppTwoToneIcon from '@mui/icons-material/GetAppOutlined';
-import FileCopyTwoToneIcon from '@mui/icons-material/FileCopyOutlined';
-import PictureAsPdfTwoToneIcon from '@mui/icons-material/PictureAsPdfOutlined';
-import ArchiveTwoToneIcon from '@mui/icons-material/ArchiveOutlined';
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import CloseIcon from '@mui/icons-material/Close';
@@ -748,32 +726,6 @@ const TopicRecordsPage = (props) => {
                                 </MenuItem>
                             </Menu>
                         </Grid>
-                        {/*
-                        <Grid
-                            item
-                            xs={10}
-                            lg={10}
-                            md={10}
-                            sm={10}
-                            style={{
-                                paddingTop: 0
-                            }}
-                        >
-                            <FormControl fullWidth sx={{ m: 1 }} variant="outlined">
-                                <OutlinedInput
-                                    id="outlined-adornment-weight"
-                                    value={searchValue || ''}
-                                    onChange={handleChangeSearchValue}
-                                    endAdornment={<SearchIcon sx={{ color: 'action.active', mr: 1, my: 0.5 }} />}
-                                    aria-describedby="outlined-weight-helper-text"
-                                    inputProps={{
-                                        'aria-label': 'weight'
-                                    }}
-                                    size="small"
-                                />
-                            </FormControl>
-                        </Grid>
-                        */}
                     </Grid>
                 </Grid>
                 <Grid container>
@@ -885,13 +837,6 @@ const TopicRecordsPage = (props) => {
                                 'Non ci sono dati'
                             )}
                         </TabPanel>
-                        {/*
-
-                            <TabPanel value={this.state.value} index={2}>
-                                Item Three
-                            </TabPanel>
-
-                             */}
                     </Box>
                 </div>
                 <Fab

@@ -1,33 +1,25 @@
 import MuiTypography from '@mui/material/Typography';
 
 // project imports
-import SubCard from 'ui-component/cards/SubCard';
 import MainCard from 'ui-component/cards/MainCard';
-import SecondaryAction from 'ui-component/cards/CardSecondaryAction';
-import { gridSpacing } from 'store/constant';
 
-import { TextField, FormControl, Divider, IconButton } from '@mui/material';
-import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import { Divider, FormControl, IconButton, TextField } from '@mui/material';
 import { IconNotebook } from '@tabler/icons';
-import React, { useState } from 'react';
+import React from 'react';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import Select from '@mui/material/Select';
-import { Row, Col, Container } from 'react-bootstrap';
 import Fab from '@mui/material/Fab';
 import AddIcon from '@mui/icons-material/Add';
-import CancelIcon from '@mui/icons-material/Cancel';
 import CloseIcon from '@mui/icons-material/Close';
 import Button from '@mui/material/Button';
 import Grid from '@mui/material/Grid';
 import { styled } from '@mui/material/styles';
-import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
-import { BlockPicker, CirclePicker } from 'react-color'; /* https://casesandberg.github.io/react-color/ */
+import { CirclePicker } from 'react-color'; /* https://casesandberg.github.io/react-color/ */
 import Collapse from '@mui/material/Collapse';
-import { ReactSession } from 'react-client-session';
 import * as $ from 'jquery';
-import { useNavigate, withRouter, BrowserRouter, Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { Alert } from '@mui/lab';
 import { getSession } from 'react-session-persist/lib';
@@ -55,8 +47,6 @@ const style = {
 // const [this.topicValues, setTopicValues] = useState([{ topicName: '', topicDescription: '' }]);
 
 class AddTopic extends React.Component {
-    // TODO: capire come salvare anche il nome del topic e la descrizione
-
     constructor(props) {
         super(props);
 
@@ -122,8 +112,6 @@ class AddTopic extends React.Component {
 
     handleSubmit = async (event) => {
         event.preventDefault();
-        // alert(`${this.state.topicName}; ${this.state.topicDescription}`);
-        // alert(JSON.stringify(this.state.formValues));
 
         let formOk = true;
 
@@ -139,12 +127,6 @@ class AddTopic extends React.Component {
             this.setState({ alertCompileAllForm: true });
             formOk = false;
         }
-
-        // let navigate = useNavigate();
-
-        /* TODO: make query */
-
-        // navigate('/topics', { replace: true });
 
         const session = await getSession();
         console.log(session);
@@ -201,12 +183,6 @@ class AddTopic extends React.Component {
     handleClick = () => {
         this.setState({ displayColorPicker: !this.state.displayColorPicker });
     };
-
-    /*
-        handleClose = () => {
-        this.setState({ displayColorPicker: false });
-    };
-     */
 
     // colore, percentuale
     lightDarkColor = (col, amt) => {

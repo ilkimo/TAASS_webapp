@@ -1,27 +1,18 @@
 import React from 'react';
 // nodejs library that concatenates classes
-
 // react components for routing our app without refresh
-
 // @material-ui/core components
-
 // @material-ui/icons
 // core components
-
-import Header from '../../layout/MainLayout/Header';
 import HomeSlider from './homeSlider';
 import MuiTypography from '@mui/material/Typography';
-import AccountCircleIcon from '@mui/icons-material/AccountCircle';
-import { Col, Container, Navbar, Row, Form } from 'react-bootstrap';
-import { Button, Fab, FormControl, Grid, TextField } from '@mui/material';
+import { Container, Navbar } from 'react-bootstrap';
+import { Fab, Grid } from '@mui/material';
 import MainCard from '../../ui-component/cards/MainCard';
 import TopicCardHomepageV2 from '../topics/topicCardHomepageV2';
 import SubCard from '../../ui-component/cards/SubCard';
 import { useNavigate } from 'react-router-dom';
-import * as $ from 'jquery';
 import 'jquery.soap';
-
-import { ReactSession } from 'react-client-session';
 
 export default function HomepageNotLogged(props) {
     const { ...rest } = props;
@@ -30,57 +21,7 @@ export default function HomepageNotLogged(props) {
     const handleLogin = async () => {
         console.log('Login');
 
-        /* TODO: qua bisogna gestire il logout */
-        /* GESTIRE LA SESSIONE UTENTE */
-
         navigate('../pages/login/login3', { replace: false });
-    };
-
-    const testUserSession = async () => {
-        console.log('Test user session pressed');
-
-        let user = {
-            name: null,
-            surname: null,
-            email: '',
-            password: ''
-        };
-
-        /*
-        $.ajax({
-            type: 'POST',
-            url: 'http://localhost:8080/api/v1/users/session',
-            data: JSON.stringify(user),
-            contentType: 'application/json;charset=utf-8'
-        })
-            .done(() => {
-                console.log('OK');
-
-                // navigate('/topics', { replace: false });
-            })
-            .fail((e, s, t) => {
-                console.log(`Failed: ${e.responseText}`);
-            });
-
-         */
-
-        /*
-        $.ajax({
-            type: 'POST',
-            url: 'http://localhost:8080/api/v1/users/login',
-            data: JSON.stringify(null),
-            contentType: 'application/json;charset=utf-8'
-        })
-            .done(() => {
-                console.log('User session exists');
-
-                // navigate('/topics', { replace: false });
-            })
-            .fail((e, s, t) => {
-                console.log(`Failed: ${e.responseText}`);
-            });
-
-         */
     };
 
     return (
@@ -96,20 +37,9 @@ export default function HomepageNotLogged(props) {
                             backgroundColor: 'white'
                         }}
                     >
-                        {/*
-                        <Fab onClick={testUserSession} variant="extended" color="primary" style={{ zIndex: 10 }}>
-                            Test User session
-                        </Fab>
-                        */}
                         <Fab onClick={handleLogin} variant="extended" color="primary" style={{ zIndex: 10 }}>
                             Login
                         </Fab>
-
-                        {/*
-                                <Button onClick={handleLogin} variant="contained">
-                            Contained
-                        </Button>
-                                */}
                     </Navbar.Collapse>
                 </Container>
             </Navbar>
@@ -222,20 +152,6 @@ export default function HomepageNotLogged(props) {
                         </MainCard>
                     </div>
                 </div>
-                {/*
-                <div className="parallax-container">
-                    <div className="parallax">
-                        <HomeSlider />
-                    </div>
-                </div>
-                <div>
-                    <div>
-                        <h1>Why should you use DataHUB?</h1>
-                        <h3>DataHUB is awesome.</h3>
-                    </div>
-
-                    <HomeSlider />
-                </div> */}
             </main>
         </div>
     );

@@ -1,6 +1,4 @@
 import React from 'react';
-import CardTopic from './card';
-import TopicCard from '../topics/topicCard';
 import TopicCardHomepage from '../topics/topicCardHomepage';
 
 const HomeSlider = () => (

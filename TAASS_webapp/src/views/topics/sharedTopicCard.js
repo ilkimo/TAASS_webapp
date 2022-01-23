@@ -3,21 +3,13 @@ import React, { useState } from 'react';
 
 // material-ui
 import { styled, useTheme } from '@mui/material/styles';
-import { Avatar, Box, FormControl, Grid, IconButton, Menu, MenuItem, TextField, Typography } from '@mui/material';
+import { Box, FormControl, Grid, IconButton, TextField, Typography } from '@mui/material';
 
 // project imports
 import MainCard from 'ui-component/cards/MainCard';
 import SkeletonEarningCard from 'ui-component/cards/Skeleton/EarningCard';
 
 // assets
-import EarningIcon from 'assets/images/icons/earning.svg';
-import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
-import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
-import GetAppTwoToneIcon from '@mui/icons-material/GetAppOutlined';
-import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
-import FileCopyTwoToneIcon from '@mui/icons-material/FileCopyOutlined';
-import PictureAsPdfTwoToneIcon from '@mui/icons-material/PictureAsPdfOutlined';
-import ArchiveTwoToneIcon from '@mui/icons-material/ArchiveOutlined';
 import Dialog from '@mui/material/Dialog';
 import DialogTitle from '@mui/material/DialogTitle';
 import DialogContent from '@mui/material/DialogContent';
@@ -81,14 +73,6 @@ CardWrapper.propTypes = {
 // ===========================|| DASHBOARD DEFAULT - EARNING CARD ||=========================== //
 
 const SharedTopicCard = ({ isLoading, firstcolor, secondcolor, thirdcolor, title, creationDate, topic }) => {
-    /*
-
-    console.log('Props in Input :', firstcolor);
-    console.log('Props in Input :', secondcolor);
-    console.log('Props in Input :', thirdcolor);
-
-     */
-
     const theme = useTheme();
 
     const [anchorEl, setAnchorEl] = useState(null);
@@ -188,39 +172,6 @@ const SharedTopicCard = ({ isLoading, firstcolor, secondcolor, thirdcolor, title
     const handleCloneTopic = () => {
         console.log('CLONO IL TOPIC');
         setOpenSetTopicName(true);
-
-        /*
-        // query
-
-        const session = await getSession();
-        console.log(session);
-
-        let top = {
-            id: String(session.user.id),
-            name: 'Nuovo topic',
-            description: topic.description,
-            nameType: topic.nameType,
-            color: [topic.color[0], topic.color[1], topic.color[2]]
-        };
-
-        $.ajax({
-            type: 'POST',
-            url: 'http://localhost:8080/api/v2/data/newTopic',
-            data: JSON.stringify(top),
-            contentType: 'application/json;charset=utf-8'
-        })
-            .done((response) => {
-                console.log('RESPONSE');
-                console.log(response);
-                // this.props.navigation.navigate('nextScreen');
-                // this.props.navigate('/topics');
-                // this.props.history.push('/topics');
-            })
-            .fail((e, s, t) => {
-                console.log(`Failed: ${e.responseText}`);
-            });
-
-         */
     };
 
     return (

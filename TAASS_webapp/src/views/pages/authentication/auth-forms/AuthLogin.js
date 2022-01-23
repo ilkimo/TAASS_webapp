@@ -3,8 +3,6 @@ import { useSelector } from 'react-redux';
 // eslint-disable-next-line import/no-unresolved
 import { GoogleLogin } from 'react-google-login';
 
-import { styled } from '@mui/system';
-
 // material-ui
 import { useTheme } from '@mui/material/styles';
 import {
@@ -21,7 +19,6 @@ import {
     InputLabel,
     OutlinedInput,
     Stack,
-    TextField,
     Typography,
     useMediaQuery
 } from '@mui/material';
@@ -41,12 +38,9 @@ import 'jquery.soap';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import { useNavigate } from 'react-router-dom';
-import FacebookLogin from 'react-facebook-login';
-import Google from 'assets/images/icons/social-google.svg';
-import Facebook from 'assets/images/icons/social-facebook.svg';
 
 import { ReactSession } from 'react-client-session';
-import { useSession, loadDataFromStorage, getSession, setSession } from 'react-session-persist';
+import { getSession, useSession } from 'react-session-persist';
 import { backendUrl } from '../../../../utils/utils';
 // ============================|| FIREBASE - LOGIN ||============================ //
 
@@ -196,25 +190,6 @@ const FirebaseLogin = ({ ...others }) => {
                         </AnimateButton>
                     </FormControl>
                 </Grid>
-                {/*
-                <Grid item xs={12}>
-                    <FormControl fullWidth>
-                        <AnimateButton>
-                            <FacebookLogin
-                                appId="108859793115576"
-                                // autoLoad
-                                size="small"
-                                fields="name,email,picture"
-                                onClick={facebookHandle}
-                                callback={responseFacebook}
-                                // icon="fa-facebook"
-                                cssClass="facebookLoginButton"
-                                textButton="Sign in with Facebook"
-                            />
-                        </AnimateButton>
-                    </FormControl>
-                </Grid>
-                */}
                 <Grid item xs={12}>
                     <Box
                         sx={{
